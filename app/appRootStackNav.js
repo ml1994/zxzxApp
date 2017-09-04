@@ -6,6 +6,8 @@ const appRootStackNav = StackNavigator({
     TabNav:{
         screen:AppTabNav
     }
+},{
+    headerMode:'none'
 })
 
 export default appRootStackNav
