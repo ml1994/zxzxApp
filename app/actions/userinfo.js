@@ -13,18 +13,3 @@ export function login(payload){
         payload
     }
 }
-
-//thunk异步action
-export function getInfo(payloadUrl){
-    return dispatch=>{
-        // type:userinfoActions.GET_INFO,
-        // payload
-        dispatch({type:'GETING'})
-        fetch(payloadUrl)
-        .then(res=>{
-            dispatch(login(res.json()))
-        }).catch(()=>{
-            dispatch({type:'GET_ERROR'})
-        })
-    }
-}

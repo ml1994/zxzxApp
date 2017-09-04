@@ -14,29 +14,12 @@ class Me extends Component {
     constructor(props) {
         super(props)
         const {dispatch} = this.props //dispatch要从this.props里先拿到才能使用
-        //初始化
-        dispatch(userinfoActions.initial([{
-            num:1,
-            name:'haha'
-        },{
-            num:2,
-            name:'xixi'
-        }]))
     }
-
-    
-
-    changeInfo(url){
-        this.props.dispatch(userinfoActions.getInfo(url))
-    }
-
 
     render() {
         return (
             <View>
                 <Text>Me</Text>
-                <FlatList data={this.props.userinfo} renderItem={({item})=><Text>{item.num+'-'+item.name}</Text>} />
-                <Button title="get" onPress={()=>{this.changeInfo('http://115.236.94.196:30005/tech/dict/get/501')}} />
             </View>
         )
     }
