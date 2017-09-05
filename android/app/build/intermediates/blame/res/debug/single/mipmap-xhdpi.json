@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/Users/ml/projects/zxzxApp/android/app/build/intermediates/res/merged/debug/mipmap-xhdpi/ic_launcher.png",
+        "source": "/Users/ml/projects/zxzxApp/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/ml/playground/rnRedux/android/app/build/intermediates/res/merged/debug/mipmap-xhdpi/ic_launcher.png",
+        "source": "/Users/ml/playground/rnRedux/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
+    }
+]
