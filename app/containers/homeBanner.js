@@ -1,40 +1,51 @@
 import React, {Component} from 'react'
 import {View,Text, TextInput, Image, StyleSheet} from 'react-native'
-import FAIcon from 'react-native-vector-icons/FontAwesome'
+import Icon from '../components/icon'
 import SearchInput from '../components/searchInput'
 
 
 export default class HomeBanner extends Component {
    
     render() {
-        let bellButton = <FAIcon name="bell-o" size={24} color="#fff" style={styles.bellIcon}/>
+
         return (
-            <View style={styles.rootView}>
-                <Image
-                    source={require('../asset/banner_bg.jpg')}
-                    style={styles.bgStyle}>
-                    <View style={styles.topBar}>
-                        {bellButton}
-                        <SearchInput/>
+            <Image
+                source={require('../asset/banner_bg.jpg')}
+                resizeMode='cover'
+                style={styles.bgStyle}>
+                <View style={styles.topBar}>             
+                    <View style={styles.bellIcon}>
+                        <Icon name="bell-o" size={20} color="#fff"/>
                     </View>
-                </Image>
-            </View>
+                    <SearchInput placeholder="请输入关键字查找" style={styles.searchInput}/>
+                </View>
+            </Image>
         )
     }
 }
+const STATUSBAR_HEIGHT = 20
 const styles = StyleSheet.create({
-    rootView: {
-        flex: 1
-    },
     bgStyle: {
-        paddingTop:20, //避开顶部状态栏高度
+        paddingTop: STATUSBAR_HEIGHT, //避开顶部状态栏高度
         width: '100%',
-        height: 300
+        height: 260
     },
     topBar:{
-        flexDirection:'row'
+        flex:1,
+        flexDirection:'row',
+        marginTop: 20,
+        marginLeft: 0,
+        height:30,
+
     },
     bellIcon:{
-        backgroundColor:'transparent' //去除Text组件ios自带背景色
+        width: 60,
+        height:30,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    searchInput:{
+
     }
 })
