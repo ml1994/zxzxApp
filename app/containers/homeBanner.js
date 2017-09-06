@@ -1,25 +1,23 @@
 import React, {Component} from 'react'
-import {View,Text, TextInput, Image, StyleSheet} from 'react-native'
+import {View, Text, TextInput, ImageBackground, StyleSheet} from 'react-native'
 import Icon from '../components/icon'
-import SearchInput from '../components/searchInput'
-
+import FakeSearchInput from '../components/fakeSearchInput'
 
 export default class HomeBanner extends Component {
-   
-    render() {
 
+    render() {
         return (
-            <Image
+            <ImageBackground
                 source={require('../asset/banner_bg.jpg')}
                 resizeMode='cover'
                 style={styles.bgStyle}>
-                <View style={styles.topBar}>             
+                <View style={styles.topBar}>
                     <View style={styles.bellIcon}>
                         <Icon name="bell-o" size={20} color="#fff"/>
                     </View>
-                    <SearchInput placeholder="请输入关键字查找" style={styles.searchInput}/>
+                    <FakeSearchInput placeholder="请输入关键字查找"/>
                 </View>
-            </Image>
+            </ImageBackground>
         )
     }
 }
@@ -30,22 +28,18 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 260
     },
-    topBar:{
-        flex:1,
-        flexDirection:'row',
+    topBar: {
+        flex: 1,
+        flexDirection: 'row',
         marginTop: 20,
         marginLeft: 0,
-        height:30,
-
+        height: 30
     },
-    bellIcon:{
+    bellIcon: {
         width: 60,
-        height:30,
+        height: 30,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center'
-    },
-    searchInput:{
-
     }
 })

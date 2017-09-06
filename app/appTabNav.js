@@ -5,7 +5,8 @@ import {TabNavigator,TabBarBottom} from 'react-navigation'
 import FAIcon from 'react-native-vector-icons/FontAwesome'
 
 import Home from './views/home'
-import PeopleShow from './views/peopleShow'
+import Test from './views/test'
+import Ask from './views/ask'
 import Me from './views/me'
 
 const AppTabNav = TabNavigator({
@@ -16,11 +17,18 @@ const AppTabNav = TabNavigator({
             tabBarIcon:({focused,tintColor})=><Image style={styles.tabIcon} source={focused?require('./asset/tab_logo_active.png'):require('./asset/tab_logo.png')}/>
         }
     },
-    PeopleShow: {
-        screen: PeopleShow,
+    Test: {
+        screen: Test,
         navigationOptions:{
-            tabBarLabel:'真人秀',
-            tabBarIcon:({focused,tintColor})=><Image style={styles.tabIcon} source={focused?require('./asset/tab_pshow_active.png'):require('./asset/tab_pshow.png')}/>
+            tabBarLabel:'物业培训',
+            tabBarIcon:({focused,tintColor})=><Image style={styles.tabIcon} source={focused?require('./asset/tab_pipe_active.png'):require('./asset/tab_pipe.png')}/>
+        }
+    },
+    Ask: {
+        screen: Ask,
+        navigationOptions:{
+            tabBarLabel:'技术咨询',
+            tabBarIcon:({focused,tintColor})=><Image style={styles.tabIcon} source={focused?require('./asset/tab_fire_hy_active.png'):require('./asset/tab_fire_hy.png')}/>
         }
     },
     Me: {

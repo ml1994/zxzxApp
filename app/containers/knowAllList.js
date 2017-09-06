@@ -46,8 +46,6 @@ export default class KnowAllList extends Component {
 
 const styles = StyleSheet.create({
     list:{
-        
-        marginTop:10,
         paddingHorizontal:10,
         backgroundColor:'#fff',
     },
