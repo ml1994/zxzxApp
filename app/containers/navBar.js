@@ -41,7 +41,7 @@ class NavBar extends Component {
                 label: '消防百事通'
             }, {
                 key: 2,
-                img: require('../asset/pipe.png'),
+                img: require('../asset/fire_helmet.png'),
                 label: '物业培训'
             }, {
                 key: 3,
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
         height: 40
     },
     text: {
-        marginTop: 6,
+        marginTop: 10,
         color: '#565555'
     }
 })

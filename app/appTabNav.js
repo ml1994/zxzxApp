@@ -2,8 +2,6 @@ import React, {Component} from 'react'
 import { Image, StyleSheet } from 'react-native'
 import {TabNavigator,TabBarBottom} from 'react-navigation'
 
-import FAIcon from 'react-native-vector-icons/FontAwesome'
-
 import Home from './views/home'
 import Test from './views/test'
 import Ask from './views/ask'
@@ -35,7 +33,7 @@ const AppTabNav = TabNavigator({
         screen: Me,
         navigationOptions:{
             tabBarLabel:'我的',
-            tabBarIcon:({tintColor})=><FAIcon name="user-circle-o" size={20} color={tintColor}/>,
+            tabBarIcon:({focused,tintColor})=><Image style={styles.tabIcon} source={focused?require('./asset/tab_user_active.png'):require('./asset/tab_user.png')}/>,
             tabBarComponent:''
         }
     }
