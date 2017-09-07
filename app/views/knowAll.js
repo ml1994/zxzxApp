@@ -8,6 +8,9 @@ export default class KnowAll extends Component {
         return (
             <View>
                 <Header type='title' title='消防百事通'/>
+                <ScrollView>
+                    
+                </ScrollView>
             </View>
         )
     }

@@ -7,6 +7,16 @@ import SearchInput from '../components/searchInput'
 
 class Header extends Component {
 
+    /**
+     * header分类
+     * 1.只有title
+     * 2.有title和右侧按钮
+     * 3.search框
+     * 4.有title和右侧暂停按钮（物业培训答题时）
+     * 
+     * @returns 
+     * @memberof Header
+     */
     render() {
         const{dispatch,type} = this.props
         const title = type=='title'?this.props.title:''

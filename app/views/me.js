@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import {View, Text, Button, FlatList} from 'react-native'
+import {View, Text, Button, StyleSheet,FlatList} from 'react-native'
 import {StackNavigator} from 'react-navigation'
-import * as userinfoActions from '../actions/userinfo'
 
+import * as userinfoActions from '../actions/userinfo'
 
 class Me extends Component {
     static navigationOptions = {
@@ -19,20 +19,22 @@ class Me extends Component {
     render() {
         return (
             <View>
-                <Text>Me</Text>
+                <Text>123</Text>
             </View>
         )
     }
 }
 
-const mapStateToProps=store=>{
-    return {
-        userinfo:store.userinfo
+const styles =StyleSheet.create({
+    header:{
+        flex:1
     }
+})
+
+const mapStateToProps = store => {
+    return {userinfo: store.userinfo}
 }
 
-export default connect(
-    mapStateToProps
-)(Me)
+export default connect(mapStateToProps)(Me)
 
 //export default Me

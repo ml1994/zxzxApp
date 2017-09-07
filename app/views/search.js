@@ -3,6 +3,7 @@ import {View, Text, Image, ScrollView, StyleSheet} from 'react-native'
 import Header from '../components/header'
 import KnowAllList from '../containers/knowAllList'
 
+
 export default class Search extends Component {
 
     render() {
@@ -10,7 +11,7 @@ export default class Search extends Component {
         let searchList = []
         
         return (
-            <View style={styles.rootView}>
+            <View>
                 <Header type='search'/>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     {searchList.length!=0?
@@ -28,9 +29,6 @@ export default class Search extends Component {
 }
 
 const styles = StyleSheet.create({
-    rootView:{
-        flex:1
-    },
     container:{
         marginTop:100,
         alignItems:'center'

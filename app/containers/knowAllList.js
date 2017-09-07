@@ -1,7 +1,14 @@
 import React, {Component} from 'react'
-import {View, FlatList, Text, StyleSheet, Image} from 'react-native'
+import {connect} from 'react-redux'
+import {View, FlatList, Text, StyleSheet, Image, TouchableOpacity} from 'react-native'
+import {NavigationActions} from 'react-navigation'
 
-export default class KnowAllList extends Component {
+class KnowAllList extends Component {
+
+    _toDetailPage(item){
+        const {dispatch} = this.props
+        dispatch(NavigationActions.navigate({routeName:'KnowAllDetail',params:item}))
+    }
 
     render() {
         let arr = [
@@ -32,13 +39,13 @@ export default class KnowAllList extends Component {
                 style={styles.list}
                 data={arr}
                 renderItem={({item}) => (
-                <View style={styles.listView}>
+                <TouchableOpacity style={styles.listView} onPress={()=>this._toDetailPage(item)}>
                     <Image source={item.img} resizeMode="stretch" style={styles.listImg}/>
                     <View style={styles.textView}>
                         <Text style={styles.title} numberOfLines={2}>{item.title}</Text>
                         <Text style={styles.text} numberOfLines={2}>{item.bodyText}</Text>
                     </View>
-                </View>
+                </TouchableOpacity>
             )}/>
         )
     }
@@ -76,3 +83,9 @@ const styles = StyleSheet.create({
         //flexWrap:'wrap'
     }
 })
+
+const mapStateToProps = store=>({
+    nav:store.nav
+})
+
+export default connect(mapStateToProps)(KnowAllList)

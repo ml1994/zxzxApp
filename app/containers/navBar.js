@@ -12,14 +12,22 @@ import {NavigationActions} from 'react-navigation'
 
 class NavBar extends Component {
 
-    _onPressItem(item) {
+    _onPressItem(index) {
         const {dispatch} = this.props//connect后props里才有dispatch
 
-        switch (item.key) {
+        switch (index) {
             case 1:
                 dispatch(NavigationActions.navigate({ routeName: 'KnowAll' }))//导航跳转
                 break
-
+            case 2:
+                dispatch(NavigationActions.navigate({routeName:'Test'}))
+                break
+            case 3:
+                dispatch(NavigationActions.navigate({routeName:'Ask'}))
+                break
+            case 4:
+                dispatch(NavigationActions.navigate({routeName:'PeopleShow'}))
+                break
             default:
                 break
         }
@@ -54,7 +62,7 @@ class NavBar extends Component {
                 renderItem={({item}) => (
                 <TouchableOpacity
                     style={styles.listItem}
-                    onPress={() => this._onPressItem(item)}>
+                    onPress={() => this._onPressItem(item.key)}>
                     <Image source={item.img} style={styles.img}/>
                     <Text style={styles.text}>{item.label}</Text>
                 </TouchableOpacity>
