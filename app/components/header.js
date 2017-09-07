@@ -12,7 +12,7 @@ class Header extends Component {
         const title = type=='title'?this.props.title:''
         return (
             <View style={styles.rootView}>
-                <View style={styles.leftIconView}>
+                <View style={type=='title'?styles.leftIconTitleView:styles.leftIconSearchView}>
                     <Icon name="angle-left" size={30} color='#fff' onPress={()=>dispatch(NavigationActions.back())}/>               
                 </View>
                 {type=='search'?(<SearchInput placeholder="请输入关键字查找"/>):(
@@ -33,6 +33,7 @@ class Header extends Component {
 }
 
 const STATUSBAR_HEIGHT = 20
+
 const styles = StyleSheet.create({
     rootView: {
         paddingTop: STATUSBAR_HEIGHT+20,
@@ -41,10 +42,13 @@ const styles = StyleSheet.create({
         height: 80,
         backgroundColor: '#ce2626'
     },
-    leftIconView:{
-        flex:1,//残留问题：分情况处理
+    leftIconSearchView:{
         paddingLeft:10,
-        //width:50,
+        width:50,
+    },
+    leftIconTitleView:{
+        flex:1,
+        paddingLeft:10,
     },
     rightIconView:{
         flex:1,

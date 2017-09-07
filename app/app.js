@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
-import {StyleSheet, Text, View, StatusBar} from 'react-native'
+import {StyleSheet, Text, View, StatusBar,Platform} from 'react-native'
 import {addNavigationHelpers} from 'react-navigation'
 
 import configureStore from './store/configureStore'
@@ -27,9 +27,17 @@ const store = configureStore()
 
 export default class App extends Component {
 
-    render() {
+    constructor(){
+        super()
+        //设置StatusBar，使安卓顶部状态栏和ios表现相同。
+        StatusBar.setBarStyle('dark-content', true) 
+        if(Platform.OS==='android'){
+            StatusBar.setTranslucent(true)//仅android
+            StatusBar.setBackgroundColor('transparent')//仅android
+        }
+    }
 
-        StatusBar.setBarStyle('dark-content', true) //设置StatusBar，使安卓顶部状态栏和ios表现相同。
+    render() {
         return (
             <Provider store={store}>
                 <AppWithNavigationState/>

@@ -13,7 +13,7 @@ import {NavigationActions} from 'react-navigation'
 class NavBar extends Component {
 
     _onPressItem(item) {
-        const {dispatch} = this.props//connect后才有dispatch
+        const {dispatch} = this.props//connect后props里才有dispatch
 
         switch (item.key) {
             case 1:
