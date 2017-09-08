@@ -5,10 +5,20 @@ import Search from './views/search'
 import KnowAll from './views/knowAll'
 import KnowAllDetail from './views/knowAllDetail'
 import PeopleShow from './views/peopleShow'
+import Login from './views/login'
+import Register from './views/register'
+import AboutUs from './views/aboutUs'
+
 
 const appRootStackNav = StackNavigator({
     TabNav: {
         screen: AppTabNav
+    },
+    Login:{
+        screen: Login
+    },
+    Register:{
+        screen: Register
     },
     Search: {//搜索页
         screen: Search
@@ -21,6 +31,9 @@ const appRootStackNav = StackNavigator({
     },
     PeopleShow:{//真人秀
         screen: PeopleShow
+    },
+    AboutUs:{//关于我们
+        screen:AboutUs
     }
 }, {
     headerMode: 'none'
