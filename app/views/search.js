@@ -11,7 +11,7 @@ export default class Search extends Component {
         let searchList = []
         
         return (
-            <View>
+            <View style={styles.rootView}>
                 <Header type='search'/>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     {searchList.length!=0?
@@ -29,6 +29,10 @@ export default class Search extends Component {
 }
 
 const styles = StyleSheet.create({
+    rootView:{
+        flex:1,
+        backgroundColor:'#fff'
+    },
     container:{
         marginTop:100,
         alignItems:'center'

@@ -1,15 +1,18 @@
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
 import {View, Text, Image,TouchableOpacity,StyleSheet} from 'react-native'
+import {NavigationActions} from 'react-navigation'
 
-export default class Question extends Component {
+class Question extends Component {
 
     render() {
+        const {dispatch} = this.props
         return (
             <View style={styles.rootView}>
-                <TouchableOpacity style={styles.touchView}>
+                <TouchableOpacity style={styles.touchView} onPress={()=>dispatch(NavigationActions.navigate({routeName:'AskDetail'}))}>
                     <View style={styles.titleView}>
                         <View style={styles.dot}></View>
-                        <Text style={styles.title} numberOfLines={1}>我提的问题</Text>
+                        <Text style={styles.title} numberOfLines={1}>我提的问题我提的问题我提的问题我提的</Text>
                     </View>
                     <Text style={styles.text} numberOfLines={3}>哈哈哈哈哈哈哈哈哈哈哈或哈哈哈哈哈哈哈哈哈哈哈或哈哈哈哈哈哈哈哈哈哈哈或哈哈哈哈哈哈哈哈哈哈哈或或或或或或或或或</Text>
                     <Text style={styles.time}>2017-9-20 12:00</Text>
@@ -22,10 +25,13 @@ export default class Question extends Component {
 
 const styles = StyleSheet.create({
     rootView:{
-        width:'90%',
-        height:100,  
+        marginTop:10,
+        width:'100%',
+        height:100, 
+        alignItems:'center' 
     },
     touchView:{
+        width:'96%',
         backgroundColor:'#f1f1f1',
         paddingHorizontal:10,
         paddingVertical:10,
@@ -44,12 +50,15 @@ const styles = StyleSheet.create({
         marginRight:6
     },
     title:{
-        fontSize:18
+        fontSize:18,
+        width:'90%',
+        color:'#202020'
     },
     text:{
         marginLeft:16,
         marginTop:10,
-        fontSize:12
+        fontSize:12,
+        color:'#202020'
     },
     time:{
         marginTop:6,
@@ -65,3 +74,9 @@ const styles = StyleSheet.create({
         height:30
     }
 })
+
+const mapStateToProps = store=>({
+    nav:store.nav
+})
+
+export default connect(mapStateToProps)(Question)

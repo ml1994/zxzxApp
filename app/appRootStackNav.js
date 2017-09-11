@@ -8,6 +8,9 @@ import PeopleShow from './views/peopleShow'
 import Login from './views/login'
 import Register from './views/register'
 import AboutUs from './views/aboutUs'
+import AddAsk from './views/addAsk'
+import AddOnAsk from './views/addOnAsk'
+import AskDetail from './views/askDetail'
 
 
 const appRootStackNav = StackNavigator({
@@ -34,6 +37,15 @@ const appRootStackNav = StackNavigator({
     },
     AboutUs:{//关于我们
         screen:AboutUs
+    },
+    AddAsk:{//添加问题
+        screen:AddAsk
+    },
+    AddOnAsk:{//追加问题
+        screen:AddOnAsk
+    },
+    AskDetail:{//咨询详情页
+        screen:AskDetail
     }
 }, {
     headerMode: 'none'

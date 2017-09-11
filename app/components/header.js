@@ -1,22 +1,31 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {View, Text, TextInput, StyleSheet} from 'react-native'
+import {View, Text, TextInput, StyleSheet, TouchableOpacity} from 'react-native'
 import {NavigationActions} from 'react-navigation'
 import Icon from './icon'
 import SearchInput from '../components/searchInput'
 
+/**
+ * header分类
+ * 1.只有title
+ * 2.有title和右侧按钮
+ * 3.search框
+ * 4.有title和右侧暂停按钮（物业培训答题时）
+ * 
+ * 
+ * 
+ * @returns 
+ * @memberof Header
+ */
 class Header extends Component {
 
-    /**
-     * header分类
-     * 1.只有title
-     * 2.有title和右侧按钮
-     * 3.search框
-     * 4.有title和右侧暂停按钮（物业培训答题时）
-     * 
-     * @returns 
-     * @memberof Header
-     */
+    iconsFun(icon){
+        const {dispatch} = this.props
+        if(icon=='pencil-square-o'){
+            dispatch(NavigationActions.navigate({routeName:'AddAsk'}))
+        }
+    }
+    
     render() {
         const{dispatch,type,icons} = this.props
         const title = type=='search'?'':this.props.title
@@ -28,9 +37,9 @@ class Header extends Component {
                 <View style={styles.rightIconView}>
                     {icons.map((item,index)=>{
                         return (
-                            <View style={styles.rightIconView} key={index}>
-                                <Icon name={item} size={24} color='#fff'/>               
-                            </View>
+                            <TouchableOpacity style={styles.rightIconView} onPress={()=>{this.iconsFun(item)}} key={index}>
+                                <Icon name={item} size={20} color='#fff'/>               
+                            </TouchableOpacity>
                         )
                     })}
                 </View>
@@ -85,6 +94,7 @@ const styles = StyleSheet.create({
     rightIconView:{
         flex:1,
         flexDirection:'row',
+        marginRight:4,
         height:30,
         justifyContent:'center',
         alignItems:'center'

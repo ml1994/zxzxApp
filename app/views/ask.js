@@ -7,14 +7,14 @@ import Question from '../components/question'
 class Ask extends Component {
     
     render() {
-        let askList = []
+        let askList = ['1']
         const icons = ['pencil-square-o','search']
         return (
-            <View>
+            <View style={styles.rootView}>
                 <Header type='title' title='技术咨询' icons={icons}/>
                 <ScrollView showsVerticalScrollIndicator={false}>    
                     {askList.length!=0?
-                        (<Question/>)
+                        (<FlatList data={askList} renderItem={({item})=><Question />}/>)
                         : (
                             <View style={styles.container}>
                                 <Image style={styles.img} resizeMode='contain' source={require('../asset/no_ask.png')}/>
@@ -28,6 +28,10 @@ class Ask extends Component {
 }
 
 const styles = StyleSheet.create({
+    rootView:{
+        flex:1,
+        backgroundColor:'#fff'
+    },
     container:{
         marginTop:100,
         alignItems:'center'
