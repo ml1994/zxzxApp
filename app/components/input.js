@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Text, TextInput, View, StyleSheet,Button,TouchableOpacity } from 'react-native'
+import {Text, TextInput, View, StyleSheet, Button, TouchableOpacity} from 'react-native'
 import Icon from '../components/icon'
 
 export default class Input extends Component {
@@ -18,21 +18,21 @@ export default class Input extends Component {
 
 	iconLeftReader() {
 		let type = this.props.type;
-		if (this.props.label){
+		if (this.props.label) {
 			return <Text style={styles.label}>{this.props.label}</Text>
 		}
 		else {
-			return <Icon name={this.props.iconLeft} size={20} color='#585858' />
+			return <View style={styles.iconContainer}><Icon name={this.props.iconLeft} size={(this.props.iconLeft=='mobile')?16:14} color='#585858'/></View>
 		}
 	}
 
 	iconRightReader() {
 		if (this.props.type == 'password') {
-			return <View style={{width: '10%', alignItems: 'flex-end'}}><Icon name='eye' size={20} color='#585858'
-			                                                                  style={{textAlign: 'right'}}/></View>
+			return <Icon name='eye' size={12} color='#585858' style={{textAlign: 'right'}}/>
 		}
 		else if (this.props.type == 'sendCode') {
-			return <TouchableOpacity style={styles.btnSend}><Text  style={{fontSize:8}}>发送短信</Text></TouchableOpacity>
+			return (
+				<TouchableOpacity style={styles.btnSend}><Text style={styles.btnText}>获取短验证码</Text></TouchableOpacity>)
 		}
 	}
 
@@ -40,14 +40,9 @@ export default class Input extends Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<View style={{width:'10%'}}>
 				{this.iconLeftReader()}
-				</View>
 				{this.inputRender()}
-				<View style={{width:'10%',flex:1}}>
-                    {this.iconRightReader()}
-				</View>
-
+				{this.iconRightReader()}
 			</View>
 		)
 	}
@@ -55,11 +50,11 @@ export default class Input extends Component {
 
 const styles = StyleSheet.create({
 	container: {
-		marginTop: 50,
+		width: '80%',
 		flex: 1,
 		flexDirection: 'row',
 		alignItems: 'center',
-		justifyContent:'space-between',
+		justifyContent: 'space-between',
 		paddingVertical: 20,
 		borderBottomColor: '#e5e5e5',
 		borderBottomWidth: 1,
@@ -67,19 +62,33 @@ const styles = StyleSheet.create({
 	inputStyle: {
 		height: 30,
 		paddingVertical: 0,
-		width: '80%',
+		paddingHorizontal: 20,
+		width: '60%',
 		fontSize: 12
 	},
 	label: {
+		width: '20%',
+		textAlign: 'right',
 		fontSize: 12,
 		fontWeight: 'bold',
 		color: '#585858'
 	},
-	btnSend:{
-		justifyContent:'center',
-		borderWidth:1,
-		borderColor:'#c41335',
-        width:'100%',
-        height:15,
+	iconContainer:{
+		width:20,
+		alignItems:'center'
+	},
+	btnSend: {
+		justifyContent: 'center',
+		borderWidth: 1,
+		borderColor: '#eb6100',
+		width: 'auto',
+		height: 15,
+	},
+	btnText: {
+		paddingHorizontal: 1.5,
+		paddingVertical:5,
+		textAlign: 'center',
+		fontSize: 8,
+		color: '#eb6100'
 	}
 })
