@@ -8,10 +8,10 @@ class Ask extends Component {
     
     render() {
         let askList = []
-        
+        const icons = ['pencil-square-o','search']
         return (
             <View>
-                <Header type='title' title='技术咨询'/>
+                <Header type='title' title='技术咨询' icons={icons}/>
                 <ScrollView showsVerticalScrollIndicator={false}>    
                     {askList.length!=0?
                         (<Question/>)

@@ -38,8 +38,8 @@ class KnowAllList extends Component {
             <FlatList
                 style={styles.list}
                 data={arr}
-                renderItem={({item}) => (
-                <TouchableOpacity style={styles.listView} onPress={()=>this._toDetailPage(item)}>
+                renderItem={({item,index}) => (
+                <TouchableOpacity style={[styles.listView,index==arr.length-1?styles.lastViewNoBorder:'']} onPress={()=>this._toDetailPage(item)}>
                     <Image source={item.img} resizeMode="stretch" style={styles.listImg}/>
                     <View style={styles.textView}>
                         <Text style={styles.title} numberOfLines={2}>{item.title}</Text>
@@ -63,6 +63,9 @@ const styles = StyleSheet.create({
         paddingBottom:10,
         borderBottomWidth: 1,
         borderBottomColor: '#dddee1'
+    },
+    lastViewNoBorder:{
+        borderBottomWidth: 0
     },
     listImg:{
         flex:1,

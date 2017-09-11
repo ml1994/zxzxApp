@@ -18,25 +18,47 @@ class Header extends Component {
      * @memberof Header
      */
     render() {
-        const{dispatch,type} = this.props
-        const title = type=='title'?this.props.title:''
-        return (
-            <View style={styles.rootView}>
-                <View style={type=='title'?styles.leftIconTitleView:styles.leftIconSearchView}>
-                    <Icon name="angle-left" size={30} color='#fff' onPress={()=>dispatch(NavigationActions.back())}/>               
+        const{dispatch,type,icons} = this.props
+        const title = type=='search'?'':this.props.title
+        let container = ''
+        let rightIcons = <View style={styles.rightIconView}></View> //右侧按钮view初始化
+
+        if(icons){//如果有icons属性
+            rightIcons=(
+                <View style={styles.rightIconView}>
+                    {icons.map((item,index)=>{
+                        return (
+                            <View style={styles.rightIconView} key={index}>
+                                <Icon name={item} size={24} color='#fff'/>               
+                            </View>
+                        )
+                    })}
                 </View>
-                {type=='search'?(<SearchInput placeholder="请输入关键字查找"/>):(
+            )
+        }
+
+        switch (type) {//container
+            case 'title':
+                container = (
                     <View style={styles.titleView}>
                         <Text style={styles.title}>{title}</Text>
-                        <View style={styles.rightIconView}>
-                            <Icon name="bell-o" size={24} color='#fff'/>
-                        </View>
-                        <View style={styles.rightIconView}>
-                            <Icon name="search" size={24} color='#fff'/>               
-                        </View>
                     </View>
-                )}
-                
+                )
+                break
+            case 'search':
+                container =  (<SearchInput placeholder="请输入关键字查找"/>)
+                break   
+            default:
+                break
+        }
+
+        return (
+            <View style={styles.rootView}>
+                <View style={type=='search'?styles.leftIconSearchView:styles.leftIconTitleView}>
+                    <Icon name="angle-left" size={30} color='#fff' onPress={()=>dispatch(NavigationActions.back())}/>               
+                </View>
+                {container}
+                {rightIcons}
             </View>
         )
     }
@@ -63,7 +85,9 @@ const styles = StyleSheet.create({
     rightIconView:{
         flex:1,
         flexDirection:'row',
-        justifyContent:'center'
+        height:30,
+        justifyContent:'center',
+        alignItems:'center'
     },
     titleView:{
         flex:4,
@@ -73,10 +97,8 @@ const styles = StyleSheet.create({
         height:30
     },
     title:{
-        flex:5,
-        textAlign:'center',
         color:'#fff',
-        fontSize:20,
+        fontSize:20
     }
 })
 
