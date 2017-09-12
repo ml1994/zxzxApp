@@ -1,28 +1,28 @@
 import React, {Component} from 'react'
-import {View, Text, StyleSheet, ScrollView} from 'react-native'
+import {View, Text, StyleSheet, ScrollView, ImageBackground} from 'react-native'
 import {StackNavigator} from 'react-navigation'
-//import Video from 'react-native-video'
-import VideoPlayer from 'react-native-video-player'
+
 import Header from '../components/header'
-import Icon from '../components/icon'
+import MyVideo from '../components/myVideo'
 
 class PeopleShow extends Component {
 
     componentDidMount() {}
 
     render() {
-
+        const video = {
+            uri:'http://video.zxzx119.com/e3dfa82b70fa4ec79825290019ff6e7f/baa86439bb414e638f895fd0fd37b74a-23ed88f2a1a26984ec60a497bcc1d316.m3u8',
+            title:'消防安全 人人有责',
+            time:'07-23',
+            info:'哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈'
+        }
         return (
             <ScrollView style={styles.rootView}>
                 <Header type='title' title='真人秀'/>
-                <VideoPlayer video={{
-                    //uri: 'http://cdn.zxzx119.com/720p.mp4'
-                    uri:'http://video.zxzx119.com/e3dfa82b70fa4ec79825290019ff6e7f/baa86439bb414e638f895fd0fd37b74a-23ed88f2a1a26984ec60a497bcc1d316.m3u8'
-                }} // Can be a URL or a local file.
-                    ref={(ref) => {
-                    this.player = ref
-                }} // Store reference
-                    style={styles.backgroundVideo}/>
+                <MyVideo {...video} />
+                <ImageBackground source={require('../asset/ppshow_adbg.jpg')} style={styles.adbg} resizeMode='contain'>
+                    <Text style={styles.adText}>更多精彩 敬请期待</Text>
+                </ImageBackground>
             </ScrollView>
         )
     }
@@ -30,11 +30,19 @@ class PeopleShow extends Component {
 
 var styles = StyleSheet.create({
     rootView: {
-        flex: 1
+        flex: 1,
+        backgroundColor: '#fff'
     },
-    backgroundVideo: {
-        width: '100%',
-        height: 240
+    adbg:{
+        height:100,
+        marginHorizontal:16,
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    adText: {
+        backgroundColor:'transparent',
+        fontSize:28,
+        color:'#fff'
     }
 });
 

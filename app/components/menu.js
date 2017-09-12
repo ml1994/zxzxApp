@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
     },
     text:{
         flex:5,
-        fontSize:18
+        fontSize:18,
+        color:'#202020'
     },
     lastItemNoBorder:{
         borderBottomWidth:0
