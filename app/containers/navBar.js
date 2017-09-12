@@ -23,7 +23,7 @@ class NavBar extends Component {
                 dispatch(NavigationActions.navigate({routeName:'Test'}))
                 break
             case 3:
-                dispatch(NavigationActions.navigate({routeName:'Ask'}))
+                dispatch(NavigationActions.navigate({routeName:'Asks'}))
                 break
             case 4:
                 dispatch(NavigationActions.navigate({routeName:'PeopleShow'}))

@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import {View, Text, ScrollView, FlatList,Image,StyleSheet} from 'react-native'
 import {StackNavigator} from 'react-navigation'
 import Header from '../components/header'
-import Question from '../components/question'
+import Ask from '../components/ask'
 
-class Ask extends Component {
+class Asks extends Component {
     
     render() {
         let askList = ['1']
@@ -14,7 +14,7 @@ class Ask extends Component {
                 <Header type='title' title='技术咨询' icons={icons}/>
                 <ScrollView showsVerticalScrollIndicator={false}>    
                     {askList.length!=0?
-                        (<FlatList data={askList} renderItem={({item})=><Question />}/>)
+                        (<FlatList data={askList} renderItem={({item})=><Ask />}/>)
                         : (
                             <View style={styles.container}>
                                 <Image style={styles.img} resizeMode='contain' source={require('../asset/no_ask.png')}/>
@@ -46,4 +46,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Ask
+export default Asks

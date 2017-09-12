@@ -6,9 +6,9 @@ import Icon from './icon'
 
 class Menu extends Component {
 
-    goto(nav){
+    goto(nav,type){
         const {dispatch} = this.props
-        dispatch(NavigationActions.navigate({routeName:nav}))
+        dispatch(NavigationActions.navigate({routeName:nav,params:{type:type}}))
     }
 
     render() {
@@ -18,7 +18,7 @@ class Menu extends Component {
                 style={styles.menu}
                 data={menuArr}
                 renderItem={({item}) => (
-                <TouchableOpacity style={styles.itemView} activeOpacity={.8} onPress={()=>this.goto(item.nav)}>
+                <TouchableOpacity style={styles.itemView} activeOpacity={.8} onPress={()=>this.goto(item.nav,item.type)}>
                     <View style={styles.iconView}>
                         <View style={styles.iconBg}>
                             <Icon name={item.iconName} size={14} color='#fff'/>
