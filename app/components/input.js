@@ -5,7 +5,7 @@ import Icon from '../components/icon'
 export default class Input extends Component {
 	inputRender() {
 		return (
-			<TextInput style={styles.inputStyle}
+			<TextInput style={[styles.inputStyle, {width: (this.props.type) ? '70%' : '90%'}]}
 			           {...this.props}
 			           placeholder={this.props.placeholder}
 			           underlineColorAndroid='transparent'
@@ -18,21 +18,36 @@ export default class Input extends Component {
 
 	iconLeftReader() {
 		let type = this.props.type;
+		let iconSize = 0
+		switch (this.props.iconLeft) {
+			case 'mobile':
+				iconSize = 20;
+				break;
+			case 'key':
+				iconSize = 14;
+				break;
+			default:
+				iconSize = 18;
+				break;
+		}
+
 		if (this.props.label) {
 			return <Text style={styles.label}>{this.props.label}</Text>
 		}
 		else {
-			return <View style={styles.iconContainer}><Icon name={this.props.iconLeft} size={(this.props.iconLeft=='mobile')?16:14} color='#585858'/></View>
+			return <View style={styles.iconContainer}><Icon name={this.props.iconLeft}
+			                                                size={iconSize}
+			                                                color='#585858'/></View>
 		}
 	}
 
 	iconRightReader() {
 		if (this.props.type == 'password') {
-			return <Icon name='eye' size={12} color='#585858' style={{textAlign: 'right'}}/>
+			return <View style={{position: 'absolute', right: 0}}><Icon name='eye' size={14} color='#adadad'/></View>
 		}
 		else if (this.props.type == 'sendCode') {
 			return (
-				<TouchableOpacity style={styles.btnSend}><Text style={styles.btnText}>获取短验证码</Text></TouchableOpacity>)
+				<TouchableOpacity style={styles.btnSend}><Text style={styles.btnText}>获取验证码</Text></TouchableOpacity>)
 		}
 	}
 
@@ -51,20 +66,17 @@ export default class Input extends Component {
 const styles = StyleSheet.create({
 	container: {
 		width: '80%',
-		flex: 1,
 		flexDirection: 'row',
 		alignItems: 'center',
-		justifyContent: 'space-between',
-		paddingVertical: 20,
+		paddingVertical: 10,
 		borderBottomColor: '#e5e5e5',
 		borderBottomWidth: 1,
 	},
 	inputStyle: {
-		height: 30,
+		height: 20,
 		paddingVertical: 0,
 		paddingHorizontal: 20,
-		width: '60%',
-		fontSize: 12
+		fontSize: 16
 	},
 	label: {
 		width: '20%',
@@ -73,22 +85,23 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		color: '#585858'
 	},
-	iconContainer:{
-		width:20,
-		alignItems:'center'
+	iconContainer: {
+		width: 20,
+		alignItems: 'center',
 	},
 	btnSend: {
 		justifyContent: 'center',
+		borderRadius: 1,
 		borderWidth: 1,
 		borderColor: '#eb6100',
-		width: 'auto',
-		height: 15,
+		position: 'absolute',
+		right: 0,
+		height: 20,
 	},
 	btnText: {
-		paddingHorizontal: 1.5,
-		paddingVertical:5,
+		paddingHorizontal: 5,
 		textAlign: 'center',
-		fontSize: 8,
+		fontSize: 10,
 		color: '#eb6100'
 	}
 })
