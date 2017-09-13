@@ -23,7 +23,7 @@ class Login extends Component {
 					<TouchableOpacity onPress={() => dispatch(NavigationActions.navigate({routeName:'Register'}))}>
 						<Text style={[styles.managerText,styles.managerTextSplice]}>注册</Text>
 					</TouchableOpacity>
-					<TouchableOpacity onPress={() => dispatch(NavigationActions.navigate({routeName:'Search'}))}>
+					<TouchableOpacity onPress={() => dispatch(NavigationActions.navigate({routeName:'ForgetPassword'}))}>
 						<Text style={styles.managerText}>忘记密码</Text>
 					</TouchableOpacity>
 				</View>

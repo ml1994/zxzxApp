@@ -14,7 +14,8 @@ import AddOnAsk from './views/addOnAsk'
 import AskDetail from './views/askDetail'
 import Subject from './views/subject'
 import AboutDetail from './views/aboutDetail'
-
+import ChangePassword from './views/changePassword'
+import ForgetPassword from './views/forgetPassword'
 
 const appRootStackNav = StackNavigator({
     TabNav: {
@@ -26,6 +27,12 @@ const appRootStackNav = StackNavigator({
     Register:{
         screen: Register
     },
+	ChangePassword:{
+		screen: ChangePassword
+	},
+	ForgetPassword:{
+		screen: ForgetPassword
+	},
     Search: {//搜索页
         screen: Search
     },

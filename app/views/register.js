@@ -20,7 +20,7 @@ class Register extends Component {
                 <Text style={styles.btnText}>注册</Text>
               </TouchableOpacity>
               <View style={styles.managerView}>
-                <TouchableOpacity onPress={() => dispatch(NavigationActions.navigate({routeName:'Register'}))}>
+                <TouchableOpacity onPress={() => dispatch(NavigationActions.navigate({routeName:'Login'}))}>
                   <Text style={styles.managerText}>有账号?去登录</Text>
                 </TouchableOpacity>
               </View>
