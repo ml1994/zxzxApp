@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 import {StyleSheet, Text, View, StatusBar,Platform} from 'react-native'
 import {addNavigationHelpers} from 'react-navigation'
+import SplashScreen from 'react-native-splash-screen'
 
 import configureStore from './store/configureStore'
 import AppRootStackNav from './appRootStackNav'
@@ -35,6 +36,12 @@ export default class App extends Component {
             StatusBar.setTranslucent(true)//仅android
             StatusBar.setBackgroundColor('transparent')//仅android
         }
+    }
+
+    componentDidMount() {
+        setTimeout(function() {
+            SplashScreen.hide()
+        }, 2000)
     }
 
     render() {

@@ -2,7 +2,7 @@ import * as actionTypes from '../constants/userinfo'
 
 const initialState = {};
 
-export default function userinfo(state=initialState,action){
+export default (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.INIT_LOGIN:
             return action.payload

@@ -1,0 +1,1 @@
+export const IS_MODAL_SHOW = 'IS_MODAL_SHOW'

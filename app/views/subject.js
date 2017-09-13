@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, StyleSheet,Image,FlatList,ImageBackground} from 'react-native'
+import {View, Text, StyleSheet, Image, FlatList, ImageBackground, Modal, TouchableOpacity} from 'react-native'
 import Swiper from 'react-native-swiper'
 import Header from '../components/header'
 import Question from '../components/question'
@@ -32,8 +32,7 @@ export default class Subject extends Component {
             question:'1. 依据《仓库防火安全管理规则》,库房内的照明灯具的垂直下方与储存物品水平间距不得小于(  )米。',
             answer:['0.3','0.4','0.5','0.6']
         }]
-    
-
+        
         return (
             <View style={styles.rootView}>
                 <Header type='title' title='物业培训' icons={icons}/>
@@ -47,6 +46,16 @@ export default class Subject extends Component {
                     })}
                 </Swiper>
                 <Image source={require('../asset/page_arrow.png')} resizeMode='contain' style={styles.arrow}/>
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    >
+                    <TouchableOpacity style={{flex:1,justifyContent:'center',padding:20,backgroundColor:'rgba(0,0,0,.5)'}}>
+                        <View style={{borderColor:'#ccc',borderWidth:1,borderRadius:10,alignItems:'center',backgroundColor:'#fff'}}>
+                            <Text>123</Text>
+                        </View>
+                    </TouchableOpacity>
+                </Modal>
             </View>
         )
     }
