@@ -10,15 +10,18 @@ export default class AboutUs extends Component {
         const menuArr = [{
             iconName:'bars',
             text:'简介',
-            nav:''
+            nav:'AboutDetail',
+            type:'Info'
         },{
             iconName:'volume-control-phone',
             text:'客服热线',
-            nav:''
+            nav:'AboutDetail',
+            type:'Phone'
         },{
             iconName:'registered',
             text:'版权所有',
-            nav:''
+            nav:'AboutDetail',
+            type:'Registered'
         }]
         return (
             <View>

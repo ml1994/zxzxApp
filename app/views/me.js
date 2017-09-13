@@ -21,7 +21,7 @@ class Me extends Component {
         const menuArr = [{
             iconName:'file-text-o',
             text:'个人设置',
-            nav:''
+            nav:'MySetting'
         },{
             iconName:'pencil',
             text:'关于我们',

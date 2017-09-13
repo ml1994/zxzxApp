@@ -21,10 +21,10 @@ class AddAsk extends Component {
                         <Text style={styles.button} onPress={()=>{this.publishFun()}}>发布</Text>
                     </View>
                     <View style={styles.titleView}>
-                        <TextInput style={styles.titleInput} placeholder='标题' placeholderTextColor='#595959' multiline={true} maxLength={18} underlineColorAndroid="transparent"/>
+                        <TextInput style={styles.titleInput} placeholder='标题' placeholderTextColor='#595959' multiline={true} numberOfLines={2} maxLength={18} underlineColorAndroid="transparent"/>
                         <Text style={styles.tip}>请不要超过18个字</Text>
                     </View>
-                    <TextInput style={styles.textInput} placeholder='正文' placeholderTextColor='#777' multiline={true} maxLength={200} underlineColorAndroid="transparent"/>
+                    <TextInput style={styles.textInput} placeholder='正文' placeholderTextColor='#777' multiline={true} numberOfLines={10} textAlignVertical='top' maxLength={200} underlineColorAndroid="transparent"/>
                 </ImageBackground>
             </View>
         )

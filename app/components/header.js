@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {View, Text, TextInput, StyleSheet, TouchableOpacity} from 'react-native'
+import {View, Text, TextInput, StyleSheet, TouchableOpacity, Modal} from 'react-native'
 import {NavigationActions} from 'react-navigation'
 import Icon from './icon'
 import SearchInput from '../components/searchInput'
@@ -21,8 +21,16 @@ class Header extends Component {
 
     iconsFun(icon){
         const {dispatch} = this.props
-        if(icon=='pencil-square-o'){
-            dispatch(NavigationActions.navigate({routeName:'AddAsk'}))
+        switch (icon) {
+            case 'pencil-square-o':
+                dispatch(NavigationActions.navigate({routeName:'AddAsk'}))
+                break;
+            case 'pause':
+                
+                break;
+        
+            default:
+                break;
         }
     }
     
@@ -108,7 +116,8 @@ const styles = StyleSheet.create({
     },
     title:{
         color:'#fff',
-        fontSize:20
+        fontSize:20,
+        fontWeight:'bold'
     }
 })
 
