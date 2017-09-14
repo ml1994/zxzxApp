@@ -47,7 +47,24 @@ export default class Subject extends Component {
                 
                 break;
             case 'end':
-                
+                return (
+                    <View style={styles.modalEnd}>
+                        <ImageBackground style={styles.modalEndImg} source={require('../asset/modal_end_bg.png')} resizeMode="contain">
+                            <Text style={styles.modalEndScore}>98</Text>
+                            <Text style={styles.modalEndScoreText}>分数</Text>
+                            <Text style={styles.modalEndBottomText}>对49题，错1题！</Text>
+                            <ImageBackground source={require('../asset/btn_bg_yellow.png')} resizeMode='contain' style={styles.btn}>
+                                <Text style={styles.btnText}>重新挑战</Text>
+                            </ImageBackground>
+                        </ImageBackground>
+                        <View style={styles.modalClose}>
+                            <TouchableOpacity style={styles.modalCloseView}>
+                                <Icon name='close' size={28} color='#fff'/>
+                            </TouchableOpacity>
+                            <View style={styles.modalLine}></View>
+                        </View>
+                    </View>
+                )
                 break;
         
             default:
@@ -90,7 +107,7 @@ export default class Subject extends Component {
                     transparent={true}
                     >
                     <TouchableOpacity style={styles.modalView}>
-                        {this.renderModal('start')}
+                        {this.renderModal('end')}
                     </TouchableOpacity>
                 </Modal>
             </View>
@@ -183,5 +200,37 @@ const styles = StyleSheet.create({
         height:60,
         borderLeftWidth:1,
         borderLeftColor:'#fff'
+    },
+    //modalEnd
+    modalEnd:{
+        borderRadius:20,
+        overflow:'visible',
+        height:'58%'
+    },
+    modalEndImg:{ 
+        width:'100%',
+        height:'100%',
+        alignItems:'center'
+    },
+    modalEndScore:{
+        marginTop:84,
+        fontSize:66,
+        color:'#fff',
+        padding:0
+    },
+    modalEndScoreText:{
+        marginTop:10,
+        color:'#7d7d7d',
+        fontSize:24,
+        fontWeight:'bold',
+        padding:0
+    },
+    modalEndBottomText:{
+        marginTop:30,
+        fontSize:20,
+        color:'#ce2626',
+        fontWeight:'bold',
+        padding:0
     }
+    
 })
