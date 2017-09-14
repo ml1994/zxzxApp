@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
-import {View, Text, StyleSheet, Image, FlatList, ImageBackground, Modal, TouchableOpacity} from 'react-native'
+import {View, Text, StyleSheet, Image, FlatList, ImageBackground, Modal, TouchableOpacity,TouchableWithoutFeedback} from 'react-native'
 import Swiper from 'react-native-swiper'
 import Header from '../components/header'
 import Question from '../components/question'
+import Icon from '../components/icon'
 
 
 export default class Subject extends Component {
@@ -15,6 +16,44 @@ export default class Subject extends Component {
                 <Text style={styles.btnText}>{text}</Text>
             </ImageBackground>
         )
+    }
+
+    renderModal(type){
+        switch (type) {
+            case 'start':
+                return (
+                    <View style={styles.modalStart}>
+                        <View style={styles.modalStartTop}>
+                            <Text style={styles.modalStartTopText}>您上一次回答道第1题，是否继续进行？</Text>
+                        </View>
+                        <View style={styles.modalStartBottom}>
+                            <ImageBackground source={require('../asset/btn_bg_red.png')} resizeMode='contain' style={styles.btn}>
+                                <Text style={styles.btnText}>继续挑战</Text>
+                            </ImageBackground>
+                            <ImageBackground source={require('../asset/btn_bg_yellow.png')} resizeMode='contain' style={styles.btn}>
+                                <Text style={styles.btnText}>重新开始</Text>
+                            </ImageBackground>
+                        </View>
+                        <View style={styles.modalClose}>
+                            <TouchableOpacity style={styles.modalCloseView}>
+                                <Icon name='close' size={28} color='#fff'/>
+                            </TouchableOpacity>
+                            <View style={styles.modalLine}></View>
+                        </View>
+                    </View>
+                )
+                break;
+            case 'pause':
+                
+                break;
+            case 'end':
+                
+                break;
+        
+            default:
+                break;
+        }
+        
     }
 
     render() {
@@ -50,10 +89,8 @@ export default class Subject extends Component {
                     animationType="fade"
                     transparent={true}
                     >
-                    <TouchableOpacity style={{flex:1,justifyContent:'center',padding:20,backgroundColor:'rgba(0,0,0,.5)'}}>
-                        <View style={{borderColor:'#ccc',borderWidth:1,borderRadius:10,alignItems:'center',backgroundColor:'#fff'}}>
-                            <Text>123</Text>
-                        </View>
+                    <TouchableOpacity style={styles.modalView}>
+                        {this.renderModal('start')}
                     </TouchableOpacity>
                 </Modal>
             </View>
@@ -80,6 +117,7 @@ const styles = StyleSheet.create({
     page:{
         flex:1
     },
+    //上下题按钮
     btn:{
         marginTop:40,
         width:110,
@@ -90,6 +128,60 @@ const styles = StyleSheet.create({
     btnText:{
         fontSize:16,
         fontWeight:'bold',
-        color:'#fff'
+        color:'#fff',
+        backgroundColor:'transparent'
+    },
+    //modal
+    modalView:{
+        flex:1,
+        justifyContent:'center',
+        padding:20,
+        backgroundColor:'rgba(0,0,0,.5)'
+    },
+    //modalStart
+    modalStart:{
+        borderRadius:20,
+        alignItems:'center',
+        backgroundColor:'#fff',
+        overflow:'visible'
+    },
+    modalStartTop:{
+        width:'100%',
+        borderTopLeftRadius:20,
+        borderTopRightRadius:20,
+        paddingVertical:40,
+        paddingHorizontal:50,
+        alignItems:'center',
+        justifyContent:'center',
+        backgroundColor:'#e92e2e'
+    },
+    modalStartTopText:{
+        color:'#fff',
+        fontSize:22,
+        lineHeight:30
+    },
+    modalStartBottom:{
+        flexDirection:'row',
+        paddingVertical:30
+    },
+    modalClose:{
+        position:'absolute',
+        right:0,
+        top:-100,
+    },
+    modalCloseView:{
+        width:40,
+        height:40,
+        borderRadius:20,
+        borderWidth:1,
+        borderColor:'#fff',
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    modalLine:{
+        marginLeft:20,
+        height:60,
+        borderLeftWidth:1,
+        borderLeftColor:'#fff'
     }
 })
