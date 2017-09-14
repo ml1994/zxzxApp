@@ -44,7 +44,24 @@ export default class Subject extends Component {
                 )
                 break;
             case 'pause':
-                
+                return (
+                    <View style={styles.modalPause}>
+                        <View style={styles.modalPauseTextView}>
+                            <Text style={styles.modalPauseText}>暂停</Text>
+                        </View>
+                        <View style={styles.modalPauseIconsView}>
+                            <TouchableOpacity>
+                                <Icon name='home' size={40} color='#fff'/>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <Icon name='play-circle-o' size={60} color='#faab00'/>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <Icon name='refresh' size={36} color='#fff'/>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                )
                 break;
             case 'end':
                 return (
@@ -106,8 +123,8 @@ export default class Subject extends Component {
                     animationType="fade"
                     transparent={true}
                     >
-                    <TouchableOpacity style={styles.modalView}>
-                        {this.renderModal('end')}
+                    <TouchableOpacity style={styles.modalView} activeOpacity={1}>
+                        {this.renderModal('pause')}
                     </TouchableOpacity>
                 </Modal>
             </View>
@@ -231,6 +248,26 @@ const styles = StyleSheet.create({
         color:'#ce2626',
         fontWeight:'bold',
         padding:0
+    },
+    //modalPause
+    modalPause:{
+        height:'50%',
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    modalPauseTextView:{
+        height:'20%',
+        
+    },
+    modalPauseText:{
+        color:'#fff',
+        fontSize:36
+    },
+    modalPauseIconsView:{
+        flexDirection:'row',
+        width:'80%',
+        alignItems:'center',
+        justifyContent:'space-around'
     }
     
 })
