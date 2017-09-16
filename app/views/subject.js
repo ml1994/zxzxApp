@@ -64,16 +64,20 @@ export default class Subject extends Component {
                 )
                 break;
             case 'end':
-                return (
+            return (
                     <View style={styles.modalEnd}>
-                        <ImageBackground style={styles.modalEndImg} source={require('../asset/modal_end_bg.png')} resizeMode="contain">
+                        <View style={styles.modalEndTop}>
                             <Text style={styles.modalEndScore}>98</Text>
+                        </View>
+                        <View style={styles.modalEndBottom}>
                             <Text style={styles.modalEndScoreText}>分数</Text>
+                            <Text style={styles.circle}></Text>
                             <Text style={styles.modalEndBottomText}>对49题，错1题！</Text>
-                            <ImageBackground source={require('../asset/btn_bg_yellow.png')} resizeMode='contain' style={styles.btn}>
-                                <Text style={styles.btnText}>重新挑战</Text>
+                            <ImageBackground source={require('../asset/btn_bg_yellow.png')} resizeMode='contain'
+                                            style={styles.btn}>
+                                <Text style={styles.btnText}>重新开始</Text>
                             </ImageBackground>
-                        </ImageBackground>
+                        </View>
                         <View style={styles.modalClose}>
                             <TouchableOpacity style={styles.modalCloseView}>
                                 <Icon name='close' size={28} color='#fff'/>
@@ -124,7 +128,7 @@ export default class Subject extends Component {
                     transparent={true}
                     >
                     <TouchableOpacity style={styles.modalView} activeOpacity={1}>
-                        {this.renderModal('pause')}
+                        {this.renderModal('end')}
                     </TouchableOpacity>
                 </Modal>
             </View>
@@ -219,36 +223,59 @@ const styles = StyleSheet.create({
         borderLeftColor:'#fff'
     },
     //modalEnd
-    modalEnd:{
-        borderRadius:20,
-        overflow:'visible',
-        height:'58%'
-    },
-    modalEndImg:{ 
-        width:'100%',
-        height:'100%',
-        alignItems:'center'
-    },
-    modalEndScore:{
-        marginTop:84,
-        fontSize:66,
-        color:'#fff',
-        padding:0
-    },
-    modalEndScoreText:{
-        marginTop:10,
-        color:'#7d7d7d',
-        fontSize:24,
-        fontWeight:'bold',
-        padding:0
-    },
-    modalEndBottomText:{
-        marginTop:30,
-        fontSize:20,
-        color:'#ce2626',
-        fontWeight:'bold',
-        padding:0
-    },
+    modalEnd: {
+		borderRadius: 20,
+		alignItems: 'center',
+		backgroundColor: '#fff',
+		overflow: 'visible'
+	},
+	modalEndTop: {
+		width: '100%',
+		borderTopLeftRadius: 20,
+		borderTopRightRadius: 20,
+		paddingTop: 40,
+		alignItems: 'center',
+		justifyContent: 'flex-end',
+		backgroundColor: '#e92e2e'
+	},
+	modalEndImg: {
+		width: '100%',
+		height: '100%',
+		alignItems: 'center'
+	},
+	modalEndScore: {
+		fontSize: 66,
+		color: '#fff',
+		padding: 0
+	},
+	modalEndBottom: {
+		paddingVertical: 20,
+		alignItems: 'center',
+		width: '100%',
+	},
+	modalEndScoreText: {
+
+		color: '#7d7d7d',
+		fontSize: 24,
+		fontWeight: 'bold',
+		padding: 0
+	},
+	modalEndBottomText: {
+		marginTop: 30,
+		fontSize: 20,
+		color: '#ce2626',
+		fontWeight: 'bold',
+		padding: 0
+	},
+	circle: {
+		marginTop: -150,
+		borderRadius: 80,
+		width: 160,
+		height: 160,
+		borderWidth: 4,
+		borderColor: '#faab00',
+		backgroundColor: 'transparent'
+	},
     //modalPause
     modalPause:{
         height:'50%',
