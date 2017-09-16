@@ -8,7 +8,7 @@ export default (state = initialState, action) => {
             return action.payload
         case actionTypes.LOGINED:
             return action.payload
-        case actionTypes.GET_INFO:
+        case actionTypes.LOGIN_OUT:
             return action.payload
         default:
             return state

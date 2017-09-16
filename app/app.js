@@ -1,12 +1,14 @@
 import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 import {StyleSheet, Text, View, StatusBar,Platform} from 'react-native'
+
 import {addNavigationHelpers} from 'react-navigation'
 import SplashScreen from 'react-native-splash-screen'
 
 import configureStore from './store/configureStore'
 import AppRootStackNav from './appRootStackNav'
 import rootReducer from './reducers'
+
 
 class AppRouter extends Component {
     render() {
