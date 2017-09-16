@@ -1,15 +1,5 @@
 import React, {Component} from 'react'
-import {
-	View,
-	Text,
-	StyleSheet,
-	Image,
-	FlatList,
-	ImageBackground,
-	Modal,
-	TouchableOpacity,
-	TouchableWithoutFeedback
-} from 'react-native'
+import {View, Text, StyleSheet, Image, FlatList, ImageBackground, Modal, TouchableOpacity, TouchableWithoutFeedback} from 'react-native'
 import Swiper from 'react-native-swiper'
 import Header from '../components/header'
 import Question from '../components/question'
@@ -265,13 +255,13 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		padding: 0
 	},
-	circle:{
-		marginTop:-150,
-		borderRadius:80,
-		width:160,
-		height:160,
-		borderWidth:4,
-		borderColor:'#faab00',
-		backgroundColor:'transparent'
+	circle: {
+		marginTop: -150,
+		borderRadius: 80,
+		width: 160,
+		height: 160,
+		borderWidth: 4,
+		borderColor: '#faab00',
+		backgroundColor: 'transparent'
 	}
 })
