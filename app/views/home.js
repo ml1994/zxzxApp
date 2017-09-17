@@ -1,11 +1,16 @@
 import React, {Component} from 'react'
-import {ScrollView,View, StatusBar, StyleSheet} from 'react-native'
+import {ScrollView,View, StatusBar, StyleSheet,AsyncStorage} from 'react-native'
+
 
 import HomeBanner from '../containers/homeBanner'
 import NavBar from '../containers/navBar'
 import KnowAllList from '../containers/knowAllList'
 
 export default class Home extends Component {
+
+    constructor(){
+        super()
+    }
 
     render() {
         return (

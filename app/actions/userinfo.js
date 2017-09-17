@@ -1,9 +1,12 @@
 import * as userinfoActions from '../constants/userinfo'
 
-export function initial(payload) {
+export function initLogin() {
     return {
         type:userinfoActions.INIT_LOGIN,
-        payload
+        payload:{
+            phoneNum:'',
+            psw:''
+        }
     }
 }
 
@@ -13,3 +16,15 @@ export function login(payload){
         payload
     }
 }
+
+export function loginOut() {
+    return {
+        type:userinfoActions.LOGIN_OUT,
+        payload:{
+            phoneNum:'',
+            psw:''
+        }
+    }
+}
+
+
