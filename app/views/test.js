@@ -2,26 +2,11 @@ import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import {View, Text, StyleSheet,ImageBackground,TouchableOpacity} from 'react-native'
 import {NavigationActions} from 'react-navigation'
-import storage from '../gStorage'
+
 import Header from '../components/header'
 
 
 class Test extends Component {
-
-    constructor(props){
-        super(props)
-        const {dispatch} = this.props
-        storage.load({key:'userInfo'}).then(ret=>{}).catch(err=>{
-            switch (err.name) {
-                case 'NotFoundError':
-                    dispatch(NavigationActions.navigate({routeName:'Login'}))
-                    break;
-                case 'ExpiredError':
-                    dispatch(NavigationActions.navigate({routeName:'Login'}))
-                    break;
-            }
-        })
-    }
 
     goSubject(type){
         const {dispatch} = this.props
