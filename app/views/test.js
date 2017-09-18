@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import {View, Text, StyleSheet,ImageBackground,TouchableOpacity} from 'react-native'
 import {NavigationActions} from 'react-navigation'
-import storage from '../gStorage'
+
 import Header from '../components/header'
 
 

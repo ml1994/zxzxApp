@@ -3386,10 +3386,6 @@ react-native-splash-screen@^3.0.1:
   version "3.0.1"
   resolved "http://registry.npm.taobao.org/react-native-splash-screen/download/react-native-splash-screen-3.0.1.tgz#178b29b7d848e6ee5a41fbb9c1299eb2b5aaa600"
 
-react-native-storage@^0.2.2:
-  version "0.2.2"
-  resolved "http://registry.npm.taobao.org/react-native-storage/download/react-native-storage-0.2.2.tgz#4449197f122b2da0650e3704e1f050260ed58d9f"
-
 react-native-swiper@^1.5.10:
   version "1.5.10"
   resolved "http://registry.npm.taobao.org/react-native-swiper/download/react-native-swiper-1.5.10.tgz#20569b85623bdd3f667a376999b3844007d11dc1"

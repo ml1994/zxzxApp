@@ -33,15 +33,6 @@ class Header extends Component {
                 break;
         }
     }
-
-    returnBtnFun(){
-        const {dispatch,isLoginPage} = this.props
-        if(isLoginPage===true){
-            dispatch(NavigationActions.navigate({routeName:'Home'}))
-        }else{
-            dispatch(NavigationActions.back())
-        }
-    }
     
     render() {
         const{dispatch,type,icons} = this.props
@@ -81,7 +72,7 @@ class Header extends Component {
         return (
             <View style={styles.rootView}>
                 <View style={type=='search'?styles.leftIconSearchView:styles.leftIconTitleView}>
-                    <Icon name="angle-left" size={30} color='#fff' onPress={()=>this.returnBtnFun()}/>               
+                    <Icon name="angle-left" size={30} color='#fff' onPress={()=>dispatch(NavigationActions.back())}/>               
                 </View>
                 {container}
                 {rightIcons}
