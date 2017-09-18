@@ -1,14 +1,57 @@
 import React, {Component} from 'react'
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native'
-import Header from '../components/header'
-import Input from '../components/input'
 import {connect} from 'react-redux'
 import {NavigationActions} from 'react-navigation'
+import Header from '../components/header'
+import Input from '../components/input'
+import myFetch from '../utils/myFetch'
 
 class Login extends Component {
 
+	constructor(props) {
+		super(props)
+		const {dispatch} = this.props
+		dispatch(userinfoActions.initLogin())
+		this.state = {
+			phoneNum: '',
+			psw: ''
+		}
+	}
+
+	asyLogin(payload) {
+		const {dispatch} = this.props
+		const {phoneNum, psw} = this.state
+
+		return dispatch => {
+			dispatch({type: 'LOGING'})
+			myFetch.post(
+				'http://115.236.94.196:30005/app/account/login',
+				`phone=${phoneNum}&password=${psw}`,
+				resj => {
+					const {code, message} = resj
+					if (code == 0) {
+						dispatch(userinfoActions.login(payload))
+						dispatch(NavigationActions.back())
+					} else {
+						alert(message)
+					}
+				},
+				err => {
+					console.log(err)
+					dispatch({type: 'LOGIN_ERROR'})
+				}
+			)
+		}
+	}
+
+	loginFun() {
+		const userinfo = this.state
+		const {dispatch} = this.props
+		dispatch(this.asyLogin(userinfo))
+	}
+
 	render() {
-		const {dispatch}=this.props
+		const {dispatch, userinfo} = this.props
 		return (
 			<View style={styles.rootView}>
 				<Header type='title' title='登录'/>
@@ -20,10 +63,11 @@ class Login extends Component {
 				</TouchableOpacity>
 				<View style={styles.managerView}>
 					<Text style={styles.managerText}>没账号?去</Text>
-					<TouchableOpacity onPress={() => dispatch(NavigationActions.navigate({routeName:'Register'}))}>
-						<Text style={[styles.managerText,styles.managerTextSplice]}>注册</Text>
+					<TouchableOpacity onPress={() => dispatch(NavigationActions.navigate({routeName: 'Register'}))}>
+						<Text style={[styles.managerText, styles.managerTextSplice]}>注册</Text>
 					</TouchableOpacity>
-					<TouchableOpacity onPress={() => dispatch(NavigationActions.navigate({routeName:'ForgetPassword'}))}>
+					<TouchableOpacity
+						onPress={() => dispatch(NavigationActions.navigate({routeName: 'ForgetPassword'}))}>
 						<Text style={styles.managerText}>忘记密码</Text>
 					</TouchableOpacity>
 				</View>
@@ -31,6 +75,7 @@ class Login extends Component {
 		)
 	}
 }
+
 const styles = StyleSheet.create({
 	rootView: {
 		flex: 1,
@@ -58,7 +103,7 @@ const styles = StyleSheet.create({
 	managerView: {
 		flex: 1,
 		flexDirection: 'row',
-		marginTop:20
+		marginTop: 20
 	},
 	managerText: {
 		color: '#0f1d4e'
@@ -66,13 +111,13 @@ const styles = StyleSheet.create({
 	managerTextSplice: {
 		borderRightWidth: 1,
 		borderRightColor: '#0f1d4e',
-		paddingRight:5,
-		marginRight:5
+		paddingRight: 5,
+		marginRight: 5
 	}
 })
-const mapStateToProps=store=>{
+const mapStateToProps = store => {
 	return {
-		nav:store.nav
+		nav: store.nav
 	}
 }
 

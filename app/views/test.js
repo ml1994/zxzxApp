@@ -8,6 +8,29 @@ import Header from '../components/header'
 
 class Test extends Component {
 
+    constructor(props){
+        super(props)
+        const {dispatch} = this.props
+        storage.load({key:'userInfo'}).then(ret=>{}).catch(err=>{
+            switch (err.name) {
+                case 'NotFoundError':
+                    dispatch(NavigationActions.navigate({routeName:'Login'}))
+                    break;
+                case 'ExpiredError':
+                    dispatch(NavigationActions.navigate({routeName:'Login'}))
+                    break;
+            }
+        })
+        // fetch('http://115.236.94.196:30005/app/video/info/')
+        // .then(res=>res.json())
+        // .then(resj=>{
+        //     resj.code==401?dispatch(NavigationActions.navigate({routeName:'Login'})):null
+        // })
+        // .catch(err=>{
+
+        // })
+    }
+
     goSubject(type){
         const {dispatch} = this.props
         dispatch(NavigationActions.navigate({routeName:'Subject',params:{type}}))
@@ -19,7 +42,7 @@ class Test extends Component {
         return (
             <View style={styles.rootView}>
                 <Header type='title' title='物业培训' icons={icons}/>
-                <ImageBackground source={require('../asset/test_bg.png')} style={styles.imgBg} resizeMode='contain'>
+                <ImageBackground source={require('../asset/test_bg.png')} style={styles.imgBg} resizeMode='stretch'>
                     <TouchableOpacity style={styles.societyView} onPress={()=>this.goSubject('society')}>
                         <Text style={[styles.type,styles.right]}>
                             <Text style={styles.bigSize}>社会</Text>
@@ -95,7 +118,8 @@ const styles = StyleSheet.create({
         //backgroundColor:'rgba(0,0,0,.5)'
     },
     programerView:{
-        marginTop:'20%',
+        position:'absolute',
+        bottom:0,
         paddingVertical:5,
         paddingHorizontal:10,
         width:'100%',

@@ -5,6 +5,21 @@ import Header from '../components/header'
 import Ask from '../components/ask'
 
 class Asks extends Component {
+    constructor(props){
+        super(props)
+        const {dispatch} = this.props
+        // storage.load({key:'userInfo'}).then(ret=>{}).catch(err=>{
+        //     switch (err.name) {
+        //         case 'NotFoundError':
+        //             dispatch(NavigationActions.navigate({routeName:'Login'}))
+        //             break;
+        //         case 'ExpiredError':
+        //             dispatch(NavigationActions.navigate({routeName:'Login'}))
+        //             break;
+        //     }
+        // })
+        
+    }
     
     render() {
         let askList = ['1']
