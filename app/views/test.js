@@ -21,6 +21,14 @@ class Test extends Component {
                     break;
             }
         })
+        // fetch('http://115.236.94.196:30005/app/video/info/')
+        // .then(res=>res.json())
+        // .then(resj=>{
+        //     resj.code==401?dispatch(NavigationActions.navigate({routeName:'Login'})):null
+        // })
+        // .catch(err=>{
+
+        // })
     }
 
     goSubject(type){
@@ -34,7 +42,7 @@ class Test extends Component {
         return (
             <View style={styles.rootView}>
                 <Header type='title' title='物业培训' icons={icons}/>
-                <ImageBackground source={require('../asset/test_bg.png')} style={styles.imgBg} resizeMode='contain'>
+                <ImageBackground source={require('../asset/test_bg.png')} style={styles.imgBg} resizeMode='stretch'>
                     <TouchableOpacity style={styles.societyView} onPress={()=>this.goSubject('society')}>
                         <Text style={[styles.type,styles.right]}>
                             <Text style={styles.bigSize}>社会</Text>
@@ -110,7 +118,8 @@ const styles = StyleSheet.create({
         //backgroundColor:'rgba(0,0,0,.5)'
     },
     programerView:{
-        marginTop:'20%',
+        position:'absolute',
+        bottom:0,
         paddingVertical:5,
         paddingHorizontal:10,
         width:'100%',

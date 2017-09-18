@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native'
-import Header from '../components/header'
-import Input from '../components/input'
 import {connect} from 'react-redux'
 import {NavigationActions} from 'react-navigation'
+import Header from '../components/header'
+import Input from '../components/input'
+import myFetch from '../utils/myFetch'
 
 import * as userinfoActions from '../actions/userinfo'
 
@@ -25,30 +26,23 @@ class Login extends Component {
 		
 		return dispatch=>{
 			dispatch({type:'LOGING'})
-			fetch('http://115.236.94.196:30005/app/account/login',{
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded',
+			myFetch.post(
+				'http://115.236.94.196:30005/app/account/login',
+				`phone=${phoneNum}&password=${psw}`,
+				resj=>{
+					const {code,message} = resj
+					if(code==0){
+						dispatch(userinfoActions.login(payload))
+						dispatch(NavigationActions.back())
+					}else{
+						alert(message)
+					}
 				},
-				body: `phone=${phoneNum}&password=${psw}`
-			})
-			.then(res=>{
-				return res.json()
-			})
-			.then(resj=>{
-				//console.log(resj)
-				const {code,message} = resj
-				if(code==0){
-					dispatch(userinfoActions.login(payload))
-					dispatch(NavigationActions.back())
-				}else{
-					alert(message)
+				err=>{
+					console.log(err)
+					dispatch({type:'LOGIN_ERROR'})
 				}
-			})
-			.catch(err=>{
-				console.log(err)
-				dispatch({type:'LOGIN_ERROR'})
-			})
+			)
 		}
 	}
 
@@ -60,7 +54,7 @@ class Login extends Component {
 
 	render() {
 		const {dispatch,userinfo}=this.props
-
+		
 		return (
 			<View style={styles.rootView}>
 				<Header type='title' title='登录' isLoginPage={true}/>
