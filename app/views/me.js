@@ -1,20 +1,55 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {View, Text, Button, StyleSheet} from 'react-native'
-
+import {NavigationActions} from 'react-navigation'
 import * as userinfoActions from '../actions/userinfo'
 
 import Menu from '../components/menu'
 import Icon from '../components/icon'
 
+import myFetch from '../utils/myFetch'
+
 class Me extends Component {
-    // static navigationOptions = {
-    //     title: 'me'
-    // }
+
 
     constructor(props) {
         super(props)
         const {dispatch} = this.props //dispatch要从this.props里先拿到才能使用
+        //判断登录
+        myFetch.get(
+            '/account/islogin',
+            {},
+            res=>{
+                console.log(res)
+                res.code=='0'?dispatch(this.asyGetUserinfo()):dispatch(NavigationActions.navigate({routeName:'Login'}))
+            },
+            err=>{
+                console.log(err)
+            }
+        )
+        
+    }
+
+    asyGetUserinfo(){
+        //获取用户信息
+        const {dispatch} = this.props
+        return dispatch=>{
+            dispatch({type:'GETING'})
+            myFetch.get(
+                '/account/getinfo',
+                {},
+                resj=>{
+                    const {account,name} = resj.data
+                    const info = Object.assign({},{account,name})
+                    dispatch(userinfoActions.getInfo(info))
+                    dispatch({type:'GETING_END'})
+                },
+                err=>{
+                    console.log(err)
+                    dispatch({type:'GET_ERROR'})
+                }
+            )
+        }
     }
 
     render() {
@@ -27,14 +62,12 @@ class Me extends Component {
             text:'关于我们',
             nav:'AboutUs'
         }]
-        const phoneNum = '13168301123'
-        const intro = '您的掌上消防专家'
         return (
             <View>
                 <View style={styles.header}>
                     <Icon name='user-circle-o' size={60} color='#fff'/>
-                    <Text style={styles.phoneNum}>{phoneNum}</Text>
-                    <Text style={styles.intro}>{intro}</Text>
+                    <Text style={styles.phoneNum}>{this.props.userinfo.account}</Text>
+                    <Text style={styles.intro}>{this.props.userinfo.name}</Text>
                 </View>
                 <Menu menuArr={menuArr}/>
             </View>
@@ -63,10 +96,10 @@ const styles =StyleSheet.create({
     }
 })
 
-const mapStateToProps = store => {
-    return {userinfo: store.userinfo}
-}
+const mapStateToProps = store => ({
+    userinfo: store.userinfo,
+    nav: store.nav
+})
 
 export default connect(mapStateToProps)(Me)
 
-//export default Me

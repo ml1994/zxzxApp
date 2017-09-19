@@ -2,11 +2,37 @@ import React, {Component} from 'react'
 import {View, TouchableOpacity, ImageBackground, Text, TextInput, StyleSheet} from 'react-native'
 import { connect } from 'react-redux'
 import {NavigationActions} from 'react-navigation'
+import myFetch from '../utils/myFetch'
+import * as askActions from '../actions/ask'
 
 class AddAsk extends Component {
 
+    constructor(){
+        super()
+        this.state = {
+            title:'',
+            descr:''
+        }
+    }
+
     publishFun(){
         const {dispatch} = this.props
+        const {title,descr} = this.state
+
+        myFetch.post(
+            '/consult/save/question',
+            `title=${title}&descr=${descr}`,
+            res=>{
+                console.log(res)
+                if(res.code==0){
+                    dispatch(NavigationActions.back())
+                }
+            },
+            err=>{
+                console.log(err)
+                alert('添加错误')
+            }
+        )
         
     }
 
@@ -16,15 +42,19 @@ class AddAsk extends Component {
             <View style={styles.rootView}>
                 <ImageBackground source={require('../asset/add_bg.jpg')} style={styles.imageBg}>
                     <View style={styles.header}>
-                        <Text style={styles.button} onPress={()=>{dispatch(NavigationActions.back())}}>取消</Text>
-                        <Text style={styles.title}>发起问题</Text>
-                        <Text style={styles.button} onPress={()=>{this.publishFun()}}>发布</Text>
+                        <TouchableOpacity style={styles.btnView} onPress={()=>{dispatch(NavigationActions.back())}}>
+                            <Text style={styles.button}>取消</Text>
+                        </TouchableOpacity>
+                        <Text style={styles.title}>追加问题</Text>
+                        <TouchableOpacity style={styles.btnView} onPress={()=>{this.publishFun()}}>
+                            <Text style={styles.button}>发布</Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.titleView}>
-                        <TextInput style={styles.titleInput} placeholder='标题' placeholderTextColor='#595959' multiline={true} numberOfLines={2} maxLength={18} underlineColorAndroid="transparent"/>
+                        <TextInput style={styles.titleInput} placeholder='标题' placeholderTextColor='#595959' multiline={true} numberOfLines={2} maxLength={18} underlineColorAndroid="transparent" onChangeText={title=>this.setState({title})}/>
                         <Text style={styles.tip}>请不要超过18个字</Text>
                     </View>
-                    <TextInput style={styles.textInput} placeholder='正文' placeholderTextColor='#777' multiline={true} numberOfLines={10} textAlignVertical='top' maxLength={200} underlineColorAndroid="transparent"/>
+                    <TextInput style={styles.textInput} placeholder='正文' placeholderTextColor='#777' multiline={true} numberOfLines={10} textAlignVertical='top' maxLength={200} underlineColorAndroid="transparent" onChangeText={descr=>this.setState({descr})}/>
                 </ImageBackground>
             </View>
         )
@@ -54,6 +84,10 @@ const styles = StyleSheet.create({
     title:{
         fontSize:20,
         color:'#1f1f1f'
+    },
+    btnView:{
+        height:30,
+        justifyContent:'center'
     },
     button:{
         fontSize:12,

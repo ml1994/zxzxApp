@@ -1,5 +1,7 @@
 
 export default class myFetch{
+
+    static rootUrl = 'http://115.236.94.196:30005/app'
     /*
      *  get请求
      *  url:请求地址
@@ -18,7 +20,7 @@ export default class myFetch{
             }
         }
         //fetch请求
-        fetch(url,{
+        fetch(this.rootUrl+url,{
             method: 'GET'
         })
         .then((response) => response.json())
@@ -35,7 +37,7 @@ export default class myFetch{
      * */
     static post(url,body,callback,ecallback){
         //fetch请求
-        fetch(url,{
+        fetch(this.rootUrl+url,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',

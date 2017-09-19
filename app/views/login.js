@@ -27,12 +27,13 @@ class Login extends Component {
 		return dispatch=>{
 			dispatch({type:'LOGING'})
 			myFetch.post(
-				'http://115.236.94.196:30005/app/account/login',
+				'/account/login',
 				`phone=${phoneNum}&password=${psw}`,
 				resj=>{
 					const {code,message} = resj
 					if(code==0){
 						dispatch(userinfoActions.login(payload))
+						dispatch(this.asyGetUserinfo())
 						dispatch(NavigationActions.back())
 					}else{
 						alert(message)
@@ -45,6 +46,28 @@ class Login extends Component {
 			)
 		}
 	}
+
+	asyGetUserinfo(){
+        //获取用户信息
+        const {dispatch} = this.props
+        return dispatch=>{
+            dispatch({type:'GETING'})
+            myFetch.get(
+                '/account/getinfo',
+                {},
+                resj=>{
+                    const {account,name} = resj.data
+                    const info = Object.assign({},{account,name})
+					dispatch(userinfoActions.getInfo(info))
+					dispatch({type:'GETING_END'})
+                },
+                err=>{
+                    console.log(err)
+                    dispatch({type:'GET_ERROR'})
+                }
+            )
+        }
+    }
 
 	loginFun(){
 		const userinfo = this.state
@@ -59,8 +82,10 @@ class Login extends Component {
 			<View style={styles.rootView}>
 				<Header type='title' title='登录' isLoginPage={true}/>
 				<Image resizeMode='contain' source={require('../asset/logo.png')} style={styles.logo}/>
-				<Input iconLeft='mobile' placeholder='请输入手机号码' onChangeText={phoneNum=>this.setState({phoneNum})}/>
-				<Input iconLeft='lock' type='password' placeholder='请输入密码6-16位' onChangeText={psw=>this.setState({psw})}/>
+				<View style={styles.inputsView}>
+					<Input iconLeft='mobile' placeholder='请输入手机号码' onChangeText={phoneNum=>this.setState({phoneNum})}/>
+					<Input iconLeft='lock' type='password' placeholder='请输入密码6-16位' onChangeText={psw=>this.setState({psw})}/>
+				</View>
 				<TouchableOpacity style={styles.btnSubmit} onPress={()=>this.loginFun()}>
 					<Text style={styles.btnText}>登录</Text>
 				</TouchableOpacity>
@@ -89,6 +114,9 @@ const styles = StyleSheet.create({
 	},
 	logo: {
 		width: 130
+	},
+	inputsView:{
+		width:'80%'
 	},
 	btnSubmit: {
 		width: '80%',

@@ -7,9 +7,9 @@ export default class Qa extends Component {
         const {type,text,time} = this.props
         return (
             <View style={styles.rootView}>
-                <View style={[styles.container,type=='q'?styles.questionBg:styles.answerBg]}>
-                    <Text style={styles.text}>hhhhhhh多撒大所撒多撒大所多撒大所大所多打算的撒大所</Text>
-                    <Text style={styles.time}>hhhhh</Text>   
+                <View style={[styles.container,type=='question'?styles.questionBg:styles.answerBg]}>
+                    <Text style={styles.text}>{text}</Text>
+                    <Text style={styles.time}>{time}</Text>   
                 </View>
             </View>
         )

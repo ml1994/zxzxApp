@@ -6,12 +6,60 @@ import {NavigationActions} from 'react-navigation'
 import Header from '../components/header'
 import Qa from '../components/qa'
 import Icon from '../components/icon'
+import myFetch from '../utils/myFetch'
+
+import * as askActions from '../actions/ask'
 
 class AskDetail extends Component {
 
+    constructor(props){
+        super(props)
+        const {dispatch,nav} = this.props
+        this.state = {
+            id:nav.routes[1].params.id,
+            title:'',
+            qaList:[],
+            refreshing:false
+        }
+        dispatch(askActions.initQaList())
+        dispatch(this.getQa())
+    }
+
+    getQa(){
+        const {dispatch} = this.props
+        return dispatch=>{
+            dispatch({type:'LOADING_QA_LIST'})
+            myFetch.get(
+                '/consult/detail/question',
+                {id:this.state.id},
+                res=>{
+                    console.log(res)
+                    if(res.code==0){
+                        dispatch(askActions.loadQaList({
+                            title:res.data.question.title,
+                            descr:res.data.question.descr,
+                            created:res.data.question.created,
+                            qaList:res.data.questionanswer
+                        }))
+                        dispatch({type:'LOADED_QA_LIST'})
+                    }
+                },
+                err=>{
+                    console.log(err)
+                    alert('获取问答信息失败')
+                }
+            )
+        }
+    }
+
+    async refreshFun(){
+        this.setState({refreshing: true})//开始刷新
+        await this.getQa()
+        this.setState({refreshing: false});//停止刷新
+    }
+
     render() {
         const {dispatch} = this.props
-        const qaList = ['q','a']
         const icons = ['pencil-square-o', 'search']
         return (
             <View style={styles.rootView}>
@@ -19,15 +67,16 @@ class AskDetail extends Component {
                 <ScrollView>     
                     <View style={styles.titleView}>
                         <View style={styles.dot}></View>
-                        <Text style={styles.title} numberOfLines={2}>我提的问题我提的问题我提的问题我提的</Text>
+                        <Text style={styles.title} numberOfLines={2}>{this.props.ask.title}</Text>
                         <Image
                             style={styles.img}
                             source={require('../asset/qa.png')}
                             resizeMode='contain'/>
                     </View>
-                    <FlatList data={qaList} renderItem={({item})=><Qa type={item}/>}/>     
+                    <Qa type='question' text={this.props.ask.descr} time={this.props.ask.created}/>
+                    <FlatList data={this.props.ask.qaList} renderItem={({item})=><Qa type={item.type} text={item.content} time={item.created}/>} refreshing={this.state.refreshing} onRefresh={()=>this.refreshFun()}/>     
                 </ScrollView>
-                <TouchableOpacity style={styles.bottomBtn} onPress={()=>dispatch(NavigationActions.navigate({routeName:'AddOnAsk'}))}>
+                <TouchableOpacity style={styles.bottomBtn} onPress={()=>dispatch(NavigationActions.navigate({routeName:'AddOnAsk',params:{qid:this.state.id}}))}>
                     <Icon name='plus' size={14} color="#fff"/>
                     <Text style={styles.btnText}>追加问题</Text>
                 </TouchableOpacity>
@@ -81,7 +130,8 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = store=>({
-    nav:store.nav
+    nav:store.nav,
+    ask:store.ask
 })
 
 export default connect(mapStateToProps)(AskDetail)

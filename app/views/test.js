@@ -5,30 +5,35 @@ import {NavigationActions} from 'react-navigation'
 import storage from '../gStorage'
 import Header from '../components/header'
 
+import myFetch from '../utils/myFetch'
+
 
 class Test extends Component {
 
     constructor(props){
         super(props)
         const {dispatch} = this.props
-        storage.load({key:'userInfo'}).then(ret=>{}).catch(err=>{
-            switch (err.name) {
-                case 'NotFoundError':
-                    dispatch(NavigationActions.navigate({routeName:'Login'}))
-                    break;
-                case 'ExpiredError':
-                    dispatch(NavigationActions.navigate({routeName:'Login'}))
-                    break;
+        // storage.load({key:'userInfo'}).then(ret=>{}).catch(err=>{
+        //     switch (err.name) {
+        //         case 'NotFoundError':
+        //             dispatch(NavigationActions.navigate({routeName:'Login'}))
+        //             break;
+        //         case 'ExpiredError':
+        //             dispatch(NavigationActions.navigate({routeName:'Login'}))
+        //             break;
+        //     }
+        // })
+        myFetch.get(
+            '/account/islogin',
+            {},
+            res=>{
+                console.log(res)
+                res.code=='0'?null:dispatch(NavigationActions.navigate({routeName:'Login'}))
+            },
+            err=>{
+                console.log(err)
             }
-        })
-        // fetch('http://115.236.94.196:30005/app/video/info/')
-        // .then(res=>res.json())
-        // .then(resj=>{
-        //     resj.code==401?dispatch(NavigationActions.navigate({routeName:'Login'})):null
-        // })
-        // .catch(err=>{
-
-        // })
+        )
     }
 
     goSubject(type){
@@ -37,27 +42,27 @@ class Test extends Component {
     }
 
     render() {
-        
+
         const icons = ['bell-o','search']
         return (
             <View style={styles.rootView}>
                 <Header type='title' title='物业培训' icons={icons}/>
                 <ImageBackground source={require('../asset/test_bg.png')} style={styles.imgBg} resizeMode='stretch'>
-                    <TouchableOpacity style={styles.societyView} onPress={()=>this.goSubject('society')}>
+                    <TouchableOpacity style={styles.societyView} onPress={()=>this.goSubject(1)}>
                         <Text style={[styles.type,styles.right]}>
                             <Text style={styles.bigSize}>社会</Text>
                             消防科普
                         </Text>
                         <Text style={[styles.score,styles.right]}>最佳:87分</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.propertyView} onPress={()=>this.goSubject('property')}>
+                    <TouchableOpacity style={styles.propertyView} onPress={()=>this.goSubject(2)}>
                         <Text style={[styles.type,styles.right]}>
                             <Text style={styles.bigSize}>物业</Text>
                             消控人员
                         </Text>
                         <Text style={[styles.score,styles.right]}>最佳:87分</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.fireView} onPress={()=>this.goSubject('fire')}>
+                    <TouchableOpacity style={styles.fireView} onPress={()=>this.goSubject(3)}>
                         <Text style={styles.type}>
                             消防
                             <Text style={styles.bigSize}>从业</Text>
@@ -65,7 +70,7 @@ class Test extends Component {
                         </Text>
                         <Text style={styles.score}>最佳:87分</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.programerView} onPress={()=>this.goSubject('programer')}>
+                    <TouchableOpacity style={styles.programerView} onPress={()=>this.goSubject(4)}>
                         <Text style={styles.type}>
                             消防
                             <Text style={styles.bigSize}>工程师</Text>

@@ -26,7 +26,7 @@ class Header extends Component {
                 dispatch(NavigationActions.navigate({routeName:'AddAsk'}))
                 break;
             case 'pause':
-                
+                this.props.iconPress()
                 break;
         
             default:

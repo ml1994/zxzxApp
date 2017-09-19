@@ -27,4 +27,11 @@ export function loginOut() {
     }
 }
 
+export function getInfo(payload) {
+    return {
+        type:userinfoActions.GET_INFO,
+        payload
+    }
+}
+
 

@@ -7,9 +7,11 @@ export default (state = initialState, action) => {
         case actionTypes.INIT_LOGIN:
             return action.payload
         case actionTypes.LOGINED:
-            return action.payload
+            return {...state,...action.payload}
         case actionTypes.LOGIN_OUT:
             return action.payload
+        case actionTypes.GET_INFO:
+            return {...state,...action.payload}
         default:
             return state
     }

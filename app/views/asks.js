@@ -1,35 +1,78 @@
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
 import {View, Text, ScrollView, FlatList,Image,StyleSheet} from 'react-native'
-import {StackNavigator} from 'react-navigation'
+import {NavigationActions} from 'react-navigation'
 import Header from '../components/header'
 import Ask from '../components/ask'
+import * as askActions from '../actions/ask'
+import myFetch from '../utils/myFetch'
 
 class Asks extends Component {
     constructor(props){
         super(props)
         const {dispatch} = this.props
-        // storage.load({key:'userInfo'}).then(ret=>{}).catch(err=>{
-        //     switch (err.name) {
-        //         case 'NotFoundError':
-        //             dispatch(NavigationActions.navigate({routeName:'Login'}))
-        //             break;
-        //         case 'ExpiredError':
-        //             dispatch(NavigationActions.navigate({routeName:'Login'}))
-        //             break;
-        //     }
-        // })
-        
+        this.state={
+            refreshing:false,
+        }
+
+        myFetch.get(
+            '/account/islogin',
+            {},
+            res=>{
+                console.log(res)
+                if(res.code=='0'){
+                    dispatch(askActions.initAskList())
+                    dispatch(this.getList())
+                }else{
+                    dispatch(NavigationActions.navigate({routeName:'Login'}))
+                }
+            },
+            err=>{
+                console.log(err)
+            }
+        )
+    }
+
+    getList(){
+        const {dispatch} = this.props
+        return dispatch=>{
+            dispatch({type:'LOADING_ASKLIST'})
+            myFetch.get(
+                '/consult/list/question',
+                {page:1,pagesize:10},
+                res=>{
+                    console.log(res)
+                    if(res.code==0){
+                        const askList = res.data.rows
+                        dispatch(askActions.loadAskList({askList}))
+                        dispatch({type:'LOADED_ASKLIST'})
+                    }
+                },
+                err=>{
+                    console.log(err)
+                    alert('获取列表失败')
+                }
+            )
+        }
+    }
+
+    refreshFun(){
+        const {dispatch} = this.props
+        this.setState({refreshing: true})//开始刷新
+        setTimeout(() => {
+            alert('没有可刷新的内容！')
+            this.setState({refreshing: false})//停止刷新
+        },3000)            
     }
     
     render() {
-        let askList = ['1']
         const icons = ['pencil-square-o','search']
         return (
             <View style={styles.rootView}>
                 <Header type='title' title='技术咨询' icons={icons}/>
                 <ScrollView showsVerticalScrollIndicator={false}>    
-                    {askList.length!=0?
-                        (<FlatList data={askList} renderItem={({item})=><Ask />}/>)
+                    {this.props.ask.askList?
+                        (<FlatList data={this.props.ask.askList} renderItem={({item})=><Ask title={item.title} text={item.descr} time={item.created} id={item.id} update={item.answer_updated} refreshing={this.state.refreshing} onRefresh={()=>this.refreshFun()}/>}/>)
                         : (
                             <View style={styles.container}>
                                 <Image style={styles.img} resizeMode='contain' source={require('../asset/no_ask.png')}/>
@@ -61,4 +104,9 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Asks
+const mapStateToProps = store=>({
+    nav:store.nav,
+    ask:store.ask
+})
+
+export default connect(mapStateToProps)(Asks)

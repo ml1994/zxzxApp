@@ -5,18 +5,31 @@ import {NavigationActions} from 'react-navigation'
 
 class Ask extends Component {
 
+    constructor(props){
+        super(props)
+        this.state={
+            showNew:false
+        }
+    }
+
     render() {
-        const {dispatch} = this.props
+        const {dispatch,title,text,time,id} = this.props
+        // if(!this.props.update){
+        //     this.setState({
+        //         showNew:true
+        //     })
+        // }
         return (
             <View style={styles.rootView}>
-                <TouchableOpacity style={styles.touchView} onPress={()=>dispatch(NavigationActions.navigate({routeName:'AskDetail'}))}>
+                <TouchableOpacity style={styles.touchView} onPress={()=>dispatch(NavigationActions.navigate({routeName:'AskDetail',params:{id:id}}))}>
                     <View style={styles.titleView}>
                         <View style={styles.dot}></View>
-                        <Text style={styles.title} numberOfLines={1}>我提的问题我提的问题我提的问题我提的</Text>
+                        <Text style={styles.title} numberOfLines={1}>{title}</Text>
                     </View>
-                    <Text style={styles.text} numberOfLines={3}>哈哈哈哈哈哈哈哈哈哈哈或哈哈哈哈哈哈哈哈哈哈哈或哈哈哈哈哈哈哈哈哈哈哈或哈哈哈哈哈哈哈哈哈哈哈或或或或或或或或或</Text>
-                    <Text style={styles.time}>2017-9-20 12:00</Text>
-                    <Image source={require('../asset/ask_new.png')} resizeMode='contain' style={styles.corner}/>
+                    <Text style={styles.text} numberOfLines={3}>{text}</Text>
+                    <Text style={styles.time}>{time}</Text>
+                    {this.state.showNew?<Image source={require('../asset/ask_new.png')} resizeMode='contain' style={styles.corner}/>:null}
+                    
                 </TouchableOpacity>
             </View>
         )

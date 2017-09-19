@@ -2,13 +2,34 @@ import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native'
 import {NavigationActions} from 'react-navigation'
+import * as userinfoActions from '../actions/userinfo'
 import Icon from './icon'
+import myFetch from '../utils/myFetch'
 
 class Menu extends Component {
 
-    goto(nav,type){
+    pressFun(nav,type,loginOut){
         const {dispatch} = this.props
-        dispatch(NavigationActions.navigate({routeName:nav,params:{type:type}}))
+        if(!loginOut){
+            dispatch(NavigationActions.navigate({routeName:nav,params:{type:type}}))
+        }else{
+            myFetch.get(
+                '/account/logout',
+                {},
+                res=>{
+                    if(res.code==0){
+                        dispatch(userinfoActions.loginOut())
+                        dispatch(NavigationActions.navigate({routeName:'Login'}))
+                    }else{
+                        alert('退出失败')
+                    }
+                },
+                err=>{
+                    console.log(err)
+                }
+            )
+        }
+
     }
 
     render() {
@@ -18,7 +39,7 @@ class Menu extends Component {
                 style={styles.menu}
                 data={menuArr}
                 renderItem={({item}) => (
-                <TouchableOpacity style={styles.itemView} activeOpacity={.8} onPress={()=>this.goto(item.nav,item.type)}>
+                <TouchableOpacity style={styles.itemView} activeOpacity={.8} onPress={()=>this.pressFun(item.nav,item.type,item.loginOut)}>
                     <View style={styles.iconView}>
                         <View style={styles.iconBg}>
                             <Icon name={item.iconName} size={14} color='#fff'/>

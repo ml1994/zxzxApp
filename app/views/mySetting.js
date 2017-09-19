@@ -9,11 +9,11 @@ export default class MySetting extends Component {
         const menuArr = [{
             iconName:'key',
             text:'修改密码',
-            //nav:''
+            nav:'ChangePassword'
         },{
             iconName:'sign-out',
             text:'退出账号',
-
+            loginOut:true
         }]
         return (
             <View>

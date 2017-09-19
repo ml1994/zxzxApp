@@ -1,233 +1,418 @@
 import React, {Component} from 'react'
-import {View, Text, StyleSheet, Image, FlatList, ImageBackground, Modal, TouchableOpacity,TouchableWithoutFeedback} from 'react-native'
+import {View, Text, StyleSheet, Image, FlatList, ImageBackground, Modal, TouchableOpacity,} from 'react-native'
 import Swiper from 'react-native-swiper'
 import Header from '../components/header'
 import Question from '../components/question'
 import Icon from '../components/icon'
+import {NavigationActions} from 'react-navigation'
+import myFetch from '../utils/myFetch'
+import {connect} from 'react-redux'
+import storage from '../gStorage'
+
+class Subject extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			total: 2,
+			index: 0,
+			testList: [],
+			modal: {
+				type: 'pause',
+				visible: false,
+			},
+			testResult: {score: 0, right: 0},
+			testIng: 0
+		}
+		this.loadTestList();
+	}
+
+	initTest = () => {
+		const {dispatch} = this.props;
+		let id = this.props.nav.routes[1].params.type;
+		myFetch.post(
+			'/examqueBank/startexam',
+			`id=${id}`,
+			resj => {
+				const {code, message} = resj
+				if (code == 0) {
+					let total = resj.data.examquelist.length;
+					let resultObj = {
+						id: resj.data.id,
+						testIng: 0,
+						resultList: [],
+						testList: resj.data.examquelist
+					}
+					this.setState({
+						testList: []
+					})
+					this.setState({
+						total: total,
+						testList: resj.data.examquelist
+					})
+					for (let i = 0; i < total; i++) {
+						resultObj.resultList.push({
+							que_id: resj.data.examquelist[i].id,
+							result: ''
+						})
+					}
+
+					storage.save({key: '15168201091', id: id, data: resultObj})
+				} else {
+					alert(message);
+					dispatch(NavigationActions.back())
+				}
+			},
+			err => {
+				console.log(err)
+			}
+		)
+	};
+	continueTest = () => {
+		this.setModalVisible(false);
+	}
+	restartTest = () => {
+		let id = this.props.nav.routes[1].params.type;
+		storage.remove({key: '15168201091', id: id});
+		this.setModalVisible(false)
+		this.initTest();
+		this._swiper.scrollBy(-(this.state.index), false)
+		console.log(this._que)
+	}
+	loadTestList = () => {
+		let id = this.props.nav.routes[1].params.type;
+		storage.load({key: '15168201091', id: id}).then(ret => {
+			this.setModalVisible(true, 'start');
+			this.setState({index: ret.testIng, testList: ret.testList, total: ret.testList.length,});
+		}).catch(err => {
+			console.warn(err.message);
+			switch (err.name) {
+				case 'NotFoundError':
+					this.initTest();
+					break;
+				case 'ExpiredError':
+					// TODO
+					break;
+			}
+		})
+
+	}
+
+	renderBtnPrev = () => {
+		let index = this.state.index;
+		let total = this.state.total;
+		if (index == 0) {
+			return null;
+		} else {
+			return (
+				<TouchableOpacity onPress={() => this._swiper.scrollBy(-1)}>
+					<ImageBackground source={require('../asset/btn_bg_red.png')} resizeMode='contain'
+									 style={styles.btn}>
+						<Text style={styles.btnText}>上一题</Text>
+					</ImageBackground>
+				</TouchableOpacity>
+			)
+		}
+	}
+
+	renderBtnNext = () => {
+		let index = this.state.index + 1;
+		let total = this.state.total;
+		let text = index < total ? '下一题' : '交卷';
+		let handleClick = () => {
+			if (index < total) {
+				this._swiper.scrollBy(1);
+				console.log(`index:${index}  total:${total}`)
+			}
+			else {
+				storage.load({key: '15168201091', id: this.props.nav.routes[1].params.type}).then(
+					ret => {
+						fetch(`http://115.236.94.196:30005/app/examqueBank/uploadresult/${ret.id}`, {
+							method: 'POST',
+							body: JSON.stringify(ret.resultList),
+							headers: {
+								'Content-Type': 'application/json',
+							},
+						})
+							.then((response) => response.json())
+							.then((responseJSON) => {
+								this.setState({
+									testResult: {score: responseJSON.data.score, right: responseJSON.data.tails.right},
+								})
+								this.setModalVisible(true, 'end')
+							}).then(() => {
+							storage.remove({key: '15168201091', id: this.props.nav.routes[1].params.type})
+						})
+					}
+				).catch(err => {
+					// 如果没有找到数据且没有sync方法，
+					// 或者有其他异常，则在catch中返回
+					console.warn(err.message);
+					switch (err.name) {
+						case 'NotFoundError':
+							console.log('提交答案未找到记录')
+							break;
+						case 'ExpiredError':
+							break;
+					}
+				})
+			}
+		};
+		return (
+			<TouchableOpacity onPress={() => handleClick()}>
+				<ImageBackground source={require('../asset/btn_bg_yellow.png')} resizeMode='contain' style={styles.btn}>
+					<Text style={styles.btnText}>{text}</Text>
+				</ImageBackground>
+			</TouchableOpacity>
+		);
+	}
+
+	nav = (nav) => {
+		const {dispatch} = this.props;
+		dispatch(NavigationActions.navigate({routeName: nav}))
+	}
 
 
-export default class Subject extends Component {
+	renderModal(type) {
+		switch (type) {
+			case 'start':
+				return (
+					<View>
+						<View style={styles.modalClose}>
+							<TouchableOpacity style={styles.modalCloseView} onPress={() => {
+								this.nav('Test');
+								this.setModalVisible(false)
+							}}>
+								<Icon name='close' size={28} color='#fff'/>
+							</TouchableOpacity>
+							<View style={styles.modalLine}></View>
+						</View>
+						<View style={styles.modalStart}>
+							<View style={styles.modalStartTop}>
+								<Text style={styles.modalStartTopText}>您上一次回答道第{this.state.index + 1}题，是否继续进行？</Text>
+							</View>
+							<View style={styles.modalStartBottom}>
+								<TouchableOpacity onPress={() => this.continueTest()}>
+									<ImageBackground source={require('../asset/btn_bg_red.png')} resizeMode='contain'
+													 style={styles.btn}>
+										<Text style={styles.btnText}>继续挑战</Text>
+									</ImageBackground>
+								</TouchableOpacity>
+								<TouchableOpacity onPress={() => this.restartTest()}>
+									<ImageBackground source={require('../asset/btn_bg_yellow.png')} resizeMode='contain'
+													 style={styles.btn}>
+										<Text style={styles.btnText}>重新开始</Text>
+									</ImageBackground>
+								</TouchableOpacity>
+							</View>
+						</View>
+					</View>
 
-    renderBtn(type){
-        const bgImg = type=='next'?require('../asset/btn_bg_yellow.png'):require('../asset/btn_bg_red.png')
-        const text = type=='next'?'下一题':'上一题'
-        return (
-            <ImageBackground source={bgImg} resizeMode='contain' style={styles.btn}>
-                <Text style={styles.btnText}>{text}</Text>
-            </ImageBackground>
-        )
-    }
+				)
+				break;
+			case 'pause':
+				return (
+					<View style={styles.modalPause}>
+						<View style={styles.modalPauseTextView}>
+							<Text style={styles.modalPauseText}>暂停</Text>
+						</View>
+						<View style={styles.modalPauseIconsView}>
+							<TouchableOpacity onPress={() => {
+								this.setModalVisible(false);
+								this.nav('Test')
+							}}>
+								<Icon name='home' size={40} color='#fff'/>
+							</TouchableOpacity>
+							<TouchableOpacity onPress={() => this.setModalVisible(false)}>
+								<Icon name='play-circle-o' size={60} color='#faab00'/>
+							</TouchableOpacity>
+							<TouchableOpacity onPress={() => this.restartTest()}>
+								<Icon name='refresh' size={36} color='#fff'/>
+							</TouchableOpacity>
+						</View>
+					</View>
+				)
+				break;
+			case 'end':
+				return (
+					<View>
+						<View style={styles.modalClose}>
+							<TouchableOpacity style={styles.modalCloseView} onPress={() => {
+								this.nav('Test');
+								this.setModalVisible(false)
+							}}>
+								<Icon name='close' size={28} color='#fff'/>
+							</TouchableOpacity>
+							<View style={styles.modalLine}></View>
+						</View>
+						<View style={styles.modalEnd}>
+							<View style={styles.modalEndTop}>
+								<Text style={styles.modalEndScore}>{this.state.testResult.score}</Text>
+							</View>
+							<View style={styles.modalEndBottom}>
+								<Text style={styles.modalEndScoreText}>分数</Text>
+								<Text style={styles.circle}></Text>
+								<Text
+									style={styles.modalEndBottomText}>对{this.state.testResult.right}题，错{this.state.total - this.state.testResult.right}题！</Text>
+								<TouchableOpacity onPress={() => this.restartTest()}>
+									<ImageBackground source={require('../asset/btn_bg_yellow.png')} resizeMode='contain'
+													 style={styles.btn}>
+										<Text style={styles.btnText}>重新开始</Text>
+									</ImageBackground>
+								</TouchableOpacity>
+							</View>
+						</View>
+					</View>
 
-    renderModal(type){
-        switch (type) {
-            case 'start':
-                return (
-                    <View style={styles.modalStart}>
-                        <View style={styles.modalStartTop}>
-                            <Text style={styles.modalStartTopText}>您上一次回答道第1题，是否继续进行？</Text>
-                        </View>
-                        <View style={styles.modalStartBottom}>
-                            <ImageBackground source={require('../asset/btn_bg_red.png')} resizeMode='contain' style={styles.btn}>
-                                <Text style={styles.btnText}>继续挑战</Text>
-                            </ImageBackground>
-                            <ImageBackground source={require('../asset/btn_bg_yellow.png')} resizeMode='contain' style={styles.btn}>
-                                <Text style={styles.btnText}>重新开始</Text>
-                            </ImageBackground>
-                        </View>
-                        <View style={styles.modalClose}>
-                            <TouchableOpacity style={styles.modalCloseView}>
-                                <Icon name='close' size={28} color='#fff'/>
-                            </TouchableOpacity>
-                            <View style={styles.modalLine}></View>
-                        </View>
-                    </View>
-                )
-                break;
-            case 'pause':
-                return (
-                    <View style={styles.modalPause}>
-                        <View style={styles.modalPauseTextView}>
-                            <Text style={styles.modalPauseText}>暂停</Text>
-                        </View>
-                        <View style={styles.modalPauseIconsView}>
-                            <TouchableOpacity>
-                                <Icon name='home' size={40} color='#fff'/>
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                <Icon name='play-circle-o' size={60} color='#faab00'/>
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                <Icon name='refresh' size={36} color='#fff'/>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                )
-                break;
-            case 'end':
-            return (
-                    <View style={styles.modalEnd}>
-                        <View style={styles.modalEndTop}>
-                            <Text style={styles.modalEndScore}>98</Text>
-                        </View>
-                        <View style={styles.modalEndBottom}>
-                            <Text style={styles.modalEndScoreText}>分数</Text>
-                            <Text style={styles.circle}></Text>
-                            <Text style={styles.modalEndBottomText}>对49题，错1题！</Text>
-                            <ImageBackground source={require('../asset/btn_bg_yellow.png')} resizeMode='contain'
-                                            style={styles.btn}>
-                                <Text style={styles.btnText}>重新开始</Text>
-                            </ImageBackground>
-                        </View>
-                        <View style={styles.modalClose}>
-                            <TouchableOpacity style={styles.modalCloseView}>
-                                <Icon name='close' size={28} color='#fff'/>
-                            </TouchableOpacity>
-                            <View style={styles.modalLine}></View>
-                        </View>
-                    </View>
-                )
-                break;
-        
-            default:
-                break;
-        }
-        
-    }
+				)
+				break;
 
-    render() {
-        const icons = ['pause']
-        const qList = [{
-            type:'单选题',
-            question:'1. 依据《仓库防火安全管理规则》,库房内的照明灯具的垂直下方与储存物品水平间距不得小于(  )米。',
-            answer:['0.3','0.4','0.5','0.6']
-        },{
-            type:'单选题',
-            question:'1. 依据《仓库防火安全管理规则》,库房内的照明灯具的垂直下方与储存物品水平间距不得小于(  )米。',
-            answer:['0.3','0.4','0.5','0.6']
-        },{
-            type:'单选题',
-            question:'1. 依据《仓库防火安全管理规则》,库房内的照明灯具的垂直下方与储存物品水平间距不得小于(  )米。',
-            answer:['0.3','0.4','0.5','0.6']
-        }]
-        
-        return (
-            <View style={styles.rootView}>
-                <Header type='title' title='物业培训' icons={icons}/>
-                <Swiper loop={false} showsPagination={false} showsButtons={true} buttonWrapperStyle={styles.buttonWrapperStyle} nextButton={this.renderBtn('next')} prevButton={this.renderBtn('prev')}>
-                    {qList.map((item,index)=>{
-                        return (
-                            <View style={styles.page}>
-                                <Question {...item} index={index}/>
-                            </View>
-                        )
-                    })}
-                </Swiper>
-                <Image source={require('../asset/page_arrow.png')} resizeMode='contain' style={styles.arrow}/>
-                <Modal
-                    animationType="fade"
-                    transparent={true}
-                    >
-                    <TouchableOpacity style={styles.modalView} activeOpacity={1}>
-                        {this.renderModal('end')}
-                    </TouchableOpacity>
-                </Modal>
-            </View>
-        )
-    }
+			default:
+				break;
+		}
+
+	}
+
+	setModalVisible = (visible, type = '') => {
+		this.setState({modal: {visible: visible, type: type}});
+	}
+
+	render() {
+		const icons = ['pause']
+		let {testList, index, total} = this.state;
+		return (
+			<View style={styles.rootView}>
+				<Header type='title' title='物业培训' icons={icons} iconPress={() => this.setModalVisible(true, 'pause')}/>
+				<Swiper loop={false} showsPagination={false} showsButtons={false} index={this.state.index}
+						ref={(swiper) => {
+							this._swiper = swiper;
+						}}
+						onMomentumScrollEnd={(e, state, context) => {
+							this.setState({index: state.index,})
+						}}>
+					{testList.map((item, index) => {
+						return (
+							<View style={styles.page}>
+								<Question {...item} index={index} total={this.state.total} ref={(c) => this._que = c}/>
+							</View>
+						)
+					})}
+				</Swiper>
+				<View style={styles.btnContainer}>
+					{this.renderBtnPrev()}{this.renderBtnNext()}
+				</View>
+				<Image source={require('../asset/page_arrow.png')} resizeMode='contain' style={styles.arrow}/>
+				<Modal
+					animationType="fade"
+					transparent={true}
+					visible={this.state.modal.visible}
+				>
+					<TouchableOpacity style={styles.modalView} activeOpacity={1}>
+						{this.renderModal(this.state.modal.type)}
+					</TouchableOpacity>
+				</Modal>
+			</View>
+		)
+	}
 }
 
 const styles = StyleSheet.create({
-    rootView:{
-        flex:1,
-        backgroundColor:'#fff'
-    },
-    buttonWrapperStyle:{
-        top:140,
-        justifyContent:'center'
-    },
-    arrow:{
-        position:'absolute',
-        right:0,
-        bottom:0,
-        width:100,
-        height:100
-    },
-    page:{
-        flex:1
-    },
-    //上下题按钮
-    btn:{
-        marginTop:40,
-        width:110,
-        height:40,
-        justifyContent:'center',
-        alignItems:'center',
-    },
-    btnText:{
-        fontSize:16,
-        fontWeight:'bold',
-        color:'#fff',
-        backgroundColor:'transparent'
-    },
-    //modal
-    modalView:{
-        flex:1,
-        justifyContent:'center',
-        padding:20,
-        backgroundColor:'rgba(0,0,0,.5)'
-    },
-    //modalStart
-    modalStart:{
-        borderRadius:20,
-        alignItems:'center',
-        backgroundColor:'#fff',
-        overflow:'visible'
-    },
-    modalStartTop:{
-        width:'100%',
-        borderTopLeftRadius:20,
-        borderTopRightRadius:20,
-        paddingVertical:40,
-        paddingHorizontal:50,
-        alignItems:'center',
-        justifyContent:'center',
-        backgroundColor:'#e92e2e'
-    },
-    modalStartTopText:{
-        color:'#fff',
-        fontSize:22,
-        lineHeight:30
-    },
-    modalStartBottom:{
-        flexDirection:'row',
-        paddingVertical:30
-    },
-    modalClose:{
-        position:'absolute',
-        right:0,
-        top:-100,
-    },
-    modalCloseView:{
-        width:40,
-        height:40,
-        borderRadius:20,
-        borderWidth:1,
-        borderColor:'#fff',
-        justifyContent:'center',
-        alignItems:'center'
-    },
-    modalLine:{
-        marginLeft:20,
-        height:60,
-        borderLeftWidth:1,
-        borderLeftColor:'#fff'
-    },
-    //modalEnd
-    modalEnd: {
+	rootView: {
+		flex: 1,
+		backgroundColor: '#fff'
+	},
+	btnContainer: {
+		backgroundColor: 'transparent',
+		flexDirection: 'row',
+		position: 'absolute',
+		bottom: 100,
+		flex: 1,
+		width: '100%',
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	arrow: {
+		position: 'absolute',
+		right: 0,
+		bottom: 0,
+		width: 100,
+		height: 100
+	},
+	page: {
+		flex: 1
+	},
+	//上下题按钮
+	btn: {
+		marginTop: 40,
+		width: 110,
+		height: 40,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	btnText: {
+		fontSize: 16,
+		fontWeight: 'bold',
+		color: '#fff',
+		backgroundColor: 'transparent'
+	},
+	//modal
+	modalView: {
+		flex: 1,
+		justifyContent: 'center',
+		padding: 20,
+		backgroundColor: 'rgba(0,0,0,.5)'
+	},
+	//modalStart
+	modalStart: {
 		borderRadius: 20,
 		alignItems: 'center',
 		backgroundColor: '#fff',
 		overflow: 'visible'
+	},
+	modalStartTop: {
+		width: '100%',
+		borderTopLeftRadius: 20,
+		borderTopRightRadius: 20,
+		paddingVertical: 40,
+		paddingHorizontal: 50,
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: '#e92e2e'
+	},
+	modalStartTopText: {
+		color: '#fff',
+		fontSize: 22,
+		lineHeight: 30
+	},
+	modalStartBottom: {
+		flexDirection: 'row',
+		paddingVertical: 30
+	},
+	modalClose: {
+		marginTop: -100,
+		width: '100%',
+		alignItems: 'flex-end'
+	},
+	modalCloseView: {
+		width: 40,
+		height: 40,
+		borderRadius: 20,
+		borderWidth: 1,
+		borderColor: '#fff',
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	modalLine: {
+		marginRight: 20,
+		height: 60,
+		borderLeftWidth: 1,
+		borderLeftColor: '#fff'
+	},
+	//modalEnd
+	modalEnd: {
+		borderRadius: 20,
+		alignItems: 'center',
+		overflow: 'visible',
+		backgroundColor: '#fff',
 	},
 	modalEndTop: {
 		width: '100%',
@@ -276,25 +461,32 @@ const styles = StyleSheet.create({
 		borderColor: '#faab00',
 		backgroundColor: 'transparent'
 	},
-    //modalPause
-    modalPause:{
-        height:'50%',
-        alignItems:'center',
-        justifyContent:'center'
-    },
-    modalPauseTextView:{
-        height:'20%',
-        
-    },
-    modalPauseText:{
-        color:'#fff',
-        fontSize:36
-    },
-    modalPauseIconsView:{
-        flexDirection:'row',
-        width:'80%',
-        alignItems:'center',
-        justifyContent:'space-around'
-    }
-    
+	//modalPause
+	modalPause: {
+		height: '50%',
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
+	modalPauseTextView: {
+		height: '20%',
+
+	},
+	modalPauseText: {
+		color: '#fff',
+		fontSize: 36
+	},
+	modalPauseIconsView: {
+		flexDirection: 'row',
+		width: '80%',
+		alignItems: 'center',
+		justifyContent: 'space-around'
+	}
 })
+
+const mapStateToProps = store => {
+	return {
+		nav: store.nav,
+	}
+}
+
+export default connect(mapStateToProps)(Subject)
