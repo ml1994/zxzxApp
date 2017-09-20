@@ -7,25 +7,24 @@ import * as askActions from '../actions/ask'
 
 class AddOnAsk extends Component {
 
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state = {
-            content:''
+            content:'',
+            id:this.props.nav.routes[2].params.qid
         }
     }
 
     publishFun(){
         const {dispatch,nav} = this.props
-        const qid = nav.routes[2].params.qid //routes[1]里面没取到
-        console.log(nav,qid)
         myFetch.post(
             '/consult/save/questionadd',
-            `qid=${qid}&content=${this.state.content}`,
+            `qid=${this.state.id}&content=${this.state.content}`,
             res=>{
                 console.log(res)
                 if(res.code==0){
                     dispatch(NavigationActions.back())
-                    //dispatch(this.addQaFun())
+                    dispatch(this.addQaFun())
                 }
             },
             err=>{
@@ -36,13 +35,26 @@ class AddOnAsk extends Component {
     }
 
     addQaFun(){
-        const {dispatch,nav} = this.props
+        const {dispatch} = this.props
         return dispatch=>{
             dispatch({type:'ADDING_QA_LIST'})
-            dispatch(askActions.addQaList({
-                qaList:[...this.props.ask.qaList,]
-            }))
-            dispatch({type:'ADDED_QA_LIST'})
+            myFetch.get(
+                '/consult/detail/question',
+                {id:this.state.id},
+                res=>{
+                    console.log(res)
+                    if(res.code==0){
+                        dispatch(askActions.addQaList({
+                            qaList:res.data.questionanswer
+                        }))
+                        dispatch({type:'ADDED_QA_LIST'})              
+                    }
+                },
+                err=>{
+                    console.log(err)
+                    alert('获取问答信息失败')
+                }
+            )
         }
     }
 

@@ -6,3 +6,19 @@ export function toggleModal(payload) {
         payload
     }
 }
+
+export function initMaxScore() {
+    return {
+        type: testActions.INIT_MAX_SCORE,
+        payload:{
+            maxScore:[0,0,0,0]
+        }
+    }
+}
+
+export function getMaxScore(payload) {
+    return {
+        type: testActions.GET_MAX_SCORE,
+        payload
+    }
+}
