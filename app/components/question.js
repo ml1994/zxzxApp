@@ -18,7 +18,7 @@ class Question extends Component {
 	checkState = () => {
 		let id = this.props.nav.routes[1].params.type;
 		let {que_type, index} = this.props;
-		storage.load({key: '15168201091', id: id,}).then(ret => {
+		storage.load({key: this.props.userinfo.account, id: id,}).then(ret => {
 			let result = ret.resultList[index].result;
 			if (ret.resultList[index].result) {
 				this.setState({
@@ -41,7 +41,7 @@ class Question extends Component {
 	optionCheck = (option) => {
 		let id = this.props.nav.routes[1].params.type;
 		let {que_type, index} = this.props;
-		storage.load({key: '15168201091', id: id,}).then(ret => {
+		storage.load({key: this.props.userinfo.account, id: id,}).then(ret => {
 			ret.testIng = index;
 			if (que_type == 2) {
 				let result = (ret.resultList[index].result) ? ret.resultList[index].result.split(',') : [];
@@ -70,7 +70,7 @@ class Question extends Component {
 					})
 				}
 			}
-			storage.save({key: '15168201091', id: id, data: ret});
+			storage.save({key: this.props.userinfo.account, id: id, data: ret});
 			console.log(storage)
 		})
 			.catch(err => {
@@ -247,6 +247,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = store => {
 	return {
 		nav: store.nav,
+		userinfo:store.userinfo
 	}
 }
 

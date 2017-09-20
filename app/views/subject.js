@@ -56,7 +56,7 @@ class Subject extends Component {
 						})
 					}
 
-					storage.save({key: '15168201091', id: id, data: resultObj})
+					storage.save({key: this.props.userinfo.account, id: id, data: resultObj})
 				} else {
 					alert(message);
 					dispatch(NavigationActions.back())
@@ -72,7 +72,7 @@ class Subject extends Component {
 	}
 	restartTest = () => {
 		let id = this.props.nav.routes[1].params.type;
-		storage.remove({key: '15168201091', id: id});
+		storage.remove({key: this.props.userinfo.account, id: id});
 		this.setModalVisible(false)
 		this.initTest();
 		this._swiper.scrollBy(-(this.state.index), false)
@@ -80,7 +80,7 @@ class Subject extends Component {
 	}
 	loadTestList = () => {
 		let id = this.props.nav.routes[1].params.type;
-		storage.load({key: '15168201091', id: id}).then(ret => {
+		storage.load({key: this.props.userinfo.account, id: id}).then(ret => {
 			this.setModalVisible(true, 'start');
 			this.setState({index: ret.testIng, testList: ret.testList, total: ret.testList.length,});
 		}).catch(err => {
@@ -124,7 +124,7 @@ class Subject extends Component {
 				console.log(`index:${index}  total:${total}`)
 			}
 			else {
-				storage.load({key: '15168201091', id: this.props.nav.routes[1].params.type}).then(
+				storage.load({key: this.props.userinfo.account, id: this.props.nav.routes[1].params.type}).then(
 					ret => {
 						fetch(`http://115.236.94.196:30005/app/examqueBank/uploadresult/${ret.id}`, {
 							method: 'POST',
@@ -140,7 +140,7 @@ class Subject extends Component {
 								})
 								this.setModalVisible(true, 'end')
 							}).then(() => {
-							storage.remove({key: '15168201091', id: this.props.nav.routes[1].params.type})
+							storage.remove({key: this.props.userinfo.account, id: this.props.nav.routes[1].params.type})
 						})
 					}
 				).catch(err => {
@@ -486,6 +486,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = store => {
 	return {
 		nav: store.nav,
+		userinfo:store.userinfo
 	}
 }
 
