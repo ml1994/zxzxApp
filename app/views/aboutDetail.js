@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     },
     //info
     infoView:{
-
+        paddingBottom:20
     },
     titleView:{
         width:'100%',

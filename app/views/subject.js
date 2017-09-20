@@ -490,7 +490,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = store => {
 	return {
 		nav: store.nav,
-		userinfo: store.userinfo
+		userinfo:store.userinfo
 	}
 }
 

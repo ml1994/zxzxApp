@@ -8,17 +8,12 @@ class Ask extends Component {
     constructor(props){
         super(props)
         this.state={
-            showNew:false
+            showNew: !this.props.update?true:false
         }
     }
 
     render() {
         const {dispatch,title,text,time,id} = this.props
-        // if(!this.props.update){
-        //     this.setState({
-        //         showNew:true
-        //     })
-        // }
         return (
             <View style={styles.rootView}>
                 <TouchableOpacity style={styles.touchView} onPress={()=>dispatch(NavigationActions.navigate({routeName:'AskDetail',params:{id:id}}))}>

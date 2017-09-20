@@ -7,6 +7,9 @@ import Input from '../components/input'
 import myFetch from '../utils/myFetch'
 
 import * as userinfoActions from '../actions/userinfo'
+import * as askActions from '../actions/ask'
+import * as testActions from '../actions/test'
+
 
 class Login extends Component {
 
@@ -33,7 +36,9 @@ class Login extends Component {
 					const {code,message} = resj
 					if(code==0){
 						dispatch(userinfoActions.login(payload))
-						dispatch(this.asyGetUserinfo())
+						dispatch(this.asyGetUserinfo())//获取用户信息
+						dispatch(this.initMaxScore())//获取最高分
+						dispatch(this.getList())//获取问题列表
 						dispatch(NavigationActions.back())
 					}else{
 						alert(message)
@@ -46,6 +51,52 @@ class Login extends Component {
 			)
 		}
 	}
+
+	initMaxScore(){//获取最高分
+		const {dispatch} = this.props
+		let maxScore = new Array()
+		myFetch.get(
+			'/examqueBank/list',
+			{},
+			res => {
+				res.rows.map((item)=>{
+					maxScore.push(item.maxscore);
+				})
+				dispatch(testActions.getMaxScore({maxScore}))
+			},
+			err => {
+				console.log(err)
+			}
+		)
+	}
+
+	getList(){//获取问题列表
+        const {dispatch} = this.props
+        return dispatch=>{
+            //dispatch(appStateActions.fetch({fetching:true}))
+            myFetch.get(
+                '/consult/list/question',
+                {page:1,pagesize:1000},
+                res=>{
+                    console.log(res)
+                    if(res.code==0){
+                        if(res.data.rows.length!=0){
+                            const askList = res.data.rows
+                            dispatch(askActions.loadAskList({askList}))
+                            dispatch({type:'LOADED_ASKLIST'})
+                        }else{
+                            dispatch({type:'NO_ASKLIST'})
+                        }
+
+                    }
+                },
+                err=>{
+                    console.log(err)
+                    alert('获取列表失败')
+                }
+            )
+        }
+    }
 
 	asyGetUserinfo(){
         //获取用户信息

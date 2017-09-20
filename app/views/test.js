@@ -6,6 +6,7 @@ import storage from '../gStorage'
 import Header from '../components/header'
 
 import myFetch from '../utils/myFetch'
+import * as testActions from '../actions/test'
 
 
 class Test extends Component {
@@ -13,9 +14,6 @@ class Test extends Component {
 	constructor(props) {
 		super(props)
 		const {dispatch} = this.props
-		this.state = {
-			maxScore:[]
-		}
 		// storage.load({key:'userInfo'}).then(ret=>{}).catch(err=>{
 		//     switch (err.name) {
 		//         case 'NotFoundError':
@@ -40,18 +38,18 @@ class Test extends Component {
 
 	}
 
-	initMaxScore = () => {
+	initMaxScore() {
+		const {dispatch} = this.props
 		let maxScore = new Array()
 		myFetch.get(
 			'/examqueBank/list',
 			{},
 			res => {
-				res.rows.map((item)=>{
+				res.rows.map((item) => {
 					maxScore.push(item.maxscore);
 				})
-				this.setState({
-					maxScore:maxScore
-				})
+				console.log(res, maxScore)
+				dispatch(testActions.getMaxScore({maxScore}))
 			},
 			err => {
 				console.log(err)
@@ -64,6 +62,7 @@ class Test extends Component {
 		dispatch(NavigationActions.navigate({routeName: 'Subject', params: {type}}))
 	}
 
+
 	render() {
 		const icons = ['bell-o', 'search']
 		return (
@@ -75,14 +74,14 @@ class Test extends Component {
 							<Text style={styles.bigSize}>社会</Text>
 							消防科普
 						</Text>
-						<Text style={[styles.score, styles.right]}>最佳:{this.state.maxScore[0]}分</Text>
+						<Text style={[styles.score, styles.right]}>最佳:{this.props.test.maxScore[0]}分</Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.propertyView} onPress={() => this.goSubject(2)}>
 						<Text style={[styles.type, styles.right]}>
 							<Text style={styles.bigSize}>物业</Text>
 							消控人员
 						</Text>
-						<Text style={[styles.score, styles.right]}>最佳:{this.state.maxScore[1]}分</Text>
+						<Text style={[styles.score, styles.right]}>最佳:{this.props.test.maxScore[1]}分</Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.fireView} onPress={() => this.goSubject(3)}>
 						<Text style={styles.type}>
@@ -90,14 +89,14 @@ class Test extends Component {
 							<Text style={styles.bigSize}>从业</Text>
 							人员
 						</Text>
-						<Text style={styles.score}>最佳:{this.state.maxScore[2]}分</Text>
+						<Text style={styles.score}>最佳:{this.props.test.maxScore[2]}分</Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.programerView} onPress={() => this.goSubject(4)}>
 						<Text style={styles.type}>
 							消防
 							<Text style={styles.bigSize}>工程师</Text>
 						</Text>
-						<Text style={styles.score}>最佳:{this.state.maxScore[3]}分</Text>
+						<Text style={styles.score}>最佳:{this.props.test.maxScore[3]}分</Text>
 					</TouchableOpacity>
 				</ImageBackground>
 			</View>
@@ -176,7 +175,8 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = store => ({
-	nav: store.nav
+	nav: store.nav,
+	test: store.test
 })
 
 export default connect(mapStateToProps)(Test)

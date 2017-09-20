@@ -25,6 +25,7 @@ class AddAsk extends Component {
             res=>{
                 console.log(res)
                 if(res.code==0){
+                    dispatch(this.addAsk())
                     dispatch(NavigationActions.back())
                 }
             },
@@ -34,6 +35,29 @@ class AddAsk extends Component {
             }
         )
         
+    }
+
+    addAsk(){
+        const {dispatch} = this.props
+        return dispatch=>{
+            //dispatch({type:''})
+            myFetch.get(
+                '/consult/list/question',
+                {page:1,pagesize:1000},
+                res=>{
+                    console.log(res)
+                    if(res.code==0){
+                        const askList = res.data.rows
+                        dispatch(askActions.loadAskList({askList}))
+                        dispatch({type:'LOADED_ASKLIST'})
+                    }
+                },
+                err=>{
+                    console.log(err)
+                    alert('获取列表失败')
+                }
+            )
+        }
     }
 
     render() {

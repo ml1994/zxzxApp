@@ -1,9 +1,12 @@
+import * as ActionTypes from '../constants/appState'
+
+
 /**
  * loading
  * @param dispatch
  * @param getState
  */
-const loadingMiddleware = ({dispatch, getState}) => next => action => {
+export default ({dispatch, getState}) => next => action => {
     let beforeFetching = getState().appState.fetching;
     let result = next(action);
     let fetching = getState().appState.fetching;
@@ -13,4 +16,4 @@ const loadingMiddleware = ({dispatch, getState}) => next => action => {
       Loading.hide();
     }
     return result;
-  };
+};
