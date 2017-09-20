@@ -21,7 +21,6 @@ class Subject extends Component {
 				visible: false,
 			},
 			testResult: {score: 0, right: 0},
-			testIng: 0
 		}
 		this.loadTestList();
 	}
@@ -41,22 +40,21 @@ class Subject extends Component {
 						testIng: 0,
 						resultList: [],
 						testList: resj.data.examquelist
-					}
+					};
 					this.setState({
 						testList: []
-					})
+					});
 					this.setState({
 						total: total,
 						testList: resj.data.examquelist
-					})
+					});
 					for (let i = 0; i < total; i++) {
 						resultObj.resultList.push({
 							que_id: resj.data.examquelist[i].id,
 							result: ''
 						})
 					}
-
-					storage.save({key: '15168201091', id: id, data: resultObj})
+					storage.save({key: this.props.userinfo.account, id: id, data: resultObj})
 				} else {
 					alert(message);
 					dispatch(NavigationActions.back())
@@ -66,21 +64,24 @@ class Subject extends Component {
 				console.log(err)
 			}
 		)
-	};
+	}
+
 	continueTest = () => {
 		this.setModalVisible(false);
 	}
+
 	restartTest = () => {
 		let id = this.props.nav.routes[1].params.type;
-		storage.remove({key: '15168201091', id: id});
+		storage.remove({key: this.props.userinfo.account, id: id});
 		this.setModalVisible(false)
 		this.initTest();
 		this._swiper.scrollBy(-(this.state.index), false)
 		console.log(this._que)
 	}
+
 	loadTestList = () => {
 		let id = this.props.nav.routes[1].params.type;
-		storage.load({key: '15168201091', id: id}).then(ret => {
+		storage.load({key: this.props.userinfo.account, id: id}).then(ret => {
 			this.setModalVisible(true, 'start');
 			this.setState({index: ret.testIng, testList: ret.testList, total: ret.testList.length,});
 		}).catch(err => {
@@ -124,7 +125,7 @@ class Subject extends Component {
 				console.log(`index:${index}  total:${total}`)
 			}
 			else {
-				storage.load({key: '15168201091', id: this.props.nav.routes[1].params.type}).then(
+				storage.load({key: this.props.userinfo.account, id: this.props.nav.routes[1].params.type}).then(
 					ret => {
 						fetch(`http://115.236.94.196:30005/app/examqueBank/uploadresult/${ret.id}`, {
 							method: 'POST',
@@ -140,7 +141,7 @@ class Subject extends Component {
 								})
 								this.setModalVisible(true, 'end')
 							}).then(() => {
-							storage.remove({key: '15168201091', id: this.props.nav.routes[1].params.type})
+							storage.remove({key: this.props.userinfo.account, id: this.props.nav.routes[1].params.type})
 						})
 					}
 				).catch(err => {
@@ -279,6 +280,9 @@ class Subject extends Component {
 	render() {
 		const icons = ['pause']
 		let {testList, index, total} = this.state;
+		testList.map((item, index) => {
+			item.key = index;
+		})
 		return (
 			<View style={styles.rootView}>
 				<Header type='title' title='物业培训' icons={icons} iconPress={() => this.setModalVisible(true, 'pause')}/>
@@ -292,7 +296,7 @@ class Subject extends Component {
 					{testList.map((item, index) => {
 						return (
 							<View style={styles.page}>
-								<Question {...item} index={index} total={this.state.total} ref={(c) => this._que = c}/>
+								<Question {...item} index={index} total={this.state.total}/>
 							</View>
 						)
 					})}
@@ -486,6 +490,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = store => {
 	return {
 		nav: store.nav,
+		userinfo: store.userinfo
 	}
 }
 
