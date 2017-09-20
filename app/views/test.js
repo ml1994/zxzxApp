@@ -7,6 +7,7 @@ import Header from '../components/header'
 
 import myFetch from '../utils/myFetch'
 import * as testActions from '../actions/test'
+import * as userinfoActions from '../actions/userinfo'
 
 
 class Test extends Component {
@@ -14,22 +15,13 @@ class Test extends Component {
 	constructor(props) {
 		super(props)
 		const {dispatch} = this.props
-		// storage.load({key:'userInfo'}).then(ret=>{}).catch(err=>{
-		//     switch (err.name) {
-		//         case 'NotFoundError':
-		//             dispatch(NavigationActions.navigate({routeName:'Login'}))
-		//             break;
-		//         case 'ExpiredError':
-		//             dispatch(NavigationActions.navigate({routeName:'Login'}))
-		//             break;
-		//     }
-		// })
+
 		myFetch.get(
 			'/account/islogin',
 			{},
 			res => {
 				console.log(res)
-				res.code == '0' ? this.initMaxScore() : dispatch(NavigationActions.navigate({routeName: 'Login'}))
+				res.code == '0' ? dispatch(this.initMaxScore()) : dispatch(NavigationActions.navigate({routeName: 'Login'}))
 			},
 			err => {
 				console.log(err)
@@ -49,7 +41,8 @@ class Test extends Component {
 					res.rows.map((item)=>{
 						maxScore.push(item.maxscore);
 					})
-					console.log(res,maxScore)
+					console.log(res)
+					dispatch(userinfoActions.getInfo({account:res.rows[0].account}))
 					dispatch(testActions.getMaxScore({maxScore}))
 				},
 				err => {
@@ -177,7 +170,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = store => ({
 	nav: store.nav,
-	test:store.test
+	test:store.test,
+	userinfo:store.userinfo
 })
 
 export default connect(mapStateToProps)(Test)

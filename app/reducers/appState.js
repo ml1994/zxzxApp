@@ -8,7 +8,8 @@ export default function (state = initailState,action) {
     switch (action.type) {
         case appStateTypes.FETCHING:
             return action.payload
-            break;
+        case appStateTypes.FETCHED:
+            return action.payload
         default:
             return state
     }

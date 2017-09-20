@@ -27,11 +27,10 @@ class Question extends Component {
 			}
 		})
 			.catch(err => {
-				console.warn(err.message);
+				//console.warn(err.message);
 				switch (err.name) {
 					case 'NotFoundError':
-
-						console.log('初始化答案状态未找到记录')
+						//console.log('初始化答案状态未找到记录')
 						break;
 					case 'ExpiredError':
 						break;
@@ -71,7 +70,7 @@ class Question extends Component {
 				}
 			}
 			storage.save({key: this.props.userinfo.account, id: id, data: ret});
-			console.log(storage)
+			//console.log(storage)
 		})
 			.catch(err => {
 				// 如果没有找到数据且没有sync方法，
@@ -105,9 +104,13 @@ class Question extends Component {
 	}
 
 	render() {
-		console.log(this.state.checks)
+		//console.log(this.state.checks)
 		const {que_type, stem, options, index, total} = this.props
 		const queType = ['单选题', '多选题', '判断题']
+		let jsonOption = JSON.parse(options)
+		jsonOption.map((item, index) => {
+			item.key = index
+		})
 		return (
 			<View style={styles.rootView}>
 				<View style={styles.titleView}>
@@ -126,7 +129,7 @@ class Question extends Component {
 				<Text style={styles.question}>{index + 1}.{stem}</Text>
 				<FlatList
 					style={styles.optionList}
-					data={JSON.parse(options)}
+					data={jsonOption}
 					renderItem={({item,index}) => (
 						<TouchableOpacity key={index+item.name} activeOpacity={.8} style={styles.optionView}
 										  onPress={() => this.optionCheck(item.name)}>

@@ -6,3 +6,10 @@ export function fetch(payload) {
         payload
     }
 }
+
+export function fetchEnd(payload) {
+    return {
+        type:appStateActions.FETCHED,
+        payload
+    }
+}

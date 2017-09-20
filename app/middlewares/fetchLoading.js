@@ -1,8 +1,8 @@
 import * as ActionTypes from '../constants/appState'
-
+import {Loading} from 'react-native-root-views'
 
 /**
- * loading
+ * loading中间件
  * @param dispatch
  * @param getState
  */

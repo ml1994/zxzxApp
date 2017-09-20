@@ -42,6 +42,7 @@ const AppTabNav = TabNavigator({
     tabBarPosition: 'bottom',
     lazy: true,
     swipeEnabled: false,
+    animationEnabled: false,
     tabBarOptions: {
         activeTintColor: '#e71f19',
         inactiveTintColor: '#8b7272',

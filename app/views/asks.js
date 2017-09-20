@@ -37,7 +37,7 @@ class Asks extends Component {
     getList(){
         const {dispatch} = this.props
         return dispatch=>{
-            //dispatch(appStateActions.fetch({fetching:true}))
+            dispatch(appStateActions.fetch({fetching:true}))
             myFetch.get(
                 '/consult/list/question',
                 {page:1,pagesize:1000},
@@ -51,12 +51,13 @@ class Asks extends Component {
                         }else{
                             dispatch({type:'NO_ASKLIST'})
                         }
-
                     }
+                    dispatch(appStateActions.fetchEnd({fetching:false}))
                 },
                 err=>{
                     console.log(err)
                     alert('获取列表失败')
+                    dispatch(appStateActions.fetchEnd({fetching:false}))
                 }
             )
         }

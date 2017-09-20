@@ -8,10 +8,11 @@ import {NavigationActions} from 'react-navigation'
 import myFetch from '../utils/myFetch'
 import {connect} from 'react-redux'
 import storage from '../gStorage'
+import * as appStateActions from '../actions/appState'
 
 class Subject extends Component {
 	constructor(props) {
-		super(props);
+		super(props)
 		this.state = {
 			total: 2,
 			index: 0,
@@ -23,71 +24,79 @@ class Subject extends Component {
 			testResult: {score: 0, right: 0},
 			testIng: 0
 		}
-		this.loadTestList();
+		this.loadTestList()
 	}
 
-	initTest = () => {
-		const {dispatch} = this.props;
-		let id = this.props.nav.routes[1].params.type;
-		myFetch.post(
-			'/examqueBank/startexam',
-			`id=${id}`,
-			resj => {
-				const {code, message} = resj
-				if (code == 0) {
-					let total = resj.data.examquelist.length;
-					let resultObj = {
-						id: resj.data.id,
-						testIng: 0,
-						resultList: [],
-						testList: resj.data.examquelist
-					}
-					this.setState({
-						testList: []
-					})
-					this.setState({
-						total: total,
-						testList: resj.data.examquelist
-					})
-					for (let i = 0; i < total; i++) {
-						resultObj.resultList.push({
-							que_id: resj.data.examquelist[i].id,
-							result: ''
+	initTest(){
+		const {dispatch} = this.props
+		let id = this.props.nav.routes[1].params.type
+		return dispatch=>{
+			dispatch(appStateActions.fetch({fetching:true}))
+			myFetch.post(
+				'/examqueBank/startexam',
+				`id=${id}`,
+				resj => {
+					const {code, message} = resj
+					if (code == 0) {
+						let total = resj.data.examquelist.length;
+						let resultObj = {
+							id: resj.data.id,
+							testIng: 0,
+							resultList: [],
+							testList: resj.data.examquelist
+						}
+						this.setState({
+							testList: []
 						})
+						this.setState({
+							total: total,
+							testList: resj.data.examquelist
+						})
+						for (let i = 0; i < total; i++) {
+							resultObj.resultList.push({
+								que_id: resj.data.examquelist[i].id,
+								result: ''
+							})
+						}
+	
+						storage.save({key: this.props.userinfo.account, id: id, data: resultObj})
+					} else {
+						alert(message);
+						dispatch(NavigationActions.back())
 					}
-
-					storage.save({key: this.props.userinfo.account, id: id, data: resultObj})
-				} else {
-					alert(message);
-					dispatch(NavigationActions.back())
+					dispatch(appStateActions.fetchEnd({fetching:false}))
+				},
+				err => {
+					console.log(err)
+					alert(err)
+					dispatch(appStateActions.fetchEnd({fetching:false}))
 				}
-			},
-			err => {
-				console.log(err)
-			}
-		)
-	};
-	continueTest = () => {
-		this.setModalVisible(false);
+			)
+		}
 	}
-	restartTest = () => {
-		let id = this.props.nav.routes[1].params.type;
-		storage.remove({key: this.props.userinfo.account, id: id});
+	continueTest(){
 		this.setModalVisible(false)
-		this.initTest();
+	}
+	restartTest(){
+		const {dispatch} = this.props
+		let id = this.props.nav.routes[1].params.type
+		storage.remove({key: this.props.userinfo.account, id: id})
+		this.setModalVisible(false)
+		dispatch(this.initTest())
 		this._swiper.scrollBy(-(this.state.index), false)
 		console.log(this._que)
 	}
-	loadTestList = () => {
-		let id = this.props.nav.routes[1].params.type;
+	loadTestList(){
+		const {dispatch} = this.props
+		let id = this.props.nav.routes[1].params.type
 		storage.load({key: this.props.userinfo.account, id: id}).then(ret => {
 			this.setModalVisible(true, 'start');
 			this.setState({index: ret.testIng, testList: ret.testList, total: ret.testList.length,});
 		}).catch(err => {
-			console.warn(err.message);
+			console.warn(err.message)
 			switch (err.name) {
 				case 'NotFoundError':
-					this.initTest();
+					dispatch(this.initTest())
 					break;
 				case 'ExpiredError':
 					// TODO
@@ -279,6 +288,9 @@ class Subject extends Component {
 	render() {
 		const icons = ['pause']
 		let {testList, index, total} = this.state;
+		testList.map((item, index) => {
+			item.key = index
+		})
 		return (
 			<View style={styles.rootView}>
 				<Header type='title' title='物业培训' icons={icons} iconPress={() => this.setModalVisible(true, 'pause')}/>
@@ -291,7 +303,7 @@ class Subject extends Component {
 						}}>
 					{testList.map((item, index) => {
 						return (
-							<View style={styles.page}>
+							<View style={styles.page} key={index}>
 								<Question {...item} index={index} total={this.state.total} ref={(c) => this._que = c}/>
 							</View>
 						)
