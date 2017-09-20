@@ -55,19 +55,23 @@ class Login extends Component {
 	initMaxScore(){//获取最高分
 		const {dispatch} = this.props
 		let maxScore = new Array()
-		myFetch.get(
-			'/examqueBank/list',
-			{},
-			res => {
-				res.rows.map((item)=>{
-					maxScore.push(item.maxscore);
-				})
-				dispatch(testActions.getMaxScore({maxScore}))
-			},
-			err => {
-				console.log(err)
-			}
-		)
+		return dispatch=>{
+			dispatch({type:'GETTING_MAX_SCORE'})
+			myFetch.get(
+				'/examqueBank/list',
+				{},
+				res => {
+					res.rows.map((item)=>{
+						maxScore.push(item.maxscore);
+					})
+					console.log(res,maxScore)
+					dispatch(testActions.getMaxScore({maxScore}))
+				},
+				err => {
+					console.log(err)
+				}
+			)
+		}
 	}
 
 	getList(){//获取问题列表

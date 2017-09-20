@@ -40,20 +40,23 @@ class Test extends Component {
 	initMaxScore(){
 		const {dispatch} = this.props
 		let maxScore = new Array()
-		myFetch.get(
-			'/examqueBank/list',
-			{},
-			res => {
-				res.rows.map((item)=>{
-					maxScore.push(item.maxscore);
-				})
-				console.log(res,maxScore)
-				dispatch(testActions.getMaxScore({maxScore}))
-			},
-			err => {
-				console.log(err)
-			}
-		)
+		return dispatch=>{
+			dispatch({type:'GETTING_MAX_SCORE'})
+			myFetch.get(
+				'/examqueBank/list',
+				{},
+				res => {
+					res.rows.map((item)=>{
+						maxScore.push(item.maxscore);
+					})
+					console.log(res,maxScore)
+					dispatch(testActions.getMaxScore({maxScore}))
+				},
+				err => {
+					console.log(err)
+				}
+			)
+		}
 	}
 
 	goSubject(type) {
