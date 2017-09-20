@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
-import {View, Text, ScrollView, StyleSheet, Image, FlatList, TouchableOpacity} from 'react-native'
+import {View, Text, ScrollView, StyleSheet, Image, FlatList, TouchableOpacity,RefreshControl} from 'react-native'
 import {NavigationActions} from 'react-navigation'
 
 import Header from '../components/header'
@@ -52,10 +52,28 @@ class AskDetail extends Component {
         }
     }
 
-    async refreshFun(){
+    refreshFun(){
+        const {dispatch} = this.props
         this.setState({refreshing: true})//开始刷新
-        await this.getQa()
-        this.setState({refreshing: false});//停止刷新
+        myFetch.get(
+            '/consult/detail/question',
+            {id:this.state.id},
+            res=>{
+                console.log(res)
+                if(res.code==0){
+                    dispatch(askActions.loadQaList({
+                        qaList:res.data.questionanswer
+                    }))
+                    dispatch({type:'LOADED_QA_LIST'})
+                    this.setState({refreshing: false})//停止刷新 
+                }
+            },
+            err=>{
+                console.log(err)
+                alert('获取问答信息失败')
+                this.setState({refreshing: false})//停止刷新 
+            }
+        )
     }
 
     render() {
@@ -64,7 +82,17 @@ class AskDetail extends Component {
         return (
             <View style={styles.rootView}>
                 <Header type='title' title='技术咨询' icons={icons}/>
-                <ScrollView>     
+                <ScrollView
+                    style={styles.scrollview}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={()=>this.refreshFun()}
+                            tintColor="#ccc"
+                            title="Loading..."
+                            titleColor="#ccc"
+                        />
+                    }>   
                     <View style={styles.titleView}>
                         <View style={styles.dot}></View>
                         <Text style={styles.title} numberOfLines={2}>{this.props.ask.title}</Text>
@@ -74,7 +102,7 @@ class AskDetail extends Component {
                             resizeMode='contain'/>
                     </View>
                     <Qa type='question' text={this.props.ask.descr} time={this.props.ask.created}/>
-                    <FlatList data={this.props.ask.qaList} renderItem={({item})=><Qa type={item.type} text={item.content} time={item.created}/>} refreshing={this.state.refreshing} onRefresh={()=>this.refreshFun()}/>     
+                    <FlatList data={this.props.ask.qaList} renderItem={({item})=><Qa type={item.type} text={item.content} time={item.created}/>}/>     
                 </ScrollView>
                 <TouchableOpacity style={styles.bottomBtn} onPress={()=>dispatch(NavigationActions.navigate({routeName:'AddOnAsk',params:{qid:this.state.id}}))}>
                     <Icon name='plus' size={14} color="#fff"/>
