@@ -8,6 +8,7 @@ import Header from '../components/header'
 import myFetch from '../utils/myFetch'
 import * as testActions from '../actions/test'
 import * as userinfoActions from '../actions/userinfo'
+import * as appStateActions from '../actions/appState'
 
 
 class Test extends Component {
@@ -34,6 +35,7 @@ class Test extends Component {
 		let maxScore = new Array()
 		return dispatch=>{
 			dispatch({type:'GETTING_MAX_SCORE'})
+			dispatch(appStateActions.fetch({fetching:true}))
 			myFetch.get(
 				'/examqueBank/list',
 				{},
@@ -44,9 +46,11 @@ class Test extends Component {
 					console.log(res)
 					dispatch(userinfoActions.getInfo({account:res.rows[0].account}))
 					dispatch(testActions.getMaxScore({maxScore}))
+					dispatch(appStateActions.fetchEnd({fetching:false}))
 				},
 				err => {
 					console.log(err)
+					dispatch(appStateActions.fetchEnd({fetching:false}))
 				}
 			)
 		}

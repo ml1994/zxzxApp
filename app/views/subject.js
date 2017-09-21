@@ -28,8 +28,8 @@ class Subject extends Component {
 	}
 
 	initTest(){
-		const {dispatch} = this.props
-		let id = this.props.nav.routes[1].params.type
+		const {dispatch,nav} = this.props
+		let id = nav.routes[1].params.type
 		return dispatch=>{
 			dispatch(appStateActions.fetch({fetching:true}))
 			myFetch.post(

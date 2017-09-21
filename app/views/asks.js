@@ -97,6 +97,7 @@ class Asks extends Component {
                 <Header type='title' title='技术咨询' icons={icons}/>
                 <ScrollView
                     style={styles.scrollview}
+                    showsVerticalScrollIndicator={false}
                     refreshControl={
                         <RefreshControl
                             refreshing={this.state.refreshing}
