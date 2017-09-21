@@ -69,7 +69,7 @@ class AddAsk extends Component {
                         <TouchableOpacity style={styles.btnView} onPress={()=>{dispatch(NavigationActions.back())}}>
                             <Text style={styles.button}>取消</Text>
                         </TouchableOpacity>
-                        <Text style={styles.title}>追加问题</Text>
+                        <Text style={styles.title}>发起问题</Text>
                         <TouchableOpacity style={styles.btnView} onPress={()=>{this.publishFun()}}>
                             <Text style={styles.button}>发布</Text>
                         </TouchableOpacity>
