@@ -41,7 +41,7 @@ export default class AboutDetail extends Component {
             case 'Phone':
                 return (
                     <View style={styles.textView}>
-                        <Text style={styles.text}>客服热线：1234567890</Text>
+                        <Text style={styles.text}>客服热线：400-1919-119</Text>
                     </View>
                 )
                 break;

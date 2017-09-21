@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
-import {StyleSheet, Text, View, StatusBar,Platform} from 'react-native'
+import {StyleSheet, Text, View, StatusBar,Platform,BackHandler,ToastAndroid} from 'react-native'
 
-import {addNavigationHelpers} from 'react-navigation'
+import {addNavigationHelpers,NavigationActions} from 'react-navigation'
 import SplashScreen from 'react-native-splash-screen'
 
 import configureStore from './store/configureStore'
@@ -40,17 +40,53 @@ export default class App extends Component {
         }
     }
 
+    componentWillMount() {
+        if (Platform.OS === 'android') {
+            BackHandler.addEventListener('hardwareBackPress', this.onBackHandler)
+        }
+    }
+    componentWillUnmount() {
+        if (Platform.OS === 'android') {
+            BackHandler.removeEventListener('hardwareBackPress', this.onBackHandler)
+        }
+    }
+
     componentDidMount() {
-        setTimeout(function() {
+        //setTimeout(function() {
             SplashScreen.hide()
-        }, 2000)
+        //}, 2000)
+    }
+
+    onBackHandler=()=>{//android物理返回键处理
+        /*
+        这里为了取得当前页路由信息来分别处理，在下面的provider加入ref从这里取得store，
+        store里存有nav，即路由信息
+        */
+        
+        const store = this.refs.provider.store.getState()
+        const {dispatch} = this.refs.provider.store
+        console.log(store)
+        const routesLength = store.nav.routes.length
+        const nowRoute = store.nav.routes[routesLength-1].routeName  //获取当前路由名
+        console.log(nowRoute)
+        if(nowRoute=='TabNav'){
+            if (this.lastBackPressed && this.lastBackPressed + 2000 >= Date.now()) {
+                //最近2秒内按过back键，可以退出应用。
+                return false
+            }
+            this.lastBackPressed = Date.now()
+            ToastAndroid.show('再按一次退出应用',ToastAndroid.SHORT)
+            return true
+        }else{
+            dispatch(NavigationActions.back())
+            return true
+        }
     }
 
     render() {
         return (
-            <Provider store={store}>
+            <Provider store={store} ref='provider'>
                 <AppWithNavigationState/>
-                {/* <AppRootStackNav/> */}
             </Provider>
         )
     }
