@@ -15,7 +15,9 @@ class SearchInput extends Component {
                         style={styles.inputStyle}
                         placeholder={this.props.placeholder}
                         placeholderTextColor='rgba(255,255,255,.5)'
-                        underlineColorAndroid='transparent'/>
+                        underlineColorAndroid='transparent'
+                        autoCapitalize='none'
+                        autoCorrect={false}/>
                 </View>
             </TouchableOpacity>
         )

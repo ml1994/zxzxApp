@@ -26,6 +26,7 @@ export default class Input extends Component {
 			           placeholderTextColor='#777'
 			           secureTextEntry={this.state.seePsw}
 					   autoCapitalize='none'
+					   autoCorrect={false}
 			>
 			</TextInput>
 		)

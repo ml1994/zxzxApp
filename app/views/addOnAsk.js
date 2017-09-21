@@ -72,7 +72,7 @@ class AddOnAsk extends Component {
                             <Text style={styles.button}>发布</Text>
                         </TouchableOpacity>
                     </View>
-                    <TextInput style={styles.textInput} onChangeText={content=>this.setState({content})} placeholder='请输入问题...' placeholderTextColor='#a1a0a0' multiline={true} maxLength={200} underlineColorAndroid="transparent"/>
+                    <TextInput style={styles.textInput} onChangeText={content=>this.setState({content})} placeholder='请输入问题...' placeholderTextColor='#a1a0a0' multiline={true} maxLength={200} underlineColorAndroid="transparent" autoCorrect={false}/>
                 </ImageBackground>
             </View>
         )

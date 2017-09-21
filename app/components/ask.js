@@ -7,13 +7,11 @@ class Ask extends Component {
 
     constructor(props){
         super(props)
-        this.state={
-            showNew: !this.props.update?true:false
-        }
     }
 
     render() {
-        const {dispatch,title,text,time,id} = this.props
+        //update判断是否显示new
+        const {dispatch,title,text,time,id,update} = this.props
         return (
             <View style={styles.rootView}>
                 <TouchableOpacity style={styles.touchView} onPress={()=>dispatch(NavigationActions.navigate({routeName:'AskDetail',params:{id:id}}))}>
@@ -23,7 +21,7 @@ class Ask extends Component {
                     </View>
                     <Text style={styles.text} numberOfLines={3}>{text}</Text>
                     <Text style={styles.time}>{time}</Text>
-                    {this.state.showNew?<Image source={require('../asset/ask_new.png')} resizeMode='contain' style={styles.corner}/>:null}
+                    {!update?<Image source={require('../asset/ask_new.png')} resizeMode='contain' style={styles.corner}/>:null}
                     
                 </TouchableOpacity>
             </View>

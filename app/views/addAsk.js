@@ -75,10 +75,10 @@ class AddAsk extends Component {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.titleView}>
-                        <TextInput style={styles.titleInput} placeholder='标题' placeholderTextColor='#595959' multiline={true} numberOfLines={2} maxLength={18} underlineColorAndroid="transparent" onChangeText={title=>this.setState({title})}/>
+                        <TextInput style={styles.titleInput} placeholder='标题' placeholderTextColor='#595959' multiline={true} numberOfLines={2} maxLength={18} underlineColorAndroid="transparent" autoCorrect={false} onChangeText={title=>this.setState({title})}/>
                         <Text style={styles.tip}>请不要超过18个字</Text>
                     </View>
-                    <TextInput style={styles.textInput} placeholder='正文' placeholderTextColor='#777' multiline={true} numberOfLines={10} textAlignVertical='top' maxLength={200} underlineColorAndroid="transparent" onChangeText={descr=>this.setState({descr})}/>
+                    <TextInput style={styles.textInput} placeholder='正文' placeholderTextColor='#777' multiline={true} numberOfLines={10} textAlignVertical='top' maxLength={200} underlineColorAndroid="transparent" autoCorrect={false} onChangeText={descr=>this.setState({descr})}/>
                 </ImageBackground>
             </View>
         )
