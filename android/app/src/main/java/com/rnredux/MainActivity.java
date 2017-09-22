@@ -1,5 +1,7 @@
 package com.rnredux;
 import android.os.Bundle;
+import android.content.Intent;
+import android.content.res.Configuration; 
 import com.facebook.react.ReactActivity;
 import org.devio.rn.splashscreen.SplashScreen;
 
@@ -17,8 +19,16 @@ public class MainActivity extends ReactActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-         SplashScreen.show(this,true);
-         super.onCreate(savedInstanceState);
-     }
+        SplashScreen.show(this,true);
+        super.onCreate(savedInstanceState);
+    }
+
+     @Override
+     public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Intent intent = new Intent("onConfigurationChanged");
+        intent.putExtra("newConfig", newConfig);
+        this.sendBroadcast(intent);
+    }
 
 }

@@ -1,10 +1,9 @@
 import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 import {StyleSheet, Text, View, StatusBar,Platform,BackHandler,ToastAndroid} from 'react-native'
-
 import {addNavigationHelpers,NavigationActions} from 'react-navigation'
 import SplashScreen from 'react-native-splash-screen'
-
+import Orientation from 'react-native-orientation'
 import configureStore from './store/configureStore'
 import AppRootStackNav from './appRootStackNav'
 import rootReducer from './reducers'
@@ -55,6 +54,7 @@ export default class App extends Component {
         //setTimeout(function() {
             SplashScreen.hide()
         //}, 2000)
+        Orientation.lockToPortrait()
     }
 
     onBackHandler=()=>{//android物理返回键处理
