@@ -24,14 +24,15 @@ class Subject extends Component {
 			testResult: {score: 0, right: 0},
 			testIng: 0
 		}
+		console.log(this.props.nav.routes[1].params.type)
 		this.loadTestList()
 	}
 
-	initTest(){
-		const {dispatch,nav} = this.props
-		let id = nav.routes[1].params.type
-		return dispatch=>{
-			dispatch(appStateActions.fetch({fetching:true}))
+	initTest() {
+		const {dispatch} = this.props
+		let id = this.props.nav.routes[1].params.type
+		return dispatch => {
+			dispatch(appStateActions.fetch({fetching: true}))
 			myFetch.post(
 				'/examqueBank/startexam',
 				`id=${id}`,
@@ -58,35 +59,39 @@ class Subject extends Component {
 								result: ''
 							})
 						}
-	
 						storage.save({key: this.props.userinfo.account, id: id, data: resultObj})
 					} else {
 						alert(message);
 						dispatch(NavigationActions.back())
 					}
-					dispatch(appStateActions.fetchEnd({fetching:false}))
+					dispatch(appStateActions.fetchEnd({fetching: false}))
 				},
 				err => {
 					console.log(err)
 					alert(err)
-					dispatch(appStateActions.fetchEnd({fetching:false}))
+					dispatch(appStateActions.fetchEnd({fetching: false}))
 				}
 			)
 		}
 	}
-	continueTest(){
+
+	continueTest() {
 		this.setModalVisible(false)
 	}
-	restartTest(){
+
+	restartTest() {
 		const {dispatch} = this.props
-		let id = this.props.nav.routes[1].params.type
-		storage.remove({key: this.props.userinfo.account, id: id})
 		this.setModalVisible(false)
+		storage.remove({
+			key: this.props.userinfo.account,
+			id: this.props.nav.routes[1].params.type
+		})
 		dispatch(this.initTest())
+		this.initTest()
 		this._swiper.scrollBy(-(this.state.index), false)
-		console.log(this._que)
 	}
-	loadTestList(){
+
+	loadTestList() {
 		const {dispatch} = this.props
 		let id = this.props.nav.routes[1].params.type
 		storage.load({key: this.props.userinfo.account, id: id}).then(ret => {
@@ -97,6 +102,7 @@ class Subject extends Component {
 			switch (err.name) {
 				case 'NotFoundError':
 					dispatch(this.initTest())
+					this.initTest()
 					break;
 				case 'ExpiredError':
 					// TODO
@@ -130,40 +136,9 @@ class Subject extends Component {
 		let handleClick = () => {
 			if (index < total) {
 				this._swiper.scrollBy(1);
-				console.log(`index:${index}  total:${total}`)
 			}
 			else {
-				storage.load({key: this.props.userinfo.account, id: this.props.nav.routes[1].params.type}).then(
-					ret => {
-						fetch(`http://115.236.94.196:30005/app/examqueBank/uploadresult/${ret.id}`, {
-							method: 'POST',
-							body: JSON.stringify(ret.resultList),
-							headers: {
-								'Content-Type': 'application/json',
-							},
-						})
-							.then((response) => response.json())
-							.then((responseJSON) => {
-								this.setState({
-									testResult: {score: responseJSON.data.score, right: responseJSON.data.tails.right},
-								})
-								this.setModalVisible(true, 'end')
-							}).then(() => {
-							storage.remove({key: this.props.userinfo.account, id: this.props.nav.routes[1].params.type})
-						})
-					}
-				).catch(err => {
-					// 如果没有找到数据且没有sync方法，
-					// 或者有其他异常，则在catch中返回
-					console.warn(err.message);
-					switch (err.name) {
-						case 'NotFoundError':
-							console.log('提交答案未找到记录')
-							break;
-						case 'ExpiredError':
-							break;
-					}
-				})
+				this.submitTest();
 			}
 		};
 		return (
@@ -175,20 +150,53 @@ class Subject extends Component {
 		);
 	}
 
-	nav = (nav) => {
-		const {dispatch} = this.props;
-		dispatch(NavigationActions.navigate({routeName: nav}))
+	submitTest() {
+		storage.load({key: this.props.userinfo.account, id: this.props.nav.routes[1].params.type}).then(
+			ret => {
+				fetch(`http://115.236.94.196:30005/app/examqueBank/uploadresult/${ret.id}`, {
+					method: 'POST',
+					body: JSON.stringify(ret.resultList),
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				})
+					.then((response) => response.json())
+					.then((responseJSON) => {
+						this.setState({
+							testResult: {score: responseJSON.data.score, right: responseJSON.data.tails.right},
+						})
+						this.setModalVisible(true, 'end')
+						storage.remove({
+							key: this.props.userinfo.account,
+							id: this.props.nav.routes[1].params.type
+						})
+					}).then(() => {
+					storage.remove({key: this.props.userinfo.account, id: this.props.nav.routes[1].params.type})
+				})
+			}
+		).catch(err => {
+			// 如果没有找到数据且没有sync方法，
+			// 或者有其他异常，则在catch中返回
+			console.warn(err.message);
+			switch (err.name) {
+				case 'NotFoundError':
+					console.log('提交答案未找到记录')
+					break;
+				case 'ExpiredError':
+					break;
+			}
+		})
 	}
 
-
 	renderModal(type) {
+		const {dispatch} = this.props;
 		switch (type) {
 			case 'start':
 				return (
 					<View>
 						<View style={styles.modalClose}>
 							<TouchableOpacity style={styles.modalCloseView} onPress={() => {
-								this.nav('Test');
+								dispatch(NavigationActions.back())
 								this.setModalVisible(false)
 							}}>
 								<Icon name='close' size={28} color='#fff'/>
@@ -226,8 +234,8 @@ class Subject extends Component {
 						</View>
 						<View style={styles.modalPauseIconsView}>
 							<TouchableOpacity onPress={() => {
+								dispatch(NavigationActions.back())
 								this.setModalVisible(false);
-								this.nav('Test')
 							}}>
 								<Icon name='home' size={40} color='#fff'/>
 							</TouchableOpacity>
@@ -246,7 +254,7 @@ class Subject extends Component {
 					<View>
 						<View style={styles.modalClose}>
 							<TouchableOpacity style={styles.modalCloseView} onPress={() => {
-								this.nav('Test');
+								dispatch(NavigationActions.back())
 								this.setModalVisible(false)
 							}}>
 								<Icon name='close' size={28} color='#fff'/>
@@ -294,21 +302,22 @@ class Subject extends Component {
 		return (
 			<View style={styles.rootView}>
 				<Header type='title' title='物业培训' icons={icons} iconPress={() => this.setModalVisible(true, 'pause')}/>
-				<Swiper loop={false} showsPagination={false} showsButtons={false} index={this.state.index}
-						ref={(swiper) => {
-							this._swiper = swiper;
-						}}
-						onMomentumScrollEnd={(e, state, context) => {
-							this.setState({index: state.index,})
-						}}>
-					{testList.map((item, index) => {
-						return (
-							<View style={styles.page} key={index}>
-								<Question {...item} index={index} total={this.state.total} ref={(c) => this._que = c}/>
-							</View>
-						)
-					})}
-				</Swiper>
+				{(testList.length) ?
+					<Swiper loop={false} showsPagination={false} showsButtons={false} index={this.state.index}
+							ref={(swiper) => {
+								this._swiper = swiper;
+							}}
+							onMomentumScrollEnd={(e, state, context) => {
+								this.setState({index: state.index,})
+							}}>
+						{testList.map((item, index) => {
+							return (
+								<View style={styles.page} key={index}>
+									<Question {...item} index={index} total={this.state.total}/>
+								</View>
+							)
+						})}
+					</Swiper> : null}
 				<View style={styles.btnContainer}>
 					{this.renderBtnPrev()}{this.renderBtnNext()}
 				</View>
@@ -336,8 +345,7 @@ const styles = StyleSheet.create({
 		backgroundColor: 'transparent',
 		flexDirection: 'row',
 		position: 'absolute',
-		bottom: 100,
-		flex: 1,
+		bottom: 50,
 		width: '100%',
 		justifyContent: 'center',
 		alignItems: 'center'
@@ -354,7 +362,6 @@ const styles = StyleSheet.create({
 	},
 	//上下题按钮
 	btn: {
-		marginTop: 40,
 		width: 110,
 		height: 40,
 		justifyContent: 'center',
@@ -397,7 +404,7 @@ const styles = StyleSheet.create({
 	},
 	modalStartBottom: {
 		flexDirection: 'row',
-		paddingVertical: 30
+		paddingVertical: 40
 	},
 	modalClose: {
 		marginTop: -100,
@@ -451,7 +458,6 @@ const styles = StyleSheet.create({
 		width: '100%',
 	},
 	modalEndScoreText: {
-
 		color: '#7d7d7d',
 		fontSize: 24,
 		fontWeight: 'bold',
@@ -459,6 +465,7 @@ const styles = StyleSheet.create({
 	},
 	modalEndBottomText: {
 		marginTop: 30,
+		marginBottom: 20,
 		fontSize: 20,
 		color: '#ce2626',
 		fontWeight: 'bold',
@@ -498,7 +505,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = store => {
 	return {
 		nav: store.nav,
-		userinfo:store.userinfo
+		userinfo: store.userinfo
 	}
 }
 

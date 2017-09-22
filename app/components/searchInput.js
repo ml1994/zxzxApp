@@ -3,10 +3,44 @@ import {connect} from 'react-redux'
 import {View, TouchableOpacity, Text, TextInput, StyleSheet} from 'react-native'
 import {NavigationActions} from 'react-navigation'
 import Icon from '../components/icon'
+import * as newsActions from '../actions/news'
+import * as appStateActions from '../actions/appState'
 
 class SearchInput extends Component {
 
+    constructor(){
+        super()
+        this.state = {
+            searchText:''
+        }
+    }
+
+    _onChangeText(searchText){
+        this.setState({
+            searchText
+        })
+    }
+
+    submitFun(){
+        const {dispatch} = this.props
+        const searchText = this.state.searchText
+        return dispatch=>{
+            dispatch(appStateActions.fetch({fetching:true}))
+            fetch(`http://zxzx119.com/api?method=querywaterfallByTitle&page=1&pagesize=20&taxonomyid=5&title=${searchText}`)
+            .then(res=>res.json())
+            .then(resj=>{
+                dispatch(newsActions.getSearchList({searchList:resj.data.list}))
+                dispatch(appStateActions.fetchEnd({fetching:false}))
+            })
+            .catch(err=>{
+                console.log(err)
+                dispatch(appStateActions.fetchEnd({fetching:false}))
+            })    
+        }
+    }
+
     render() {
+        const {dispatch} = this.props
         return (
             <TouchableOpacity style={styles.rootView} activeOpacity={.6}>
                 <View style={styles.rowView}>
@@ -17,7 +51,9 @@ class SearchInput extends Component {
                         placeholderTextColor='rgba(255,255,255,.5)'
                         underlineColorAndroid='transparent'
                         autoCapitalize='none'
-                        autoCorrect={false}/>
+                        autoCorrect={false}
+                        onChangeText={searchText=>this._onChangeText(searchText)}
+                        onSubmitEditing={()=>dispatch(this.submitFun())}/>
                 </View>
             </TouchableOpacity>
         )
@@ -51,7 +87,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps=store=>{
     return {
-        nav:store.nav
+        nav:store.nav,
+        news:store.news
     }
 }
 

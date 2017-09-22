@@ -13,7 +13,7 @@ export default class HomeBanner extends Component {
                 style={styles.bgStyle}>
                 <View style={styles.topBar}>
                     <View style={styles.bellIcon}>
-                        <Icon name="bell-o" size={20} color="#fff"/>
+                        {/* <Icon name="bell-o" size={20} color="#fff"/> */}
                     </View>
                     <FakeSearchInput placeholder="请输入关键字查找"/>
                 </View>

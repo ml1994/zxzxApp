@@ -1,2 +1,3 @@
 export const INIT_NEWS_LIST = 'INIT_NEWS_LIST'
 export const LOAD_NEWS_LIST = 'LOAD_NEWS_LIST'
+export const GET_SEARCH_LIST = 'GET_SEARCH_LIST'

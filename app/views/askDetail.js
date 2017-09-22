@@ -78,7 +78,8 @@ class AskDetail extends Component {
 
     render() {
         const {dispatch} = this.props
-        const icons = ['pencil-square-o', 'search']
+        // const icons = ['pencil-square-o', 'search']
+        const icons = ['pencil-square-o']
         return (
             <View style={styles.rootView}>
                 <Header type='title' title='技术咨询' icons={icons}/>

@@ -20,7 +20,7 @@ class Home extends Component {
         const {dispatch} = this.props
         dispatch(appStateActions.fetch({fetching:true}))
         return dispatch=>{ 
-            fetch('http://zxzx119.com/api?method=querywaterfall&page=1&pagesize=8&taxonomyid=5')
+            fetch('http://zxzx119.com/api?method=querywaterfall&page=1&pagesize=10&taxonomyid=5')
             .then(res=>res.json())
             .then(resj=>{
                 const newsList = resj.data.list
@@ -44,7 +44,7 @@ class Home extends Component {
                 <HomeBanner/>
                 <NavBar/>
                 <View style={styles.addMarginTop10}>
-                    <KnowAllList/>
+                    <KnowAllList newsList={this.props.news.newsList}/>
                 </View>
             </ScrollView>
         )

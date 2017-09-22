@@ -1,21 +1,24 @@
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
 import {View, Text, Image, ScrollView, StyleSheet} from 'react-native'
 import Header from '../components/header'
 import KnowAllList from '../containers/knowAllList'
 
 
-export default class Search extends Component {
+class Search extends Component {
+
+    constructor(){
+        super()
+    }
 
     render() {
-        //const navigation = this.props.navigation
-        let searchList = []
-        
+
         return (
             <View style={styles.rootView}>
                 <Header type='search'/>
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    {searchList.length!=0?
-                        (<KnowAllList/>)
+                    {this.props.news.searchList.length!=0?
+                        (<KnowAllList newsList={this.props.news.searchList}/>)
                         : (
                             <View style={styles.container}>
                                 <Image style={styles.img} resizeMode='contain' source={require('../asset/no_search.png')}/>
@@ -46,3 +49,9 @@ const styles = StyleSheet.create({
         color:'#c9c9c9'
     }
 })
+
+const mapStateToProps = store=>({
+    news:store.news
+})
+
+export default connect(mapStateToProps)(Search)

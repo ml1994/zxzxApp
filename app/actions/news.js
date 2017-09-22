@@ -15,3 +15,10 @@ export function loadNewList(payload) {
         payload
     }
 }
+
+export function getSearchList(payload) {
+    return {
+        type:newsActions.GET_SEARCH_LIST,
+        payload
+    }
+}

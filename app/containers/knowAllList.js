@@ -5,19 +5,20 @@ import {NavigationActions} from 'react-navigation'
 
 class KnowAllList extends Component {
 
-    _toDetailPage(id){
+    _toDetailPage(link){
         const {dispatch} = this.props
-        dispatch(NavigationActions.navigate({routeName:'KnowAllDetail',params:{id}}))
+        dispatch(NavigationActions.navigate({routeName:'KnowAllDetail',params:{link}}))
     }
 
     render() {
         return (
             <FlatList
+                {...this.props}
                 style={styles.list}
-                data={this.props.news.newsList}
+                data={this.props.newsList}
                 renderItem={({item,index}) => (
-                <TouchableOpacity style={[styles.listView,index==this.props.news.newsList.length-1?styles.lastViewNoBorder:'']} onPress={()=>this._toDetailPage(item.id)}>
-                    <Image source={{uri:item.thumbnail}} resizeMode="stretch" style={styles.listImg}/>
+                <TouchableOpacity style={[styles.listView,index==this.props.newsList.length-1?styles.lastViewNoBorder:'']} onPress={()=>this._toDetailPage(item.link_to)}>
+                    {item.style!='min'?<Image source={{uri:item.thumbnail}} resizeMode="stretch" style={styles.listImg}/>:null}
                     <View style={styles.textView}>
                         <Text style={styles.title} numberOfLines={2}>{item.title}</Text>
                         <Text style={styles.text} numberOfLines={2}>{item.remarks}</Text>
@@ -30,6 +31,7 @@ class KnowAllList extends Component {
 
 const styles = StyleSheet.create({
     list:{
+        width:'100%',
         paddingHorizontal:10,
         backgroundColor:'#fff',
     },

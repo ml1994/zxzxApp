@@ -24,11 +24,13 @@ class Header extends Component {
         switch (icon) {
             case 'pencil-square-o':
                 dispatch(NavigationActions.navigate({routeName:'AddAsk'}))
-                break;
+                break
             case 'pause':
                 this.props.iconPress()
-                break;
-        
+                break
+            case 'search':
+                dispatch(NavigationActions.navigate({routeName:'Search'}))
+                break
             default:
                 break;
         }
