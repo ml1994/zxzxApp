@@ -15,8 +15,9 @@ class AskDetail extends Component {
     constructor(props){
         super(props)
         const {dispatch,nav} = this.props
+        const nowIndex = nav.routes.length-1   //当前路由index
         this.state = {
-            id:nav.routes[1].params.id,
+            id:nav.routes[nowIndex].params.id,
             title:'',
             qaList:[],
             refreshing:false

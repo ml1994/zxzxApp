@@ -4,7 +4,7 @@ export function initAskList() {
     return {
         type:askActions.INIT_ASK_LIST,
         payload:{
-            
+            askList:[]
         }
     }
 }
@@ -25,6 +25,8 @@ export function initQaList() {
         type:askActions.INIT_QA_LIST,
         payload:{
             title:'',
+            descr:'',
+            created:'',
             qaList:[]
         }
     }

@@ -14,7 +14,7 @@ class Ask extends Component {
         const {dispatch,title,text,time,id,update} = this.props
         return (
             <View style={styles.rootView}>
-                <TouchableOpacity style={styles.touchView} onPress={()=>dispatch(NavigationActions.navigate({routeName:'AskDetail',params:{id:id}}))}>
+                <TouchableOpacity style={styles.touchView} onPress={()=>dispatch(NavigationActions.navigate({routeName:'AskDetail',params:{id}}))}>
                     <View style={styles.titleView}>
                         <View style={styles.dot}></View>
                         <Text style={styles.title} numberOfLines={1}>{title}</Text>

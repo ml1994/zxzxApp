@@ -52,6 +52,7 @@ class SearchInput extends Component {
                         underlineColorAndroid='transparent'
                         autoCapitalize='none'
                         autoCorrect={false}
+                        autoFocus={true}
                         onChangeText={searchText=>this._onChangeText(searchText)}
                         onSubmitEditing={()=>dispatch(this.submitFun())}/>
                 </View>

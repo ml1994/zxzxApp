@@ -2,9 +2,11 @@ import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native'
 import {NavigationActions} from 'react-navigation'
-import * as userinfoActions from '../actions/userinfo'
 import Icon from './icon'
 import myFetch from '../utils/myFetch'
+import * as userinfoActions from '../actions/userinfo'
+import * as askActions from '../actions/ask'
+import * as testActions from '../actions/test'
 
 class Menu extends Component {
 
@@ -19,6 +21,9 @@ class Menu extends Component {
                 res=>{
                     if(res.code==0){
                         dispatch(userinfoActions.loginOut())
+                        dispatch(askActions.initAskList())
+                        dispatch(askActions.initQaList())
+                        dispatch(testActions.initMaxScore())
                         dispatch(NavigationActions.navigate({routeName:'Login'}))
                     }else{
                         alert('退出失败')
@@ -95,7 +100,10 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = store=>({
-    nav:store.nav
+    nav:store.nav,
+    userinfo:store.userinfo,
+    test:store.test,
+    ask:store.ask
 })
 
 export default connect(mapStateToProps)(Menu)

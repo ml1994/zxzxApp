@@ -108,7 +108,7 @@ class Asks extends Component {
                             titleColor="#ccc"
                         />
                     }>
-                    {this.props.ask.askList?
+                    {this.props.ask.askList.length!=0?
                         (<FlatList data={this.props.ask.askList} renderItem={({item})=><Ask title={item.title} text={item.descr} time={item.created} id={item.id} update={item.answer_updated}/>}/>)
                         : (
                             <View style={styles.container}>

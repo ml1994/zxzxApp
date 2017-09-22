@@ -1,6 +1,8 @@
 import * as askTypes from '../constants/ask'
 
-const initailState = {}
+const initailState = {
+    askList:[]
+}
 export default function (state=initailState,action) {
     switch (action.type) {
         case askTypes.ADD_ASK_LIST:

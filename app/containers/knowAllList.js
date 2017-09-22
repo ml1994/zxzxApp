@@ -17,11 +17,13 @@ class KnowAllList extends Component {
                 style={styles.list}
                 data={this.props.newsList}
                 renderItem={({item,index}) => (
-                <TouchableOpacity style={[styles.listView,index==this.props.newsList.length-1?styles.lastViewNoBorder:'']} onPress={()=>this._toDetailPage(item.link_to)}>
-                    {item.style!='min'?<Image source={{uri:item.thumbnail}} resizeMode="stretch" style={styles.listImg}/>:null}
-                    <View style={styles.textView}>
-                        <Text style={styles.title} numberOfLines={2}>{item.title}</Text>
-                        <Text style={styles.text} numberOfLines={2}>{item.remarks}</Text>
+                <TouchableOpacity style={styles.touchView} onPress={()=>this._toDetailPage(item.link_to)}>
+                    <View style={[styles.listView,index==this.props.newsList.length-1?styles.lastViewNoBorder:'']}>
+                        {item.style!='min'?<Image source={{uri:item.thumbnail}} resizeMode="stretch" style={styles.listImg}/>:null}
+                        <View style={styles.textView}>
+                            <Text style={styles.title} numberOfLines={2}>{item.title}</Text>
+                            <Text style={styles.text} numberOfLines={2}>{item.remarks}</Text>
+                        </View>
                     </View>
                 </TouchableOpacity>
             )}/>
@@ -31,9 +33,11 @@ class KnowAllList extends Component {
 
 const styles = StyleSheet.create({
     list:{
-        width:'100%',
-        paddingHorizontal:10,
+        width:'100%',      
         backgroundColor:'#fff',
+    },
+    touchView:{
+        paddingHorizontal:10,
     },
     listView:{
         flexDirection:'row',

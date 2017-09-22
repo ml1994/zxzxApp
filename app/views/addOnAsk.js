@@ -9,9 +9,10 @@ class AddOnAsk extends Component {
 
     constructor(props){
         super(props)
+        const nowIndex = this.props.nav.routes.length-1   //当前路由index
         this.state = {
             content:'',
-            id:this.props.nav.routes[2].params.qid
+            id:this.props.nav.routes[nowIndex].params.qid
         }
     }
 
