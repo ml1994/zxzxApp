@@ -12,6 +12,7 @@ class Ask extends Component {
     render() {
         //update判断是否显示new
         const {dispatch,title,text,time,id,update} = this.props
+        //console.log(this.props.userinfo.vip)
         return (
             <View style={styles.rootView}>
                 <TouchableOpacity style={styles.touchView} onPress={()=>dispatch(NavigationActions.navigate({routeName:'AskDetail',params:{id}}))}>
@@ -20,7 +21,20 @@ class Ask extends Component {
                         <Text style={styles.title} numberOfLines={1}>{title}</Text>
                     </View>
                     <Text style={styles.text} numberOfLines={3}>{text}</Text>
-                    <Text style={styles.time}>{time}</Text>
+                    
+                    <View style={styles.bottomView}>
+                        <View style={styles.bottomLeftView}>
+                            {this.props.userinfo.vip==true?
+                                <View style={styles.vipSee}>
+                                    <View style={styles.vipView}>
+                                        <Text style={styles.vip}>VIP</Text>    
+                                    </View>
+                                    <Text style={styles.vipText}>{this.props.userinfo.partner}</Text>
+                                </View>:null
+                            }
+                        </View>
+                        <Text style={styles.time}>{time}</Text>
+                    </View>
                     {!update?<Image source={require('../asset/ask_new.png')} resizeMode='contain' style={styles.corner}/>:null}
                     
                 </TouchableOpacity>
@@ -66,9 +80,35 @@ const styles = StyleSheet.create({
         fontSize:12,
         color:'#202020'
     },
+    bottomView:{
+        flexDirection:'row',
+        marginTop:10,
+        alignItems:'center',
+        justifyContent:'space-between'
+    },
+    bottomLeftView:{
+        flexDirection:'row',
+        alignItems:'center'
+    },
+    vipSee:{
+        flexDirection:'row',
+        alignItems:'center'
+    },
+    vipView:{
+        marginHorizontal:10,
+        backgroundColor:'#F19725',
+        borderRadius:2,
+        width:30,
+        alignItems:'center',
+    },
+    vip:{
+        color:'#f1f1f1',
+        fontWeight:'bold', 
+    },
+    vipText:{
+        color:'#F5CB2E'
+    },
     time:{
-        marginTop:6,
-        alignSelf:'flex-end',
         color:'#555',
         fontSize:10
     },
@@ -82,7 +122,8 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = store=>({
-    nav:store.nav
+    nav:store.nav,
+    userinfo:store.userinfo
 })
 
 export default connect(mapStateToProps)(Ask)

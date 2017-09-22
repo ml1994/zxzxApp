@@ -37,12 +37,7 @@ class PeopleShow extends Component {
 	}
 
 	render() {
-		/*const video = {
-			uri: 'http://video.zxzx119.com/e3dfa82b70fa4ec79825290019ff6e7f/baa86439bb414e638f895fd0fd37b74a-23ed88f2a1a26984ec60a497bcc1d316.m3u8',
-			title: '消防安全 人人有责',
-			time: '07-23',
-			info: '哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈'
-		}*/
+
 		return (
 			<ScrollView style={styles.rootView}>
 				<Header type='title' title='真人秀'/>

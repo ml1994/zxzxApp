@@ -54,7 +54,7 @@ export default class App extends Component {
         //setTimeout(function() {
             SplashScreen.hide()
         //}, 2000)
-        Orientation.lockToPortrait()
+        Orientation.lockToPortrait()//锁竖屏
     }
 
     onBackHandler=()=>{//android物理返回键处理

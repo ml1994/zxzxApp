@@ -39,8 +39,14 @@ class Me extends Component {
                 '/account/getinfo',
                 {},
                 resj=>{
-                    const {account,name} = resj.data
-                    const info = Object.assign({},{account,name})
+                    const {account} = resj.data
+                    let vip = ''
+                    let partner = ''
+                    if(resj.data.tails.vip==true){
+                        vip = resj.data.tails.vip
+                        partner = resj.data.tails.staff.tails.partner_name
+                    }
+                    const info = Object.assign({},{account,vip,partner})
                     dispatch(userinfoActions.getInfo(info))
                     dispatch({type:'GETING_END'})
                 },
@@ -66,8 +72,17 @@ class Me extends Component {
             <View>
                 <View style={styles.header}>
                     <Icon name='user-circle-o' size={60} color='#fff'/>
-                    <Text style={styles.phoneNum}>{this.props.userinfo.account}</Text>
-                    <Text style={styles.intro}>{this.props.userinfo.name}</Text>
+                    <View style={styles.phoneView}>
+                        {this.props.userinfo.vip==true?
+                            <View style={styles.vipView}>
+                                <Text style={styles.vip}>VIP</Text>
+                            </View>:null
+                        }
+                        <Text style={styles.phoneNum}>{this.props.userinfo.account}</Text>
+                    </View>
+                    {this.props.userinfo.vip==true?
+                        <Text style={styles.intro}>该手机用户为{this.props.userinfo.partner}合作单位的VIP账户</Text>:null
+                    }
                 </View>
                 <Menu menuArr={menuArr}/>
             </View>
@@ -84,15 +99,31 @@ const styles =StyleSheet.create({
         justifyContent:'center',
         alignItems:'center'
     },
-    phoneNum:{
+    phoneView:{
+        flexDirection:'row',
         marginTop:12,
+        alignItems:'center'
+    },
+    vipView:{
+        marginHorizontal:10,
+        backgroundColor:'#F19725',
+        borderRadius:2,
+        width:30,
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    vip:{
+        color:'#ce2626',
+        fontWeight:'bold', 
+    },
+    phoneNum:{
         fontSize:20,
         color:'#fff'
     },
     intro:{
         marginTop:6,
-        fontSize:12,
-        color:'#fff'
+        fontSize:16,
+        color:'#F5CB2E'
     }
 })
 

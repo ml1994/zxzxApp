@@ -47,7 +47,7 @@ class AddAsk extends Component {
                 res=>{
                     console.log(res)
                     if(res.code==0){
-                        const askList = res.data.rows
+                        const askList = res.data.question.rows
                         dispatch(askActions.loadAskList({askList}))
                         dispatch({type:'LOADED_ASKLIST'})
                     }

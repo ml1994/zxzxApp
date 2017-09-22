@@ -7,6 +7,7 @@ import Ask from '../components/ask'
 import myFetch from '../utils/myFetch'
 import * as askActions from '../actions/ask'
 import * as appStateActions from '../actions/appState'
+import * as userinfoActions from '../actions/userinfo'
 
 class Asks extends Component {
     constructor(props){
@@ -34,6 +35,7 @@ class Asks extends Component {
         )
     }
 
+
     getList(){
         const {dispatch} = this.props
         return dispatch=>{
@@ -44,8 +46,21 @@ class Asks extends Component {
                 res=>{
                     console.log(res)
                     if(res.code==0){
-                        if(res.data.rows.length!=0){
-                            const askList = res.data.rows
+                        if(res.data.question.rows.length!=0){
+                            let vip = ''
+                            let partner = ''
+                            if(res.data.partner){
+                                partner = res.data.partner.tails.partner_name
+                                vip = true
+                            }else{
+                                vip = false
+                            }
+                            const askList = res.data.question.rows
+                            dispatch(userinfoActions.getInfo({
+                                account:askList[0].tails.account,
+                                vip,
+                                partner
+                            }))
                             dispatch(askActions.loadAskList({askList}))
                             dispatch({type:'LOADED_ASKLIST'})
                         }else{
@@ -72,8 +87,21 @@ class Asks extends Component {
             res=>{
                 console.log(res)
                 if(res.code==0){
-                    if(res.data.rows.length!=0){
-                        const askList = res.data.rows
+                    if(res.data.question.rows.length!=0){
+                        let vip = ''
+                        let partner = ''
+                        if(res.data.partner){
+                            partner = res.data.partner.tails.partner_name
+                            vip = true
+                        }else{
+                            vip = false
+                        }
+                        const askList = res.data.question.rows
+                        dispatch(userinfoActions.getInfo({
+                            account:askList[0].tails.account,
+                            vip,
+                            partner
+                        }))
                         dispatch(askActions.loadAskList({askList}))
                         dispatch({type:'LOADED_ASKLIST'})
                     }else{

@@ -18,20 +18,20 @@ class Login extends Component {
 		const {dispatch} = this.props
 		dispatch(userinfoActions.initLogin())
 		this.state = {
-			phoneNum:'',
+			account:'',
 			psw:''
 		}
 	}
 
 	asyLogin(payload){
 		const {dispatch} = this.props
-		const {phoneNum,psw} = this.state
+		const {account,psw} = this.state
 		
 		return dispatch=>{
 			dispatch({type:'LOGING'})
 			myFetch.post(
 				'/account/login',
-				`phone=${phoneNum}&password=${psw}`,
+				`phone=${account}&password=${psw}`,
 				resj=>{
 					const {code,message} = resj
 					if(code==0){
@@ -84,14 +84,26 @@ class Login extends Component {
                 res=>{
                     console.log(res)
                     if(res.code==0){
-                        if(res.data.rows.length!=0){
-                            const askList = res.data.rows
+                        if(res.data.question.rows.length!=0){
+                            let vip = ''
+                            let partner = ''
+                            if(res.data.partner){
+                                partner = res.data.partner.tails.partner_name
+                                vip = true
+                            }else{
+                                vip = false
+                            }
+                            const askList = res.data.question.rows
+                            dispatch(userinfoActions.getInfo({
+                                account:askList[0].tails.account,
+                                vip,
+                                partner
+                            }))
                             dispatch(askActions.loadAskList({askList}))
                             dispatch({type:'LOADED_ASKLIST'})
                         }else{
                             dispatch({type:'NO_ASKLIST'})
                         }
-
                     }
                 },
                 err=>{
@@ -111,8 +123,14 @@ class Login extends Component {
                 '/account/getinfo',
                 {},
                 resj=>{
-                    const {account,name} = resj.data
-                    const info = Object.assign({},{account,name})
+                    const {account} = resj.data
+                    let vip = ''
+                    let partner = ''
+                    if(resj.data.tails.vip==true){
+                        vip = resj.data.tails.vip
+                        partner = resj.data.tails.staff.tails.partner_name
+                    }
+                    const info = Object.assign({},{account,vip,partner})
 					dispatch(userinfoActions.getInfo(info))
 					dispatch({type:'GETING_END'})
                 },
@@ -138,7 +156,7 @@ class Login extends Component {
 				<Header type='title' title='登录' isLoginPage={true}/>
 				<Image resizeMode='contain' source={require('../asset/logo.png')} style={styles.logo}/>
 				<View style={styles.inputsView}>
-					<Input iconLeft='mobile' placeholder='请输入手机号码' onChangeText={phoneNum=>this.setState({phoneNum})}/>
+					<Input iconLeft='mobile' placeholder='请输入手机号码' onChangeText={account=>this.setState({account})}/>
 					<Input iconLeft='lock' type='password' placeholder='请输入密码6-16位' onChangeText={psw=>this.setState({psw})}/>
 				</View>
 				<TouchableOpacity style={styles.btnSubmit} onPress={()=>this.loginFun()}>
