@@ -15,6 +15,7 @@ export default class MyVideo extends Component {
 				}} // Can be a URL or a local file.
 							 thumbnail={{uri:coverURL}}
 							 resizeMode="cover"
+							 endWithThumbnail
 							 ref={(ref) => {
 								 this.player = ref
 							 }} // Store reference
