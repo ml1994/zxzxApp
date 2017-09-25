@@ -42,3 +42,4 @@ android/app/libs
 *.keystore
 
 android/gradle/wrapper/gradle-wrapper.properties
+*.apk
