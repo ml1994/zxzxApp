@@ -1275,6 +1275,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = B4369FGZ4D;
@@ -1295,7 +1296,7 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = rnRedux;
-				PROVISIONING_PROFILE = "5094a8c7-0bfd-439c-bab6-a7c82eb5fc5e";
+				PROVISIONING_PROFILE = "7922876c-0deb-45fd-ac4e-2fbfcd034e72";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1305,6 +1306,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = B4369FGZ4D;
 				HEADER_SEARCH_PATHS = (
@@ -1324,7 +1326,7 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = rnRedux;
-				PROVISIONING_PROFILE = "5094a8c7-0bfd-439c-bab6-a7c82eb5fc5e";
+				PROVISIONING_PROFILE = "7922876c-0deb-45fd-ac4e-2fbfcd034e72";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
