@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
-import {View, Text, ScrollView, FlatList,Image,StyleSheet,RefreshControl} from 'react-native'
+import {View, Text, ScrollView, FlatList,Image,StyleSheet,RefreshControl,Alert} from 'react-native'
 import {NavigationActions} from 'react-navigation'
 import Header from '../components/header'
 import Ask from '../components/ask'
@@ -71,7 +71,7 @@ class Asks extends Component {
                 },
                 err=>{
                     console.log(err)
-                    alert('获取列表失败')
+                    Alert.alert('提示','获取列表失败')
                     dispatch(appStateActions.fetchEnd({fetching:false}))
                 }
             )
@@ -112,7 +112,7 @@ class Asks extends Component {
             },
             err=>{
                 console.log(err)
-                alert('获取列表失败')
+                Alert.alert('提示','获取列表失败')
                 this.setState({refreshing: false})//停止刷新 
             }
         )  

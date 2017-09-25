@@ -1295,6 +1295,7 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = rnRedux;
+				PROVISIONING_PROFILE = "5094a8c7-0bfd-439c-bab6-a7c82eb5fc5e";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1323,6 +1324,7 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = rnRedux;
+				PROVISIONING_PROFILE = "5094a8c7-0bfd-439c-bab6-a7c82eb5fc5e";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

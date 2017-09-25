@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, StyleSheet, Image, FlatList, ImageBackground, Modal, TouchableOpacity,} from 'react-native'
+import {View, Text, StyleSheet, Image, FlatList, ImageBackground, Modal, TouchableOpacity,Alert} from 'react-native'
 import Swiper from 'react-native-swiper'
 import Header from '../components/header'
 import Question from '../components/question'
@@ -9,6 +9,7 @@ import myFetch from '../utils/myFetch'
 import {connect} from 'react-redux'
 import storage from '../gStorage'
 import * as appStateActions from '../actions/appState'
+import * as testActions from '../actions/test'
 
 class Subject extends Component {
 	constructor(props) {
@@ -59,16 +60,16 @@ class Subject extends Component {
 								result: ''
 							})
 						}
-						storage.save({key: this.props.userinfo.account, id: id, data: resultObj})
+						storage.save({key: this.props.userinfo.account, id: id, data: resultObj, expires:null})
 					} else {
-						alert(message);
+						Alert.alert('提示',message);
 						dispatch(NavigationActions.back())
 					}
 					dispatch(appStateActions.fetchEnd({fetching: false}))
 				},
 				err => {
 					console.log(err)
-					alert(err)
+					Alert.alert('提示',err)
 					dispatch(appStateActions.fetchEnd({fetching: false}))
 				}
 			)
@@ -96,7 +97,7 @@ class Subject extends Component {
 		let id = this.props.nav.routes[1].params.type
 		storage.load({key: this.props.userinfo.account, id: id}).then(ret => {
 			this.setModalVisible(true, 'start');
-			this.setState({index: ret.testIng, testList: ret.testList, total: ret.testList.length,});
+			this.setState({index: ret.testIng, testList: ret.testList, total: ret.testList.length});
 		}).catch(err => {
 			console.warn(err.message)
 			switch (err.name) {
@@ -110,6 +111,28 @@ class Subject extends Component {
 			}
 		})
 
+	}
+
+	initMaxScore(){//获取最高分
+		const {dispatch} = this.props
+		let maxScore = new Array()
+		return dispatch=>{
+			dispatch({type:'GETTING_MAX_SCORE'})
+			myFetch.get(
+				'/examqueBank/list',
+				{},
+				res => {
+					res.rows.map((item)=>{
+						maxScore.push(item.maxscore);
+					})
+					console.log(res,maxScore)
+					dispatch(testActions.getMaxScore({maxScore}))
+				},
+				err => {
+					console.log(err)
+				}
+			)
+		}
 	}
 
 	renderBtnPrev = () => {
@@ -188,6 +211,28 @@ class Subject extends Component {
 		})
 	}
 
+	initMaxScore(){//获取最高分
+		const {dispatch} = this.props
+		let maxScore = new Array()
+		return dispatch=>{
+			dispatch({type:'GETTING_MAX_SCORE'})
+			myFetch.get(
+				'/examqueBank/list',
+				{},
+				res => {
+					res.rows.map((item)=>{
+						maxScore.push(item.maxscore);
+					})
+					console.log(res,maxScore)
+					dispatch(testActions.getMaxScore({maxScore}))
+				},
+				err => {
+					console.log(err)
+				}
+			)
+		}
+	}
+
 	renderModal(type) {
 		const {dispatch} = this.props;
 		switch (type) {
@@ -234,6 +279,7 @@ class Subject extends Component {
 						</View>
 						<View style={styles.modalPauseIconsView}>
 							<TouchableOpacity onPress={() => {
+								dispatch(this.initMaxScore())
 								dispatch(NavigationActions.back())
 								this.setModalVisible(false);
 							}}>
@@ -254,6 +300,7 @@ class Subject extends Component {
 					<View>
 						<View style={styles.modalClose}>
 							<TouchableOpacity style={styles.modalCloseView} onPress={() => {
+								dispatch(this.initMaxScore())
 								dispatch(NavigationActions.back())
 								this.setModalVisible(false)
 							}}>

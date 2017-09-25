@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Button, ImageBackground, Text, TextInput, StyleSheet,TouchableOpacity} from 'react-native'
+import {View, Button, ImageBackground, Text, TextInput, StyleSheet,TouchableOpacity,Alert} from 'react-native'
 import { connect } from 'react-redux'
 import {NavigationActions} from 'react-navigation'
 import myFetch from '../utils/myFetch'
@@ -30,7 +30,7 @@ class AddOnAsk extends Component {
             },
             err=>{
                 console.log(err)
-                alert('发布失败')
+                Alert.alert('提示','发布失败')
             }
         )
     }
@@ -53,7 +53,7 @@ class AddOnAsk extends Component {
                 },
                 err=>{
                     console.log(err)
-                    alert('获取问答信息失败')
+                    Alert.alert('提示','获取问答信息失败')
                 }
             )
         }
@@ -73,7 +73,16 @@ class AddOnAsk extends Component {
                             <Text style={styles.button}>发布</Text>
                         </TouchableOpacity>
                     </View>
-                    <TextInput style={styles.textInput} onChangeText={content=>this.setState({content})} placeholder='请输入问题...' placeholderTextColor='#a1a0a0' multiline={true} maxLength={200} underlineColorAndroid="transparent" autoCorrect={false}/>
+                    <TextInput
+                        style={styles.textInput}
+                        onChangeText={content=>this.setState({content})}
+                        placeholder='请输入问题...'
+                        placeholderTextColor='#a1a0a0'
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        multiline={true}
+                        maxLength={200}
+                        underlineColorAndroid="transparent"/>
                 </ImageBackground>
             </View>
         )

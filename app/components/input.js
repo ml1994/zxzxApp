@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Text, TextInput, View, StyleSheet, Button, TouchableOpacity} from 'react-native'
+import {Text, TextInput, View, StyleSheet, Button, TouchableOpacity,Alert} from 'react-native'
 import Icon from '../components/icon'
 import myFetch from '../utils/myFetch'
 
@@ -89,7 +89,7 @@ export default class Input extends Component {
             },
             err=>{
                 console.log(err)
-                alert('发送失败')
+                Alert.alert('提示','发送失败')
             }
         )
 	}

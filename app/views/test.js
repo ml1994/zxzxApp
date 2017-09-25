@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {View, Text, StyleSheet, ImageBackground, TouchableOpacity, Modal, Image} from 'react-native'
+import {View, Text, StyleSheet, ImageBackground, TouchableOpacity, Modal, Image,Alert} from 'react-native'
 import {NavigationActions} from 'react-navigation'
 import storage from '../gStorage'
 import Header from '../components/header'
@@ -67,45 +67,40 @@ class Test extends Component {
 			{avatar: require('../asset/avatar-cleaning.png'), name: '保洁/绿化', testType: '2', bgColor: '#dbac54', key: 1},
 			{avatar: require('../asset/avatar-security.png'), name: '秩序/客服', testType: '1', bgColor: '#797939', key: 2},
 			{avatar: require('../asset/avatar-fire.png'), name: '消控室人员', testType: '3', bgColor: '#7ea87e', key: 3},
-			{
-				avatar: require('../asset/avatar-management.png'),
-				name: '管理层人员',
-				testType: '4',
-				bgColor: '#bc5e59',
-				key: 4
-			},]
+			{avatar: require('../asset/avatar-management.png'),name: '管理层人员',testType: '4',bgColor: '#bc5e59',key: 4}]
+		let maxProperty = Math.max(this.props.test.maxScore[0],this.props.test.maxScore[1],this.props.test.maxScore[2],this.props.test.maxScore[3])
 		return (
 			<View style={styles.rootView}>
 				<Header type='title' title='物业培训' icons={icons}/>
 				<ImageBackground source={require('../asset/test_bg.png')} style={styles.imgBg} resizeMode='stretch'>
-					<TouchableOpacity style={styles.societyView} onPress={() => this.goSubject(1)}>
+					<TouchableOpacity style={styles.societyView} onPress={() => this.goSubject(5)}>
 						<Text style={[styles.type, styles.right]}>
 							<Text style={styles.bigSize}>社会</Text>
 							消防科普
 						</Text>
-						<Text style={[styles.score, styles.right]}>最佳:{this.props.test.maxScore[0]}分</Text>
+						<Text style={[styles.score, styles.right]}>最佳:{this.props.test.maxScore[4]}分</Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.propertyView} onPress={() => this.setState({modalVisible: true})}>
 						<Text style={[styles.type, styles.right]}>
 							<Text style={styles.bigSize}>物业</Text>
 							从业人员
 						</Text>
-						<Text style={[styles.score, styles.right]}>最佳:{this.props.test.maxScore[1]}分</Text>
+						<Text style={[styles.score, styles.right]}>最佳:{maxProperty}分</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={styles.fireView} onPress={() => alert('更多内容敬请期待')}>
+					<TouchableOpacity style={styles.fireView} onPress={() => Alert.alert('提示','更多内容敬请期待')}>
 						<Text style={styles.type}>
 							消防
 							<Text style={styles.bigSize}>从业</Text>
 							人员
 						</Text>
-						<Text style={styles.score}>最佳:{this.props.test.maxScore[2]}分</Text>
+						<Text style={styles.score}>最佳:0分</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={styles.programerView} onPress={() => alert('更多内容敬请期待')}>
+					<TouchableOpacity style={styles.programerView} onPress={() => Alert.alert('提示','更多内容敬请期待')}>
 						<Text style={styles.type}>
 							消防
 							<Text style={styles.bigSize}>工程师</Text>
 						</Text>
-						<Text style={styles.score}>最佳:{this.props.test.maxScore[3]}分</Text>
+						<Text style={styles.score}>最佳:0分</Text>
 					</TouchableOpacity>
 				</ImageBackground>
 				<Modal

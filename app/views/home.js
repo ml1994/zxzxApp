@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {ScrollView,View, StatusBar, StyleSheet,AsyncStorage} from 'react-native'
+import {ScrollView,View, StatusBar, StyleSheet,AsyncStorage,Alert} from 'react-native'
 import { connect } from 'react-redux'
 import * as newsActions from '../actions/news'
 import * as appStateActions from '../actions/appState'
@@ -31,7 +31,7 @@ class Home extends Component {
             })
             .catch(err=>{
                 console.log(err)
-                alert(err)
+                Alert.alert('提示',err)
                 dispatch(appStateActions.fetchEnd({fetching:false}))
             })
         }

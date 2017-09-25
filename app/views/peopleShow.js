@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
 import {View, Text, StyleSheet, ScrollView, ImageBackground} from 'react-native'
-import {StackNavigator} from 'react-navigation'
+import {NavigationActions} from 'react-navigation'
 
 import Header from '../components/header'
 import MyVideo from '../components/myVideo'
@@ -19,16 +20,22 @@ class PeopleShow extends Component {
 	}
 
 	initVideo() {
+		const {dispatch} = this.props
 		myFetch.get(
 			'/video/videolist', {},
 			res => {
 				console.log(res)
-				let video = res.rows[0];
-				let create = res.rows[0].createTime.substring(5,10)
-				video.createTime = create;
-				this.setState({
-					video: video
-				})
+				if(res.code==0){
+					let video = res.rows[0];
+					let create = res.rows[0].createTime.substring(5,10)
+					video.createTime = create;
+					this.setState({
+						video: video
+					})
+				}else{
+					dispatch(NavigationActions.back())
+				}
+
 			}
 			, err => {
 				console.log(err)
@@ -68,4 +75,8 @@ var styles = StyleSheet.create({
 	}
 });
 
-export default PeopleShow
+const mapStateToProps = store=>({
+	nav:store.nav
+})
+
+export default connect(mapStateToProps)(PeopleShow)

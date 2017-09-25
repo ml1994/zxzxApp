@@ -69,7 +69,7 @@ class Question extends Component {
 					})
 				}
 			}
-			storage.save({key: this.props.userinfo.account, id: id, data: ret});
+			storage.save({key: this.props.userinfo.account, id: id, data: ret, expries:null});
 			//console.log(storage)
 		})
 			.catch(err => {

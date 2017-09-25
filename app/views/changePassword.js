@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native'
+import {View, Text, StyleSheet, Image, TouchableOpacity,Alert} from 'react-native'
 import Header from '../components/header'
 import Input from '../components/input'
 import {connect} from 'react-redux'
@@ -32,7 +32,7 @@ class ChangePassword extends Component {
 			},
 			err=>{
 				console.log(err)
-				alert('修改失败')
+				Alert.alert('提示','修改失败')
 			}
 		)
 	}
@@ -48,7 +48,7 @@ class ChangePassword extends Component {
 					dispatch(NavigationActions.navigate({ routeName: 'Home'}))
 					dispatch(NavigationActions.navigate({ routeName: 'Login'}))
 				}else{
-					alert('退出失败')
+					Alert.alert('提示','退出失败')
 				}
 			},
 			err=>{

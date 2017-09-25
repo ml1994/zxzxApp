@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
-import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native'
+import {View, Text, FlatList, TouchableOpacity, StyleSheet,Alert} from 'react-native'
 import {NavigationActions} from 'react-navigation'
 import Icon from './icon'
 import myFetch from '../utils/myFetch'
@@ -26,7 +26,7 @@ class Menu extends Component {
                         dispatch(testActions.initMaxScore())
                         dispatch(NavigationActions.navigate({routeName:'Login'}))
                     }else{
-                        alert('退出失败')
+                        Alert.alert('提示','退出失败')
                     }
                 },
                 err=>{

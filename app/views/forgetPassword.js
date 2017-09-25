@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native'
+import {View, Text, StyleSheet, Image, TouchableOpacity,Alert} from 'react-native'
 import Header from '../components/header'
 import Input from '../components/input'
 import {connect} from 'react-redux'
@@ -36,7 +36,7 @@ class ForgetPassword extends Component {
             },
             err=>{
                 console.log(err)
-                alert('注册失败')
+                Alert.alert('提示','注册失败')
             }
         )
     }

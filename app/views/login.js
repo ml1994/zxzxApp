@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native'
+import {View, Text, StyleSheet, Image, TouchableOpacity,Alert} from 'react-native'
 import {connect} from 'react-redux'
 import {NavigationActions} from 'react-navigation'
 import Header from '../components/header'
@@ -41,7 +41,7 @@ class Login extends Component {
 						dispatch(this.getList())//获取问题列表
 						dispatch(NavigationActions.back())
 					}else{
-						alert(message)
+						Alert.alert('提示',message)
 					}
 				},
 				err=>{
@@ -108,7 +108,7 @@ class Login extends Component {
                 },
                 err=>{
                     console.log(err)
-                    alert('获取列表失败')
+                    Alert.alert('提示','获取列表失败')
                 }
             )
         }

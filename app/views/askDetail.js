@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
-import {View, Text, ScrollView, StyleSheet, Image, FlatList, TouchableOpacity,RefreshControl} from 'react-native'
+import {View, Text, ScrollView, StyleSheet, Image, FlatList, TouchableOpacity,RefreshControl,Alert} from 'react-native'
 import {NavigationActions} from 'react-navigation'
 
 import Header from '../components/header'
@@ -47,7 +47,7 @@ class AskDetail extends Component {
                 },
                 err=>{
                     console.log(err)
-                    alert('获取问答信息失败')
+                    Alert.alert('提示','获取问答信息失败')
                 }
             )
         }
@@ -71,7 +71,7 @@ class AskDetail extends Component {
             },
             err=>{
                 console.log(err)
-                alert('获取问答信息失败')
+                Alert.alert('提示','获取问答信息失败')
                 this.setState({refreshing: false})//停止刷新 
             }
         )

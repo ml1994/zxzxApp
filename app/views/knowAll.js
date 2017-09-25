@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { ScrollView,View,Text,RefreshControl } from 'react-native'
+import { ScrollView,View,Text,RefreshControl,Alert } from 'react-native'
 import Header from '../components/header'
 import KnowAllList from '../containers/knowAllList'
 import * as newsActions from '../actions/news'
@@ -37,7 +37,7 @@ class KnowAll extends Component {
         })
         .catch(err=>{
             console.log(err)
-            alert(err)
+            Alert.alert('提示',err)
             this.setState(prevState=>({
                 refreshing: false,
                 page:prevState.page
@@ -66,7 +66,7 @@ class KnowAll extends Component {
             })
             .catch(err=>{
                 console.log(err)
-                alert(err)
+                Alert.alert('提示',err)
                 this.setState(prevState=>({
                     refreshing: false,
                     page:prevState.page
