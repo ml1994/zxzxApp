@@ -1,4 +1,4 @@
-package com.rnredux;
+package com.zxzx119;
 import android.os.Bundle;
 import android.content.Intent;
 import android.content.res.Configuration; 
