@@ -39,7 +39,13 @@ class Header extends Component {
     returnBtnFun(){
         const {dispatch,isLoginPage} = this.props
         if(isLoginPage===true){
-            dispatch(NavigationActions.navigate({routeName:'Home'}))
+            const resetAction = NavigationActions.reset({//未登录状态返回，返回到home页
+                index: 0,
+                actions: [
+                  NavigationActions.navigate({routeName: 'TabNav'})
+                ]
+              })
+            dispatch(resetAction)
         }else{
             dispatch(NavigationActions.back())
         }

@@ -8,15 +8,12 @@ import MyVideo from '../components/myVideo'
 import myFetch from '../utils/myFetch'
 
 class PeopleShow extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props)
 		this.state = {
 			video: null
 		}
-		this.initVideo();
-	}
-
-	componentDidMount() {
+		this.initVideo()
 	}
 
 	initVideo() {
@@ -26,8 +23,8 @@ class PeopleShow extends Component {
 			res => {
 				console.log(res)
 				if(res.code==0){
-					let video = res.rows[0];
-					let create = res.rows[0].createTime.substring(5,10)
+					let video = res.data.rows[0];
+					let create = res.data.rows[0].createTime.substring(5,10)
 					video.createTime = create;
 					this.setState({
 						video: video
