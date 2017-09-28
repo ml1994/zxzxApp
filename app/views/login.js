@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {View, Text, StyleSheet, Image, TouchableOpacity,Alert} from 'react-native'
 import {connect} from 'react-redux'
 import {NavigationActions} from 'react-navigation'
+import JPushModule from 'jpush-react-native'
 import Header from '../components/header'
 import Input from '../components/input'
 import myFetch from '../utils/myFetch'
@@ -35,6 +36,7 @@ class Login extends Component {
 				resj=>{
 					const {code,message} = resj
 					if(code==0){
+						this.postJPushRegistrationId()//发送registrationId
 						dispatch(userinfoActions.login(payload))
 						dispatch(this.asyGetUserinfo())//获取用户信息
 						dispatch(this.initMaxScore())//获取最高分
@@ -140,7 +142,22 @@ class Login extends Component {
                 }
             )
         }
-    }
+	}
+	
+	postJPushRegistrationId(){
+		JPushModule.getRegistrationID((registrationId) => { //JPush传送registrationId给后台
+            myFetch.post(
+                '/push/reg',
+                `id=${registrationId}`,
+                res=>{
+                    console.log(registrationId,res)
+                },
+                err=>{
+                    console.log(err)
+                }
+            )
+        })
+	}
 
 	loginFun(){
 		const userinfo = this.state
