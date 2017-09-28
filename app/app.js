@@ -4,6 +4,8 @@ import {StyleSheet, Text, View, StatusBar,Platform,BackHandler,ToastAndroid,Aler
 import {addNavigationHelpers,NavigationActions} from 'react-navigation'
 import SplashScreen from 'react-native-splash-screen'
 import Orientation from 'react-native-orientation'
+import JPushModule from 'jpush-react-native'
+
 import configureStore from './store/configureStore'
 import AppRootStackNav from './appRootStackNav'
 import rootReducer from './reducers'
@@ -53,10 +55,26 @@ export default class App extends Component {
     }
 
     componentDidMount() {
-        //setTimeout(function() {
-            SplashScreen.hide()
-        //}, 2000)
+
+        SplashScreen.hide()
+
         Orientation.lockToPortrait()//锁竖屏
+
+        // 推送
+        // 在收到点击事件之前调用此接口
+        if(Platform.OS === 'android'){
+            // JPushModule.notifyJSDidLoad((resultCode) => {
+            //    if (resultCode === 0) {}
+            //  });
+            //官网给的上面这种会报cb方法undefined错误
+            JPushModule.notifyJSDidLoad(resultCode=>console.log(resultCode))//这样用不会报错  
+        }
+        JPushModule.addReceiveNotificationListener((map) => {//用户点击触发的事件
+            console.log("alertContent: " + map.alertContent);
+            console.log("extras: " + map.extras);
+            // var extra = JSON.parse(map.extras);
+            // console.log(extra.key + ": " + extra.value);
+        })
     }
 
     onBackHandler=()=>{//android物理返回键处理

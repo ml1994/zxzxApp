@@ -5,6 +5,9 @@ import android.content.res.Configuration;
 import com.facebook.react.ReactActivity;
 import org.devio.rn.splashscreen.SplashScreen;
 
+import cn.jpush.android.api.JPushInterface;
+
+
 public class MainActivity extends ReactActivity {
 
     /**
@@ -21,6 +24,7 @@ public class MainActivity extends ReactActivity {
     protected void onCreate(Bundle savedInstanceState) {
         SplashScreen.show(this,true);
         super.onCreate(savedInstanceState);
+        JPushInterface.init(this);
     }
 
      @Override
@@ -29,6 +33,23 @@ public class MainActivity extends ReactActivity {
         Intent intent = new Intent("onConfigurationChanged");
         intent.putExtra("newConfig", newConfig);
         this.sendBroadcast(intent);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
 }
