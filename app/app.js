@@ -55,6 +55,7 @@ export default class App extends Component {
     }
 
     componentDidMount() {
+        const {dispatch} = this.refs.provider.store
 
         SplashScreen.hide()
 
@@ -69,11 +70,25 @@ export default class App extends Component {
             //官网给的上面这种会报cb方法undefined错误
             JPushModule.notifyJSDidLoad(resultCode=>console.log(resultCode))//这样用不会报错  
         }
-        JPushModule.addReceiveNotificationListener((map) => {//用户点击触发的事件
+
+        JPushModule.addReceiveNotificationListener((map) => {//用户收到通知时触发的事件
             console.log("alertContent: " + map.alertContent);
             console.log("extras: " + map.extras);
             // var extra = JSON.parse(map.extras);
             // console.log(extra.key + ": " + extra.value);
+        })
+
+        JPushModule.addReceiveOpenNotificationListener(message=>{//用户点击通知事件
+            //dispatch(NavigationActions.navigate({routeName:'Asks'}))
+
+            if(Platform.OS === 'ios'){
+                JPushModule.setBadge(0, (success) => {
+                    console.log(success)
+                })
+            }
+
+            console.log(message)
+
         })
     }
 
