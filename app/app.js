@@ -82,8 +82,27 @@ export default class App extends Component {
         })
 
         JPushModule.addReceiveOpenNotificationListener(message=>{//用户点击通知事件
-            //dispatch(NavigationActions.navigate({routeName:'Asks'}))
-
+            //android和ios接收到的参数结构不同，需要分别处理获取
+            if(Platform.OS==='android'){
+                const {type,id} = JSON.parse(message.extras)
+                if(type=='answer'){
+                    dispatch(NavigationActions.navigate({routeName:'AskDetail',params:{id}}))
+                }else if(type=='video'){
+        
+                }else{
+        
+                }
+            }else{//iOS
+                const {type,id} = message
+                if(type=='answer'){
+                    dispatch(NavigationActions.navigate({routeName:'AskDetail',params:{id}}))
+                }else if(type=='video'){
+        
+                }else{
+        
+                }
+            }
+    
             if(Platform.OS === 'ios'){
                 JPushModule.setBadge(0, (success) => {
                     console.log(success)
@@ -97,7 +116,10 @@ export default class App extends Component {
         myUpdate.checkUpdate()
     }
 
-
+    //点击通知导航到相应页面
+    navWithPressNotification(type,id){
+        
+    }
 
     onBackHandler=()=>{//android物理返回键处理
         /*
