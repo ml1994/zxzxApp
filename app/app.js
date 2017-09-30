@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
-import {StyleSheet, Text, View, StatusBar,Platform,BackHandler,ToastAndroid,Alert} from 'react-native'
+import {StyleSheet, Text, View, StatusBar, Platform, BackHandler, ToastAndroid, Alert} from 'react-native'
 import {addNavigationHelpers,NavigationActions} from 'react-navigation'
 import SplashScreen from 'react-native-splash-screen'
 import Orientation from 'react-native-orientation'
@@ -11,7 +11,7 @@ import AppRootStackNav from './appRootStackNav'
 import rootReducer from './reducers'
 
 import myFetch from './utils/myFetch'
-
+import myUpdate from './utils/myUpdate'
 
 class AppRouter extends Component {
     render() {
@@ -44,9 +44,12 @@ export default class App extends Component {
     }
 
     componentWillMount() {
-        if (Platform.OS === 'android') {
+        if(Platform.OS === 'android') {
             BackHandler.addEventListener('hardwareBackPress', this.onBackHandler)
         }
+
+        //新版本第一次运行
+        myUpdate.firstTime()
     }
     componentWillUnmount() {
         if (Platform.OS === 'android') {
@@ -90,7 +93,11 @@ export default class App extends Component {
             console.log(message)
 
         })
+        //检查应用更新
+        myUpdate.checkUpdate()
     }
+
+
 
     onBackHandler=()=>{//android物理返回键处理
         /*

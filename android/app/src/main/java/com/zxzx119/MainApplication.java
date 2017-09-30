@@ -3,6 +3,7 @@ package com.zxzx119;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import cn.reactnative.modules.update.UpdatePackage;
 import com.github.yamill.orientation.OrientationPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.brentvatne.react.ReactVideoPackage;
@@ -16,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import cn.jpush.reactnativejpush.JPushPackage;
+import cn.reactnative.modules.update.UpdateContext;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -29,9 +31,15 @@ public class MainApplication extends Application implements ReactApplication {
     }
 
     @Override
+    protected String getJSBundleFile() {
+        return UpdateContext.getBundleUrl(MainApplication.this);
+    }
+
+    @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
+            new UpdatePackage(),
             new OrientationPackage(),
             new SplashScreenReactPackage(),
             new ReactVideoPackage(),
