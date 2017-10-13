@@ -40,21 +40,16 @@ class Home extends Component {
     render() {
 
         return (
-            <ScrollView showsVerticalScrollIndicator={false}>          
+            <View>          
                 <HomeBanner/>
                 <NavBar/>
-                <View style={styles.addMarginTop10}>
-                    <KnowAllList newsList={this.props.news.newsList}/>
-                </View>
-            </ScrollView>
+            </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    addMarginTop10:{
-        marginTop:10
-    }
+
 })
 
 const mapStateToProps = store=>({

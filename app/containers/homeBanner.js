@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     bgStyle: {
         paddingTop: STATUSBAR_HEIGHT, //避开顶部状态栏高度
         width: '100%',
-        height: 260
+        height: '50%'
     },
     topBar: {
         flex: 1,
