@@ -10,7 +10,7 @@ export default class KnowAllDetail extends Component {
     constructor(props){
         super(props)
         this.state = {
-            link:`http://cdn.zxzx119.com${this.props.navigation.state.params.link}`
+            link:`http://www.zxzx119.com${this.props.navigation.state.params.link}`
         }
         const {dispatch} = this.props.navigation
        // dispatch(this.getNewsDetail())
