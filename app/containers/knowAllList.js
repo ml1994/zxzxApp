@@ -7,7 +7,7 @@ class KnowAllList extends Component {
 
     _toDetailPage(link){
         const {dispatch} = this.props
-        dispatch(NavigationActions.navigate({routeName:'KnowAllDetail',params:{link}}))
+        dispatch(NavigationActions.navigate({routeName:'KnowAllDetail',params:{link,title:this.props.title}}))
     }
 
     render() {
@@ -40,7 +40,7 @@ class KnowAllList extends Component {
                                 </TouchableOpacity>
                     case 1:  //title
                         return  <View style={styles.titleView}>
-                                    <Text style={styles.titleText}>热点新闻</Text>
+                                    <Text style={styles.titleText}>{this.props.title}</Text>
                                 </View>
                         
                     default:

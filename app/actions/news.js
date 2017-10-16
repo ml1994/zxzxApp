@@ -1,11 +1,9 @@
 import * as newsActions from '../constants/news'
 
-export function initNewsList() {
+export function loadEncyList(payload) {
     return {
-        type:newsActions.INIT_NEWS_LIST,
-        payload:{
-            newsList:[]
-        }
+        type:newsActions.LOAD_ENCY_LIST,
+        payload
     }
 }
 

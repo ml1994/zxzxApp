@@ -12,30 +12,30 @@ class Home extends Component {
     constructor(props){
         super(props)
         const {dispatch} = this.props
-        dispatch(newsActions.initNewsList())
-        dispatch(this.getNewList())
+        // dispatch(newsActions.initNewsList())
+        // dispatch(this.getNewList())
     }
     
-    getNewList(){
-        const {dispatch} = this.props
-        dispatch(appStateActions.fetch({fetching:true}))
-        return dispatch=>{ 
-            fetch('http://zxzx119.com/api?method=querywaterfall&page=1&pagesize=10&taxonomyid=5')
-            .then(res=>res.json())
-            .then(resj=>{
-                const newsList = resj.data.list
-                if(resj.errorCode==0){
-                    dispatch(newsActions.loadNewList({newsList}))
-                    dispatch(appStateActions.fetchEnd({fetching:false}))
-                }
-            })
-            .catch(err=>{
-                console.log(err)
-                Alert.alert('提示',err)
-                dispatch(appStateActions.fetchEnd({fetching:false}))
-            })
-        }
-    }
+    // getNewList(){
+    //     const {dispatch} = this.props
+    //     dispatch(appStateActions.fetch({fetching:true}))
+    //     return dispatch=>{ 
+    //         fetch('http://zxzx119.com/api?method=querywaterfall&page=1&pagesize=10&taxonomyid=5')
+    //         .then(res=>res.json())
+    //         .then(resj=>{
+    //             const newsList = resj.data.list
+    //             if(resj.errorCode==0){
+    //                 dispatch(newsActions.loadNewList({newsList}))
+    //                 dispatch(appStateActions.fetchEnd({fetching:false}))
+    //             }
+    //         })
+    //         .catch(err=>{
+    //             console.log(err)
+    //             Alert.alert('提示',err)
+    //             dispatch(appStateActions.fetchEnd({fetching:false}))
+    //         })
+    //     }
+    // }
 
     render() {
 

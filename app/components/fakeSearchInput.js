@@ -15,7 +15,7 @@ class FakeSearchInput extends Component {
                 activeOpacity={.6}>
                 <View style={styles.rowView}>
                     <Text style={styles.textStyle}>{this.props.placeholder}</Text>
-                    <Icon name='search' size={20} color='#fff'/>
+                    <Icon name='pencil-square-o' size={20} color='#fff'/>
                 </View>
             </TouchableOpacity>
         )
@@ -42,8 +42,9 @@ const styles = StyleSheet.create({
         marginLeft:5
     },
     textStyle: {
+        textAlign:'center',
         width: '90%',
-        color: 'rgba(255,255,255,.5)'
+        color: 'rgba(255,255,255,1)'
     }
 })
 

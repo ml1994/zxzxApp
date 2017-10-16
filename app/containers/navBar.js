@@ -12,59 +12,65 @@ import {NavigationActions} from 'react-navigation'
 
 class NavBar extends Component {
 
-	_onPressItem(routeName) {
+	_onPressItem(routeName,sign) {
 		const {dispatch} = this.props//connect后props里才有dispatch
-		dispatch(NavigationActions.navigate({routeName}))//导航跳转	
+		if(sign=='undefined'){
+			dispatch(NavigationActions.navigate({routeName}))//导航跳转	
+		}else{
+			dispatch(NavigationActions.navigate({routeName,params:{sign}}))//导航跳转	
+		}
 	}
 
 	render() {
 		let tabArr = [
 			{
 				key: 1,
-				img: require('../asset/fire_ext.png'),
+				img: require('../asset/nav_news.png'),
 				label: '热点新闻',
-				routeName:'KnowAll'
+				routeName:'KnowAll',
+				sign:5
 			}, 
 			{
 				key: 2,
-				img: require('../asset/fire_helmet.png'),
-				label: '物业培训',
+				img: require('../asset/nav_edu.png'),
+				label: '教育培训',
 				routeName: 'Test'
 			}, 
 			{
 				key: 3,
-				img: require('../asset/fire_hy.png'),
-				label: '技术咨询',
+				img: require('../asset/nav_directory.png'),
+				label: '企业名录',
 				routeName: 'Asks'
 			}, 
 			{
 				key: 4,
-				img: require('../asset/fire_engine.png'),
-				label: '真人秀',
+				img: require('../asset/nav_trial.png'),
+				label: '审图服务',
 				routeName: 'PeopleShow'
 			},
 			{
 				key: 5,
-				img: require('../asset/fire_ext.png'),
-				label: '消防百事通',
+				img: require('../asset/nav_report.png'),
+				label: '监督举报',
 				routeName:'KnowAll'
 			}, 
 			{
 				key: 6,
-				img: require('../asset/fire_helmet.png'),
+				img: require('../asset/nav_ency.png'),
 				label: '消防百科',
-				routeName: 'Test'
+				routeName: 'KnowAll',
+				sign:14
 			}, 
 			{
 				key: 7,
-				img: require('../asset/fire_hy.png'),
-				label: '技术咨询',
-				routeName: 'Asks'
+				img: require('../asset/nav_rescue.png'),
+				label: '中消救援',
+				routeName: 'Rescue'
 			}, 
 			{
 				key: 8,
-				img: require('../asset/fire_engine.png'),
-				label: '真人秀',
+				img: require('../asset/nav_show.png'),
+				label: '紧急呼叫',
 				routeName: 'PeopleShow'
 			}
 		]
@@ -74,7 +80,7 @@ class NavBar extends Component {
 					{tabArr.map((item,index) => {
 						return (<TouchableOpacity
 							style={[styles.listItem,(index<tabArr.length-4)?{marginBottom:20}:{}]}
-							onPress={() => this._onPressItem(item.routeName)}>
+							onPress={() => this._onPressItem(item.routeName,item.sign)}>
 							<Image source={item.img} style={styles.img}/>
 							<Text style={styles.text}>{item.label}</Text>
 						</TouchableOpacity>)

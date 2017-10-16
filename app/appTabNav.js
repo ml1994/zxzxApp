@@ -3,7 +3,7 @@ import { Image, StyleSheet } from 'react-native'
 import {TabNavigator,TabBarBottom} from 'react-navigation'
 
 import Home from './views/home'
-import Test from './views/test'
+import Star from './views/star'
 import Asks from './views/asks'
 import Me from './views/me'
 
@@ -15,25 +15,25 @@ const AppTabNav = TabNavigator({
             tabBarIcon:({focused,tintColor})=><Image style={styles.tabIcon} source={focused?require('./asset/tab_logo_active.png'):require('./asset/tab_logo.png')}/>
         }
     },
-    Test: {
-        screen: Test,
+    Star: {
+        screen: Star,
         navigationOptions:{
-            tabBarLabel:'物业培训',
-            tabBarIcon:({focused,tintColor})=><Image style={styles.tabIcon} source={focused?require('./asset/tab_pipe_active.png'):require('./asset/tab_pipe.png')}/>
+            tabBarLabel:'精选',
+            tabBarIcon:({focused,tintColor})=><Image style={styles.tabIcon} source={focused?require('./asset/tab_star_active.png'):require('./asset/tab_star.png')}/>
         }
     },
     Asks: {
         screen: Asks,
         navigationOptions:{
-            tabBarLabel:'技术咨询',
-            tabBarIcon:({focused,tintColor})=><Image style={styles.tabIcon} source={focused?require('./asset/tab_fire_hy_active.png'):require('./asset/tab_fire_hy.png')}/>
+            tabBarLabel:'我的咨询',
+            tabBarIcon:({focused,tintColor})=><Image style={styles.tabIcon} source={focused?require('./asset/tab_ask_active.png'):require('./asset/tab_ask.png')}/>
         }
     },
     Me: {
         screen: Me,
         navigationOptions:{
-            tabBarLabel:'我的',
-            tabBarIcon:({focused,tintColor})=><Image style={styles.tabIcon} source={focused?require('./asset/tab_user_active.png'):require('./asset/tab_user.png')}/>,
+            tabBarLabel:'个人中心',
+            tabBarIcon:({focused,tintColor})=><Image style={styles.tabIcon} source={focused?require('./asset/tab_me_active.png'):require('./asset/tab_me.png')}/>,
             tabBarComponent:''
         }
     }

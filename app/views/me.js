@@ -60,6 +60,10 @@ class Me extends Component {
 
     render() {
         const menuArr = [{
+            iconName:'envelope-o',
+            text:'消息中心',
+            nav:'Message'
+        },{
             iconName:'file-text-o',
             text:'个人设置',
             nav:'MySetting'
@@ -81,7 +85,8 @@ class Me extends Component {
                         <Text style={styles.phoneNum}>{this.props.userinfo.account}</Text>
                     </View>
                     {this.props.userinfo.vip==true?
-                        <Text style={styles.intro}>该手机用户为{this.props.userinfo.partner}合作单位的VIP账户</Text>:null
+                        <Text style={styles.intro}>该手机用户为{this.props.userinfo.partner}合作单位的VIP账户</Text>:
+                        <Text style={styles.notVipText}>您掌上的消防专家</Text>
                     }
                 </View>
                 <Menu menuArr={menuArr}/>
@@ -124,6 +129,10 @@ const styles =StyleSheet.create({
         marginTop:6,
         fontSize:16,
         color:'#F5CB2E'
+    },
+    notVipText:{
+        color:'#fff',
+        fontSize:10
     }
 })
 

@@ -8,6 +8,7 @@ import PeopleShow from './views/peopleShow'
 import Login from './views/login'
 import Register from './views/register'
 import MySetting from './views/mySetting'
+import Message from './views/message'
 import AboutUs from './views/aboutUs'
 import AddAsk from './views/addAsk'
 import AddOnAsk from './views/addOnAsk'
@@ -16,6 +17,8 @@ import Subject from './views/subject'
 import AboutDetail from './views/aboutDetail'
 import ChangePassword from './views/changePassword'
 import ForgetPassword from './views/forgetPassword'
+import Test from './views/test'
+import Rescue from './views/rescue'
 
 const appRootStackNav = StackNavigator({
     TabNav: {
@@ -36,6 +39,9 @@ const appRootStackNav = StackNavigator({
     Search: {//搜索页
         screen: Search
     },
+    Test:{//教育培训
+        screen:Test
+    },
     KnowAll:{//消防百事通
         screen: KnowAll
     },
@@ -44,6 +50,9 @@ const appRootStackNav = StackNavigator({
     },
     PeopleShow:{//真人秀
         screen: PeopleShow
+    },
+    Message:{//消息中心
+        screen:Message
     },
     MySetting:{//个人设置
         screen:MySetting
@@ -65,6 +74,9 @@ const appRootStackNav = StackNavigator({
     },
     AboutDetail:{//关于详情页
         screen:AboutDetail
+    },
+    Rescue:{//救援
+        screen:Rescue
     }
 }, {
     headerMode: 'none'

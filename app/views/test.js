@@ -71,7 +71,7 @@ class Test extends Component {
 		let maxProperty = Math.max(this.props.test.maxScore[0],this.props.test.maxScore[1],this.props.test.maxScore[2],this.props.test.maxScore[3])
 		return (
 			<View style={styles.rootView}>
-				<Header type='title' title='物业培训' icons={icons}/>
+				<Header type='title' title='教育培训' icons={icons}/>
 				<ImageBackground source={require('../asset/test_bg.png')} style={styles.imgBg} resizeMode='stretch'>
 					<TouchableOpacity style={styles.societyView} onPress={() => this.goSubject(5)}>
 						<Text style={[styles.type, styles.right]}>

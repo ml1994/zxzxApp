@@ -15,7 +15,7 @@ export default class HomeBanner extends Component {
                     <View style={styles.bellIcon}>
                         {/* <Icon name="bell-o" size={20} color="#fff"/> */}
                     </View>
-                    <FakeSearchInput placeholder="请输入关键字查找"/>
+                    <FakeSearchInput placeholder="技术咨询"/>
                 </View>
             </ImageBackground>
         )

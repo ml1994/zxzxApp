@@ -42,7 +42,7 @@ export default class KnowAllDetail extends Component {
         const icons = ['search']
         return (
             <View style={styles.rootView}>
-                <Header type='title' title='消防百事通' icons={icons}/>
+                <Header type='title' title={this.props.navigation.state.params.title}/>
                 <WebView style={styles.webView}
                     startInLoadingState={true}  
                     domStorageEnabled={true}  
