@@ -46,7 +46,7 @@ class NavBar extends Component {
 				key: 4,
 				img: require('../asset/nav_trial.png'),
 				label: '审图服务',
-				routeName: 'PeopleShow'
+				routeName: 'Tech'
 			},
 			{
 				key: 5,
