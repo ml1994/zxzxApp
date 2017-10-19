@@ -19,7 +19,7 @@ import ChangePassword from './views/changePassword'
 import ForgetPassword from './views/forgetPassword'
 import Test from './views/test'
 import Rescue from './views/rescue'
-
+import Tech from './views/tech'
 const appRootStackNav = StackNavigator({
     TabNav: {
         screen: AppTabNav
@@ -77,6 +77,9 @@ const appRootStackNav = StackNavigator({
     },
     Rescue:{//救援
         screen:Rescue
+    },
+    Tech:{
+        screen:Tech
     }
 }, {
     headerMode: 'none'

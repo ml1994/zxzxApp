@@ -1,0 +1,2 @@
+export const INIT_TECH_LIST = 'INIT_TECH_LIST'
+export const LOAD_TECH_LIST = 'LOAD_TECH_LIST'
