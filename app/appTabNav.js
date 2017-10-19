@@ -4,7 +4,7 @@ import {TabNavigator,TabBarBottom} from 'react-navigation'
 
 import Home from './views/home'
 import Star from './views/star'
-import Asks from './views/asks'
+import askTabs from './views/asks'
 import Me from './views/me'
 
 const AppTabNav = TabNavigator({
@@ -22,8 +22,8 @@ const AppTabNav = TabNavigator({
             tabBarIcon:({focused,tintColor})=><Image style={styles.tabIcon} source={focused?require('./asset/tab_star_active.png'):require('./asset/tab_star.png')}/>
         }
     },
-    Asks: {
-        screen: Asks,
+    askTabs: {
+        screen: askTabs,
         navigationOptions:{
             tabBarLabel:'我的咨询',
             tabBarIcon:({focused,tintColor})=><Image style={styles.tabIcon} source={focused?require('./asset/tab_ask_active.png'):require('./asset/tab_ask.png')}/>

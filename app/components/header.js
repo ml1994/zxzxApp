@@ -19,6 +19,10 @@ import SearchInput from '../components/searchInput'
  */
 class Header extends Component {
 
+    constructor(props){
+        super(props)
+    }
+
     iconsFun(icon){
         const {dispatch} = this.props
         switch (icon) {
@@ -32,7 +36,7 @@ class Header extends Component {
                 dispatch(NavigationActions.navigate({routeName:'Search'}))
                 break
             default:
-                break;
+                break
         }
     }
 
@@ -50,10 +54,21 @@ class Header extends Component {
             dispatch(NavigationActions.back())
         }
     }
+
+    changeTab(routeName){
+        const {dispatch} = this.props
+        this.setState({
+            tabActive:routeName
+        })
+        dispatch(NavigationActions.navigate({routeName}))
+    }
     
     render() {
-        const{dispatch,type,icons} = this.props
-        const title = type=='search'?'':this.props.title
+        const {dispatch,type,icons,titles} = this.props
+
+        console.log(this.props)
+        const routeIndex = this.props.nav.routes[0].routes[2].index //asks or compasks页
+        //const title = type=='search'?'':this.props.title
         let container = ''
         let rightIcons = <View style={styles.rightIconView}></View> //右侧按钮view初始化
 
@@ -70,18 +85,32 @@ class Header extends Component {
                 </View>
             )
         }
-
         switch (type) {//container
             case 'title':
                 container = (
                     <View style={styles.titleView}>
-                        <Text style={styles.title}>{title}</Text>
+                        <Text style={styles.title}>{this.props.title}</Text>
                     </View>
                 )
                 break
             case 'search':
                 container =  (<SearchInput placeholder="请输入关键字查找"/>)
-                break   
+                break     
+            case 'tabs':
+                container =  (
+                    <View style={styles.tabsView}>
+                        {         
+                            titles.map((value,index)=>{
+                                return (
+                                    <TouchableOpacity style={[styles.tabView,routeIndex==index?styles.tabViewActive:'']} onPress={()=>{this.changeTab(value.nav)}}>
+                                        <Text style={styles.tabText}>{value.title}</Text>
+                                    </TouchableOpacity>
+                                )
+                            })
+                        }
+                    </View>
+                )
+                break     
             default:
                 break
         }
@@ -119,6 +148,7 @@ const styles = StyleSheet.create({
     rightIconView:{
         flex:1,
         flexDirection:'row',
+        marginTop:2,        
         marginRight:4,
         height:30,
         justifyContent:'center',
@@ -135,11 +165,34 @@ const styles = StyleSheet.create({
         color:'#fff',
         fontSize:20,
         fontWeight:'bold'
-    }
+    },
+    tabsView:{
+        flexDirection:'row',
+        flex:4,
+        justifyContent:'center',
+        height:36,
+    },
+    tabView:{
+        marginTop:4,
+        marginHorizontal:10,
+        width:72,
+        alignItems:'center',
+        height:'100%'
+    },
+    tabText:{
+        fontSize:18,
+        color:'#fff',
+        height:'100%'
+    },
+    tabViewActive:{  
+        borderBottomWidth:5,
+        borderBottomColor:'#f1f1f1'
+    },
 })
 
 const mapStateToProps = store=>({
-    nav:store.nav
+    nav:store.nav,
+
 })
 
 export default connect(mapStateToProps)(Header)

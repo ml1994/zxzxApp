@@ -29,7 +29,7 @@ export default class Message extends Component {
                 <SwipeListView
                     dataSource={ds.cloneWithRows(this.state.dataList)}
                     renderRow={data => (
-                        <TouchableOpacity activeOpacity={1}>
+                        <TouchableOpacity activeOpacity={1} onPress={()=>{}}>
                             <View style={styles.rowFront}><Text style={styles.rowFrontText} numberOfLines={1}>{data}</Text></View>  
                         </TouchableOpacity>
                     )}
@@ -39,7 +39,10 @@ export default class Message extends Component {
                         </TouchableOpacity>
                     )}
                     disableRightSwipe={true} 
-                    rightOpenValue={-100}/>
+                    rightOpenValue={-100}
+                    swipeToOpenPercent={30}
+                    tension={100}
+                    friction={20}/>
             </View>
         )
     }

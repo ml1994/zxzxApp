@@ -40,7 +40,7 @@ class NavBar extends Component {
 				key: 3,
 				img: require('../asset/nav_directory.png'),
 				label: '企业名录',
-				routeName: 'Asks'
+				routeName: 'askTabs'
 			}, 
 			{
 				key: 4,
@@ -78,7 +78,7 @@ class NavBar extends Component {
 			<View style={styles.rootView}>
 				<View style={styles.list}>
 					{tabArr.map((item,index) => {
-						return (<TouchableOpacity
+						return (<TouchableOpacity key={index}
 							style={[styles.listItem,(index<tabArr.length-4)?{marginBottom:20}:{}]}
 							onPress={() => this._onPressItem(item.routeName,item.sign)}>
 							<Image source={item.img} style={styles.img}/>

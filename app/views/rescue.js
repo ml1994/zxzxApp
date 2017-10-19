@@ -105,11 +105,11 @@ export default class rescue extends Component {
 					<View style={styles.list}>
 						{rescueList.map(item => {
 							let titleStyle = {
-								width: item.title.split('').length * 20,
+								width: item.title.length * 20,
 
 							}
 							let titleContainerStyle={
-								width: (item.title.split('').length+2) * 20,
+								width: (item.title.length+2) * 20,
 								marginBottom: (item.img) ? null : 20
 							}
 							return (

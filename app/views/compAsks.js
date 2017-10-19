@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
-import {View, Text, ScrollView, FlatList,Image,StyleSheet,RefreshControl,Alert} from 'react-native'
+import {View, Text, ScrollView, FlatList,Image,StyleSheet,RefreshControl,Alert,TouchableOpacity} from 'react-native'
 import {NavigationActions,TabNavigator} from 'react-navigation'
 import Header from '../components/header'
 import Ask from '../components/ask'
@@ -9,9 +9,7 @@ import * as askActions from '../actions/ask'
 import * as appStateActions from '../actions/appState'
 import * as userinfoActions from '../actions/userinfo'
 
-import CompAsks from '../views/compAsks'
-
-class Asks extends Component {
+class CompAsks extends Component {
     constructor(props){
         super(props)
         const {dispatch} = this.props
@@ -122,7 +120,6 @@ class Asks extends Component {
     
     render() {
         // const icons = ['pencil-square-o','search']
-        const {userinfo} = this.props
         const titles = [
             {
                 title:'我的咨询',
@@ -136,11 +133,10 @@ class Asks extends Component {
         const icons = ['pencil-square-o']
         return (
             <View style={styles.rootView}>
-                {
-                    userinfo.vip?<Header type='tabs' titles={titles} icons={icons}/>:
-                    <Header type='title' title='我的咨询' icons={icons}/>
-                }
-
+                {<Header type='tabs' titles={titles} icons={icons}/>}
+                <View>
+                    <TouchableOpacity></TouchableOpacity>
+                </View>
                 <ScrollView
                     style={styles.scrollview}
                     showsVerticalScrollIndicator={false}
@@ -189,37 +185,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = store=>({
     nav:store.nav,
-    ask:store.ask,
-    userinfo:store.userinfo
+    ask:store.ask
 })
 
-const connectedAsks = connect(mapStateToProps)(Asks)
+export default connect(mapStateToProps)(CompAsks)
 
-const askTabs = TabNavigator({
-    Asks:{
-        screen:connectedAsks,
-        navigationOptions:{
-            tabBarLabel:'我的咨询'
-        }
-    },
-    CompAsks:{
-        screen:CompAsks,
-        navigationOptions:{
-            tabBarLabel:'企业咨询',
-            
-        }
-    }
-},{
-    tabBarPosition: 'top',
-    //lazy:true,
-    swipeEnabled:false,
-    animationEnabled:false,
-    tabBarOptions: {
-        style: {
-            height: 0,//隐藏tabbar
-        }
-    }
-    
-})
-
-export default askTabs
