@@ -1,7 +1,8 @@
 import * as askTypes from '../constants/ask'
 
 const initailState = {
-    askList:[]
+    askList:[],
+    compAskList:[]
 }
 export default function (state=initailState,action) {
     switch (action.type) {
@@ -12,6 +13,12 @@ export default function (state=initailState,action) {
             return {...state,...action.payload}
             break;
         case askTypes.LOAD_ASK_LIST:
+            return {...state,...action.payload}
+            break;
+        case askTypes.INIT_COMPASK_LIST:
+            return {...state,...action.payload}
+            break;
+        case askTypes.LOAD_COMPASK_LIST:
             return {...state,...action.payload}
             break;
         case askTypes.ADD_QA_LIST:

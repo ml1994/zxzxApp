@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
-import {View, Text, ScrollView, FlatList,Image,StyleSheet,RefreshControl,Alert,TouchableOpacity} from 'react-native'
+import {View, Text, ScrollView, FlatList,Image,StyleSheet,RefreshControl,Alert,TouchableOpacity,LayoutAnimation,UIManager,Dimensions} from 'react-native'
 import {NavigationActions,TabNavigator} from 'react-navigation'
 import Header from '../components/header'
 import Ask from '../components/ask'
@@ -9,12 +9,32 @@ import * as askActions from '../actions/ask'
 import * as appStateActions from '../actions/appState'
 import * as userinfoActions from '../actions/userinfo'
 
+var myLayoutAnimation = {
+    duration:100,
+    create:{
+        type:LayoutAnimation.Types.linear,
+        property:LayoutAnimation.Properties.scaleXY
+    },
+    update:{
+        type:LayoutAnimation.Types.linear,
+        property:LayoutAnimation.Properties.scaleXY
+    }
+}
+
+const SCREEN_HEIGHT = Dimensions.get('window').height
 class CompAsks extends Component {
     constructor(props){
         super(props)
+        UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true)
         const {dispatch} = this.props
         this.state={
             refreshing:false,
+            subTabIndex:0,
+            filterViewShow:false,
+            regionList:[],
+            projectList:[],
+            regionListSelected:-1,
+            projetListSelected:-1
         }
 
         myFetch.get(
@@ -23,8 +43,8 @@ class CompAsks extends Component {
             res=>{
                 console.log(res)
                 if(res.code=='0'){
-                    dispatch(askActions.initAskList())
-                    dispatch(this.getList())
+                    dispatch(askActions.initCompAskList())
+                    dispatch(this.getList(1))
                 }else{
                     dispatch(NavigationActions.navigate({routeName:'Login'}))
                 }
@@ -36,13 +56,18 @@ class CompAsks extends Component {
     }
 
 
-    getList(){
+    getList(type){
         const {dispatch} = this.props
+        const params = {
+            page:1,
+            pageSize:1000,
+            type
+        }
         return dispatch=>{
             dispatch(appStateActions.fetch({fetching:true}))
             myFetch.get(
-                '/consult/list/question',
-                {page:1,pagesize:1000},
+                '/consult/list/questionCompany',
+                params,
                 res=>{
                     console.log(res)
                     if(res.code==0){
@@ -55,16 +80,16 @@ class CompAsks extends Component {
                             }else{
                                 vip = false
                             }
-                            const askList = res.data.question.rows
+                            const compAskList = res.data.question.rows
                             dispatch(userinfoActions.getInfo({
-                                account:askList[0].tails.account,
+                                account:compAskList[0].tails.account,
                                 vip,
                                 partner
                             }))
-                            dispatch(askActions.loadAskList({askList}))
-                            dispatch({type:'LOADED_ASKLIST'})
+                            dispatch(askActions.loadCompAskList({compAskList}))
+                            dispatch({type:'LOADED_COMPASKLIST'})
                         }else{
-                            dispatch({type:'NO_ASKLIST'})
+                            dispatch({type:'NO_COMPASKLIST'})
                         }
                     }
                     dispatch(appStateActions.fetchEnd({fetching:false}))
@@ -80,10 +105,15 @@ class CompAsks extends Component {
 
     refreshFun(){
         const {dispatch} = this.props
+        const params = {
+            page:1,
+            pageSize:1000,
+            type:this.state.subTabIndex+1
+        }
         this.setState({refreshing: true})//开始刷新
         myFetch.get(
-            '/consult/list/question',
-            {page:1,pagesize:1000},
+            '/consult/list/questionCompany',
+            params,
             res=>{
                 console.log(res)
                 if(res.code==0){
@@ -96,16 +126,16 @@ class CompAsks extends Component {
                         }else{
                             vip = false
                         }
-                        const askList = res.data.question.rows
+                        const compAskList = res.data.question.rows
                         dispatch(userinfoActions.getInfo({
-                            account:askList[0].tails.account,
+                            account:compAskList[0].tails.account,
                             vip,
                             partner
                         }))
-                        dispatch(askActions.loadAskList({askList}))
-                        dispatch({type:'LOADED_ASKLIST'})
+                        dispatch(askActions.loadCompAskList({compAskList}))
+                        dispatch({type:'LOADED_COMPASKLIST'})
                     }else{
-                        dispatch({type:'NO_ASKLIST'})
+                        dispatch({type:'NO_COMPASKLIST'})
                     }
                 }
                 this.setState({refreshing: false})//停止刷新 
@@ -117,6 +147,54 @@ class CompAsks extends Component {
             }
         )  
     }
+
+    subTabPress(index){
+        const {dispatch} = this.props
+        this.setState({
+            subTabIndex:index
+        })
+        dispatch(this.getList(index+1))
+    }
+
+    asksFilter(){
+        LayoutAnimation.configureNext(myLayoutAnimation)
+        this.setState(prevState=>{
+            return {
+                filterViewShow:!prevState.filterViewShow
+            }
+        })
+        console.log(this.state.filterViewShow)
+        if(!this.state.filterViewShow){
+            this.getRegionAndProject()
+        }
+    }
+
+    getRegionAndProject(){
+        const {dispatch} = this.props
+        dispatch(appStateActions.fetch({fetching:true}))
+        myFetch.get(
+            '/consult/list/filter',
+            {},
+            res=>{
+                const regionList = res.data.region.map(value=>{
+                    return value.region
+                })
+                const projectList = res.data.project.map(value=>{
+                    return value.project
+                })
+                this.setState({
+                    regionList,
+                    projectList
+                })
+                dispatch(appStateActions.fetchEnd({fetching:false}))
+            },
+            err=>{
+                console.log(err)
+                dispatch(appStateActions.fetchEnd({fetching:false}))
+            }
+        )
+    }
+
     
     render() {
         // const icons = ['pencil-square-o','search']
@@ -131,11 +209,23 @@ class CompAsks extends Component {
             }
         ]
         const icons = ['pencil-square-o']
+        const subTabsArr = ['综合','时间','热度','筛选']
+        const subTabsArrlength = subTabsArr.length
+        
+        let filterHeight = this.state.filterViewShow?SCREEN_HEIGHT-170:1
         return (
             <View style={styles.rootView}>
                 {<Header type='tabs' titles={titles} icons={icons}/>}
-                <View>
-                    <TouchableOpacity></TouchableOpacity>
+                <View style={styles.subTabsView}>
+                    {
+                        subTabsArr.map((value,index)=>{
+                            return (
+                                <TouchableOpacity style={styles.subTabView} onPress={()=>{index!=subTabsArrlength-1?this.subTabPress(index):this.asksFilter()}}>
+                                    <Text style={[styles.subTabText,(this.state.subTabIndex==index&&index!=subTabsArrlength-1)?styles.subTabTextActive:'']}>{value}</Text>
+                                </TouchableOpacity>
+                            )
+                        })
+                    }
                 </View>
                 <ScrollView
                     style={styles.scrollview}
@@ -149,8 +239,8 @@ class CompAsks extends Component {
                             titleColor="#ccc"
                         />
                     }>
-                    {this.props.ask.askList.length!=0?
-                        (<FlatList data={this.props.ask.askList} renderItem={({item})=><Ask title={item.title} text={item.descr} time={item.created} id={item.id} update={item.answer_updated}/>}/>)
+                    {this.props.ask.compAskList.length!=0?
+                        (<FlatList data={this.props.ask.compAskList} renderItem={({item})=><Ask title={item.title} text={item.descr} time={item.created} id={item.id} update={item.answer_updated}/>}/>)
                         : (
                             <View style={styles.container}>
                                 <Image style={styles.img} resizeMode='contain' source={require('../asset/no_ask.png')}/>
@@ -159,6 +249,49 @@ class CompAsks extends Component {
                         )
                     }
                 </ScrollView>
+                <View style={[styles.filterView,{height:filterHeight}]}>
+                    <ScrollView style={styles.filterScrollView}>
+                        <View style={styles.filterImgView}>
+                            <Image source={require('../asset/filter_region.png')} style={styles.filterImg}/>
+                            <Text style={styles.filterImgText}>区域</Text>
+                        </View>
+                        <FlatList
+                            data={this.state.regionList}
+                            renderItem={
+                                ({item,index})=>(
+                                    <TouchableOpacity style={styles.regionItem} onPress={()=>{this.setState({regionListSelected:index})}}>
+                                        <Text style={[styles.regionText,this.state.regionListSelected==index?styles.activeText:'']}>{item}</Text>
+                                    </TouchableOpacity>
+                                )
+                            }
+                            style={styles.regionList}
+                            numColumns={6}
+                            />
+                        <View style={styles.filterImgView}>
+                            <Image source={require('../asset/filter_project.png')} style={styles.filterImg}/>
+                            <Text style={styles.filterImgText}>项目</Text>
+                        </View>
+                        <FlatList
+                            data={this.state.projectList}
+                            renderItem={
+                                ({item,index})=>( 
+                                    <TouchableOpacity style={styles.projectItem} onPress={()=>{this.setState({projectListSelected:index})}}>
+                                        <Text style={[styles.projectText,this.state.projectListSelected==index?styles.activeText:'']} numberOfLines={1}>{item}</Text>
+                                    </TouchableOpacity>
+                                )
+                            }
+                            style={styles.projectList}
+                            />
+                    </ScrollView>
+                    <View style={styles.buttonsView}>
+                        <TouchableOpacity style={styles.resetView}>
+                            <Text style={styles.resetText}>重置</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.confirmView}>
+                            <Text style={styles.confirmText}>确定</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>    
             </View>
         )
     }
@@ -180,7 +313,104 @@ const styles = StyleSheet.create({
     },
     text:{
         color:'#c9c9c9'
-    }
+    },
+    subTabsView:{
+        flexDirection:'row',
+        backgroundColor:'#f1f1f1',
+        borderBottomWidth:1,
+        borderBottomColor:'#bbb'
+    },
+    subTabView:{
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center',
+        height:40
+    },
+    subTabText:{
+        color:'#8b7272'
+    },
+    subTabTextActive:{
+        color:'#c32827'
+    },
+    filterView:{
+        position:'absolute',
+        top:121,
+        left:0,
+        width:'100%',
+        backgroundColor:'#fff',
+    },
+    filterScrollView:{
+        paddingHorizontal:15,
+        paddingVertical:20,
+    },
+    filterImgView:{
+        flexDirection:'row',
+        alignItems:'center'
+    },
+    filterImg:{
+        width:24,
+        height:24
+    },
+    filterImgText:{
+        color:'#000',
+        fontSize:16,
+        paddingLeft:6
+    },
+    buttonsView:{
+        flexDirection:'row'
+    },
+    resetView:{
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center',
+        height:30,
+        borderWidth:1,
+        borderColor:'#c32726'
+    },
+    resetText:{
+        color:'#000'
+    },
+    confirmView:{
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center',
+        height:30,
+        backgroundColor:'#c32726'
+    },
+    confirmText:{
+        color:'#fff'
+    },
+    regionList:{
+        paddingHorizontal:20,
+        paddingTop:10,
+        paddingBottom:20
+    },
+    regionItem:{
+        width:'16.7%',
+        height:30,
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    regionText:{
+        color:'#000'
+    },
+    activeText:{
+        color:'#c32726'
+    },
+    projectList:{
+        paddingHorizontal:30,
+        paddingTop:10,
+        paddingBottom:20
+    },
+    projectItem:{
+        width:'100%',
+        height:30,
+        justifyContent:'center',
+        //alignItems:'center'
+    },
+    projectText:{
+        color:'#000'
+    },
 })
 
 const mapStateToProps = store=>({

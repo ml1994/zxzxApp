@@ -20,6 +20,9 @@ import ForgetPassword from './views/forgetPassword'
 import Test from './views/test'
 import Rescue from './views/rescue'
 import Tech from './views/tech'
+import Report from './views/report'
+
+
 const appRootStackNav = StackNavigator({
     TabNav: {
         screen: AppTabNav
@@ -78,8 +81,11 @@ const appRootStackNav = StackNavigator({
     Rescue:{//救援
         screen:Rescue
     },
-    Tech:{
+    Tech:{//审图
         screen:Tech
+    },
+    Report:{//监督举报
+        screen:Report
     }
 }, {
     headerMode: 'none'

@@ -44,7 +44,7 @@ class Asks extends Component {
             dispatch(appStateActions.fetch({fetching:true}))
             myFetch.get(
                 '/consult/list/question',
-                {page:1,pagesize:1000},
+                {page:1,pageSize:1000},
                 res=>{
                     console.log(res)
                     if(res.code==0){
@@ -85,7 +85,7 @@ class Asks extends Component {
         this.setState({refreshing: true})//开始刷新
         myFetch.get(
             '/consult/list/question',
-            {page:1,pagesize:1000},
+            {page:1,pageSize:1000},
             res=>{
                 console.log(res)
                 if(res.code==0){

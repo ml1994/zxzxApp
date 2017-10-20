@@ -66,7 +66,7 @@ class Header extends Component {
     render() {
         const {dispatch,type,icons,titles} = this.props
 
-        console.log(this.props)
+        //console.log(this.props)
         const routeIndex = this.props.nav.routes[0].routes[2].index //asks or compasks页
         //const title = type=='search'?'':this.props.title
         let container = ''

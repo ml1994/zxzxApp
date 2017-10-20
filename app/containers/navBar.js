@@ -52,7 +52,7 @@ class NavBar extends Component {
 				key: 5,
 				img: require('../asset/nav_report.png'),
 				label: '监督举报',
-				routeName:'KnowAll'
+				routeName:'Report'
 			}, 
 			{
 				key: 6,

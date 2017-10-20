@@ -20,6 +20,20 @@ export function addAskList(payload) {
         payload
     }
 }
+export function initCompAskList() {
+    return {
+        type:askActions.INIT_COMPASK_LIST,
+        payload:{
+            compAskList:[]
+        }
+    }
+}
+export function loadCompAskList(payload) {
+    return {
+        type:askActions.LOAD_COMPASK_LIST,
+        payload
+    }
+}
 export function initQaList() {
     return {
         type:askActions.INIT_QA_LIST,
