@@ -1,14 +1,58 @@
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
 import {View,TouchableOpacity,ListView,StyleSheet,Text} from 'react-native'
 import {SwipeListView} from 'react-native-swipe-list-view'
+import {NavigationActions} from 'react-navigation'
 import Header from '../components/header'
+import myFetch from '../utils/myFetch'
+import * as appStateActions from '../actions/appState'
 
-export default class Message extends Component {
+class Message extends Component {
 
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state = {
-            dataList:['a', 'b', 'c']
+            dataList:[]
+        }
+        this.getMessageList()
+    }
+
+    getMessageList(){
+        const {dispatch} = this.props
+        dispatch(appStateActions.fetch({fetching:true}))
+        myFetch.get(
+            '/message/view',
+            {},
+            res=>{
+                if(res.code==0){
+                    this.setState({
+                        dataList:res.data.rows
+                    })
+                }
+                dispatch(appStateActions.fetchEnd({fetching:false}))
+            },
+            err=>{
+                console.log(err)
+                dispatch(appStateActions.fetchEnd({fetching:false}))
+            }
+        )
+    }
+
+    onPressMessage(data){
+        const {dispatch} = this.props
+        if(data.msg_type==1){
+            dispatch(NavigationActions.navigate({
+                routeName:'MessageDetail',
+                params:{
+                    time:data.create_time,
+                    title:data.tails.msg_title,
+                    text:data.tails.msg_text,
+                    img:data.tails.msg_pic,
+                    url:data.tails.msg_url
+                }
+            }))
+        }else if(data.msg_type==2){
+
         }
     }
 
@@ -23,14 +67,15 @@ export default class Message extends Component {
         const ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2
         })
+        
         return (
             <View>
                 <Header type='title' title='消息中心'/>
                 <SwipeListView
                     dataSource={ds.cloneWithRows(this.state.dataList)}
                     renderRow={data => (
-                        <TouchableOpacity activeOpacity={1} onPress={()=>{}}>
-                            <View style={styles.rowFront}><Text style={styles.rowFrontText} numberOfLines={1}>{data}</Text></View>  
+                        <TouchableOpacity activeOpacity={1} onPress={()=>{this.onPressMessage(data)}}>
+                            <View style={styles.rowFront}><Text style={styles.rowFrontText} numberOfLines={1}>{data.tails.msg_title}</Text></View>  
                         </TouchableOpacity>
                     )}
                     renderHiddenRow={(data, secId, rowId) => (
@@ -85,3 +130,9 @@ const styles = StyleSheet.create({
         fontSize:16
     }
 })
+
+const mapStateToProps = store=>({
+    nav:store.nav
+})
+
+export default connect(mapStateToProps)(Message)

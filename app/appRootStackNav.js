@@ -9,6 +9,7 @@ import Login from './views/login'
 import Register from './views/register'
 import MySetting from './views/mySetting'
 import Message from './views/message'
+import MessageDetail from './views/messageDetail'
 import AboutUs from './views/aboutUs'
 import AddAsk from './views/addAsk'
 import AddOnAsk from './views/addOnAsk'
@@ -56,6 +57,9 @@ const appRootStackNav = StackNavigator({
     },
     Message:{//消息中心
         screen:Message
+    },
+    MessageDetail:{//消息中心详情页
+        screen:MessageDetail
     },
     MySetting:{//个人设置
         screen:MySetting
