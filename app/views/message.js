@@ -6,61 +6,65 @@ import {NavigationActions} from 'react-navigation'
 import Header from '../components/header'
 import myFetch from '../utils/myFetch'
 import * as appStateActions from '../actions/appState'
+import * as messageActions from '../actions/message'
 
 class Message extends Component {
 
     constructor(props){
         super(props)
-        this.state = {
-            dataList:[]
-        }
-        this.getMessageList()
+        const {dispatch} = this.props
+        dispatch(this.getMessageList())
     }
 
     getMessageList(){
         const {dispatch} = this.props
-        dispatch(appStateActions.fetch({fetching:true}))
-        myFetch.get(
-            '/message/view',
-            {},
-            res=>{
-                if(res.code==0){
-                    this.setState({
-                        dataList:res.data.rows
-                    })
+        return dispatch=>{
+            dispatch(appStateActions.fetch({fetching:true}))
+            myFetch.get(
+                '/message/view',
+                {},
+                res=>{
+                    console.log(res.data)
+                    if(res.code==0){
+                        dispatch(messageActions.loadList({messageList:res.data.rows}))
+                    }
+                    dispatch(appStateActions.fetchEnd({fetching:false}))
+                },
+                err=>{
+                    console.log(err)
+                    dispatch(appStateActions.fetchEnd({fetching:false}))
                 }
-                dispatch(appStateActions.fetchEnd({fetching:false}))
-            },
-            err=>{
-                console.log(err)
-                dispatch(appStateActions.fetchEnd({fetching:false}))
-            }
-        )
+            )
+        }
     }
 
     onPressMessage(data){
         const {dispatch} = this.props
+
         if(data.msg_type==1){
             dispatch(NavigationActions.navigate({
                 routeName:'MessageDetail',
-                params:{
-                    time:data.create_time,
-                    title:data.tails.msg_title,
-                    text:data.tails.msg_text,
-                    img:data.tails.msg_pic,
-                    url:data.tails.msg_url
-                }
+                params:{id:data.id}
             }))
         }else if(data.msg_type==2){
-
+            dispatch(NavigationActions.navigate({routeName:'AskDetail',params:{id:data.tails.msg_consultid}}))
         }
     }
 
-    delMessage(index){
-        this.state.dataList.splice(index,1)
-        this.setState({
-            dataList:this.state.dataList
-        })
+    delMessage(data, secId, rowId, rowMap){
+        const {dispatch} = this.props
+        myFetch.get(
+            '/message/remove',
+            {id:data.id},
+            res=>{
+                alert('删除成功')
+                rowMap[`${secId}${rowId}`].closeRow()
+                dispatch(this.getMessageList())
+            },
+            err=>{
+                console.log(err)
+            }
+        )
     }
 
     render() {
@@ -72,14 +76,14 @@ class Message extends Component {
             <View>
                 <Header type='title' title='消息中心'/>
                 <SwipeListView
-                    dataSource={ds.cloneWithRows(this.state.dataList)}
+                    dataSource={ds.cloneWithRows(this.props.message.messageList)}
                     renderRow={data => (
                         <TouchableOpacity activeOpacity={1} onPress={()=>{this.onPressMessage(data)}}>
-                            <View style={styles.rowFront}><Text style={styles.rowFrontText} numberOfLines={1}>{data.tails.msg_title}</Text></View>  
+                            <View style={styles.rowFront}><Text style={[styles.rowFrontText,data.state==1?styles.rowFrontTextReaded:'']} numberOfLines={1}>{data.tails.msg_title}</Text></View>  
                         </TouchableOpacity>
                     )}
-                    renderHiddenRow={(data, secId, rowId) => (
-                        <TouchableOpacity style={styles.rowBack} activeOpacity={.8} onPress={()=>this.delMessage(rowId)}>
+                    renderHiddenRow={(data, secId, rowId, rowMap) => (
+                        <TouchableOpacity style={styles.rowBack} activeOpacity={.8} onPress={()=>this.delMessage(data, secId, rowId, rowMap)}>
                             <Text style={styles.rowBackText}>删除</Text>
                         </TouchableOpacity>
                     )}
@@ -126,13 +130,14 @@ const styles = StyleSheet.create({
         fontSize:16
     },
     rowFrontTextReaded:{
-        color:'#7d7c7d',
+        color:'#ccc',
         fontSize:16
     }
 })
 
 const mapStateToProps = store=>({
-    nav:store.nav
+    nav:store.nav,
+    message:store.message
 })
 
 export default connect(mapStateToProps)(Message)

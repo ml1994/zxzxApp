@@ -7,6 +7,7 @@ import test from './test'
 import ask from './ask'
 import appState from './appState'
 import tech from './tech'
+import message from './message'
 
 const rootReducer = combineReducers({
     nav,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
     test,
     ask,
     appState,
-    tech
+    tech,
+    message
 })
 
 export default rootReducer

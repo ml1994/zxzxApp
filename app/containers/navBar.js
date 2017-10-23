@@ -12,7 +12,7 @@ import {NavigationActions} from 'react-navigation'
 
 class NavBar extends Component {
 
-	_onPressItem(routeName,sign) {
+	onPressItem(routeName,sign) {
 		const {dispatch} = this.props//connect后props里才有dispatch
 		if(sign=='undefined'){
 			dispatch(NavigationActions.navigate({routeName}))//导航跳转	
@@ -40,7 +40,7 @@ class NavBar extends Component {
 				key: 3,
 				img: require('../asset/nav_directory.png'),
 				label: '企业名录',
-				routeName: 'askTabs'
+				routeName: 'Directory'
 			}, 
 			{
 				key: 4,
@@ -80,7 +80,7 @@ class NavBar extends Component {
 					{tabArr.map((item,index) => {
 						return (<TouchableOpacity key={index}
 							style={[styles.listItem,(index<tabArr.length-4)?{marginBottom:20}:{}]}
-							onPress={() => this._onPressItem(item.routeName,item.sign)}>
+							onPress={() => this.onPressItem(item.routeName,item.sign)}>
 							<Image source={item.img} style={styles.img}/>
 							<Text style={styles.text}>{item.label}</Text>
 						</TouchableOpacity>)
@@ -94,7 +94,7 @@ class NavBar extends Component {
                     renderItem={({item}) => (
                         <TouchableOpacity
                             style={styles.listItem}
-                            onPress={() => this._onPressItem(item.key)}>
+                            onPress={() => this.onPressItem(item.key)}>
                             <Image source={item.img} style={styles.img}/>
                             <Text style={styles.text}>{item.label}</Text>
                         </TouchableOpacity>

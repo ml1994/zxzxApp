@@ -109,6 +109,7 @@ class CompAsks extends Component {
 							dispatch(askActions.loadCompAskList({compAskList}))
 							dispatch({type: 'LOADED_COMPASKLIST'})
 						} else {
+							dispatch(askActions.loadCompAskList({compAskList:[]}))
 							dispatch({type: 'NO_COMPASKLIST'})
 						}
 					}
