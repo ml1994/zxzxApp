@@ -111,7 +111,7 @@ const styles =StyleSheet.create({
     },
     vipView:{
         marginHorizontal:10,
-        backgroundColor:'#F19725',
+        backgroundColor:'#F5CB2E',
         borderRadius:2,
         width:30,
         alignItems:'center',
