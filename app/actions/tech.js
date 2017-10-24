@@ -1,8 +1,8 @@
-import * as techAction from '../constants/tech'
+import * as techActions from '../constants/tech'
 
 export function initTechList() {
 	return {
-		type: techAction.INIT_TECH_LIST,
+		type: techActions.INIT_TECH_LIST,
 		payload: {
 			techList: [],
 			ifRegister: '',
@@ -13,7 +13,7 @@ export function initTechList() {
 
 export function loadTechList(payload) {
 	return {
-		type: techAction.LOAD_TECH_LIST,
+		type: techActions.LOAD_TECH_LIST,
 		payload
 	}
 }
