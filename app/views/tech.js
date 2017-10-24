@@ -21,7 +21,6 @@ class Tech extends Component {
 			res => {
 				console.log(res)
 				if (res.code == '0') {
-					dispatch(techActions.initTechList())
 					dispatch(this.getTechList())
 				} else {
 					dispatch(NavigationActions.navigate({routeName: 'Login'}))

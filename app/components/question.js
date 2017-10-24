@@ -16,9 +16,8 @@ class Question extends Component {
 	}
 
 	checkState = () => {
-		let id = this.props.nav.routes[1].params.type;
 		let {que_type, index} = this.props;
-		storage.load({key: this.props.userinfo.account, id: id,}).then(ret => {
+		storage.load({key: this.props.userinfo.account, id: this.props.test.type,}).then(ret => {
 			let result = ret.resultList[index].result;
 			if (ret.resultList[index].result) {
 				this.setState({
@@ -38,9 +37,8 @@ class Question extends Component {
 			})
 	}//加载未完成测试答案
 	optionCheck = (option) => {
-		let id = this.props.nav.routes[1].params.type;
 		let {que_type, index} = this.props;
-		storage.load({key: this.props.userinfo.account, id: id,}).then(ret => {
+		storage.load({key: this.props.userinfo.account, id: this.props.test.type,}).then(ret => {
 			ret.testIng = index;
 			if (que_type == 2) {
 				let result = (ret.resultList[index].result) ? ret.resultList[index].result.split(',') : [];
@@ -69,7 +67,7 @@ class Question extends Component {
 					})
 				}
 			}
-			storage.save({key: this.props.userinfo.account, id: id, data: ret, expries:null});
+			storage.save({key: this.props.userinfo.account, id: this.props.test.type, data: ret, expries: null});
 			//console.log(storage)
 		})
 			.catch(err => {
@@ -130,8 +128,8 @@ class Question extends Component {
 				<FlatList
 					style={styles.optionList}
 					data={jsonOption}
-					renderItem={({item,index}) => (
-						<TouchableOpacity key={index+item.name} activeOpacity={.8} style={styles.optionView}
+					renderItem={({item, index}) => (
+						<TouchableOpacity key={index + item.name} activeOpacity={.8} style={styles.optionView}
 										  onPress={() => this.optionCheck(item.name)}>
 							{this.checkView(item.name)}
 							<Text style={styles.optionText}>{item.value}</Text>
@@ -250,7 +248,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = store => {
 	return {
 		nav: store.nav,
-		userinfo:store.userinfo
+		userinfo: store.userinfo,
+		test:store.test
 	}
 }
 

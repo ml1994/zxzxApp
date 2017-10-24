@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {View, Text, StyleSheet, ImageBackground, TouchableOpacity, Modal, Image,Alert} from 'react-native'
+import {View, Text, StyleSheet, ImageBackground, TouchableOpacity, Modal, Image, Alert} from 'react-native'
 import {NavigationActions} from 'react-navigation'
 import storage from '../gStorage'
 import Header from '../components/header'
@@ -57,7 +57,8 @@ class Test extends Component {
 
 	goSubject(type) {
 		const {dispatch} = this.props
-		dispatch(NavigationActions.navigate({routeName: 'Subject', params: {type}}))
+		dispatch(NavigationActions.navigate({routeName: 'TestVideo'}))
+		dispatch(testActions.getTestType({type:type}))
 	}
 
 	render() {
@@ -67,8 +68,14 @@ class Test extends Component {
 			{avatar: require('../asset/avatar-cleaning.png'), name: '保洁/绿化', testType: '2', bgColor: '#dbac54', key: 1},
 			{avatar: require('../asset/avatar-security.png'), name: '秩序/客服', testType: '1', bgColor: '#797939', key: 2},
 			{avatar: require('../asset/avatar-fire.png'), name: '消控室人员', testType: '3', bgColor: '#7ea87e', key: 3},
-			{avatar: require('../asset/avatar-management.png'),name: '管理层人员',testType: '4',bgColor: '#bc5e59',key: 4}]
-		let maxProperty = Math.max(this.props.test.maxScore[0],this.props.test.maxScore[1],this.props.test.maxScore[2],this.props.test.maxScore[3])
+			{
+				avatar: require('../asset/avatar-management.png'),
+				name: '管理层人员',
+				testType: '4',
+				bgColor: '#bc5e59',
+				key: 4
+			}]
+		let maxProperty = Math.max(this.props.test.maxScore[0], this.props.test.maxScore[1], this.props.test.maxScore[2], this.props.test.maxScore[3])
 		return (
 			<View style={styles.rootView}>
 				<Header type='title' title='教育培训' icons={icons}/>
@@ -80,30 +87,23 @@ class Test extends Component {
 						</Text>
 						<Text style={[styles.score, styles.right]}>最佳:{this.props.test.maxScore[4]}分</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={styles.propertyView} onPress={() => this.setState({modalVisible: true})}>
+					<TouchableOpacity style={styles.societyAnotherView} onPress={() => this.goSubject(5)}></TouchableOpacity>
+					<TouchableOpacity style={styles.propertyView} onPress={() => this.goSubject(2)}>
 						<Text style={[styles.type, styles.right]}>
 							<Text style={styles.bigSize}>物业</Text>
 							从业人员
 						</Text>
 						<Text style={[styles.score, styles.right]}>最佳:{maxProperty}分</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={styles.fireView} onPress={() => Alert.alert('提示','更多内容敬请期待')}>
+					<TouchableOpacity style={styles.familyView} onPress={() => this.goSubject(6)}>
 						<Text style={styles.type}>
-							消防
-							<Text style={styles.bigSize}>从业</Text>
-							人员
+							家庭
+							<Text style={styles.bigSize}>消防安全</Text>
 						</Text>
-						<Text style={styles.score}>最佳:0分</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={styles.programerView} onPress={() => Alert.alert('提示','更多内容敬请期待')}>
-						<Text style={styles.type}>
-							消防
-							<Text style={styles.bigSize}>工程师</Text>
-						</Text>
-						<Text style={styles.score}>最佳:0分</Text>
-					</TouchableOpacity>
+					<TouchableOpacity style={styles.familyAnotherView} onPress={() => this.goSubject(6)}></TouchableOpacity>
 				</ImageBackground>
-				<Modal
+				 <Modal
 					animationType="fade"
 					transparent={true}
 					visible={this.state.modalVisible}
@@ -124,7 +124,10 @@ class Test extends Component {
 									return (
 										<TouchableOpacity
 											style={[styles.propertyTypeButton, {backgroundColor: item.bgColor}]}
-											onPress={() => {this.goSubject(item.testType);this.setState({modalVisible:false})}} key={item.key}>
+											onPress={() => {
+												this.goSubject(item.testType);
+												this.setState({modalVisible: false})
+											}} key={item.key}>
 											<Image style={styles.propertyTypeIcon} resizeMode='contain'
 												   source={item.avatar}></Image>
 											<Text style={styles.propertyTypeText}>{item.name}</Text>
@@ -157,36 +160,43 @@ const styles = StyleSheet.create({
 			alignSelf: 'flex-end',
 			justifyContent: 'center',
 			height: '14%',
-			//backgroundColor:'rgba(0,0,0,.5)'
+			//backgroundColor: 'rgba(0,0,0,.5)'
+		},
+		societyAnotherView: {
+			top:0,
+			height: '18%',
+			paddingVertical: 10,
+			paddingHorizontal: 10,
+			width: '55%',
+			//backgroundColor: 'rgba(0,0,0,.5)'
 		},
 		propertyView: {
-			marginTop: '22%',
-			height: '20%',
+			marginTop: '6%',
+			height: '30%',
+			paddingVertical: 10,
+			paddingHorizontal: 10,
+			width: '65%',
+			alignSelf: 'flex-end',
+			justifyContent: 'center',
+			//backgroundColor: 'rgba(0,0,0,.5)'
+		},
+		familyView: {
+			marginTop: '10%',
+			height: '30%',
 			paddingVertical: 10,
 			paddingHorizontal: 10,
 			width: '60%',
-			alignSelf: 'flex-end',
-			justifyContent: 'center',
-			//backgroundColor:'rgba(0,0,0,.5)'
+			//backgroundColor: 'rgba(0,0,0,.5)'
 		},
-		fireView: {
-			marginTop: '10%',
-			height: '24%',
+		familyAnotherView:{
+			bottom:'14%',
 			paddingVertical: 10,
 			paddingHorizontal: 10,
-			width: '52%',
-			justifyContent: 'flex-end',
-			//backgroundColor:'rgba(0,0,0,.5)'
-		},
-		programerView: {
-			position: 'absolute',
-			bottom: 0,
-			paddingVertical: 5,
-			paddingHorizontal: 10,
 			width: '100%',
-			height: '12%',
+			alignSelf: 'flex-end',
 			justifyContent: 'center',
-			//backgroundColor:'rgba(0,0,0,.5)'
+			height: '14%',
+			//backgroundColor: 'rgba(0,0,0,.5)'
 		},
 		type: {
 			color: '#fff',
@@ -206,62 +216,6 @@ const styles = StyleSheet.create({
 		right: {
 			textAlign: 'right',
 		},
-		//Modal
-		modalView: {
-			flex: 1,
-			justifyContent: 'center',
-			padding: 20,
-			backgroundColor: 'rgba(0,0,0,.5)'
-		},
-		modalClose: {
-			marginTop: -100,
-			width: '100%',
-			alignItems: 'flex-end'
-		},
-		modalCloseView: {
-			width: 40,
-			height: 40,
-			borderRadius: 20,
-			borderWidth: 1,
-			borderColor: '#fff',
-			justifyContent: 'center',
-			alignItems: 'center'
-		},
-		modalLine: {
-			marginRight: 20,
-			height: 60,
-			borderLeftWidth: 1,
-			borderLeftColor: '#fff'
-		},
-		propertyTypeView: {
-			backgroundColor: '#fff',
-			borderRadius: 20,
-			padding: 20
-		},
-		propertyTypeTitle: {
-			fontWeight:'bold',
-			fontSize:16,
-			textAlign:'center',
-			color:'#000'
-		},
-		propertyTypeButton: {
-			marginTop: 15,
-			paddingHorizontal: 15,
-			borderRadius:10,
-			height: 60,
-			flexDirection: 'row',
-			alignItems: 'center',
-		},
-		propertyTypeText: {
-			color: '#fff',
-			fontSize: 22,
-			textAlign: 'center',
-			flex: 1,
-			fontWeight: 'bold'
-		},
-		propertyTypeIcon: {
-			width: 60,
-		}
 	}
 )
 
