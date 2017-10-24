@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, StyleSheet, Image, FlatList, ImageBackground, Modal, TouchableOpacity,Alert} from 'react-native'
+import {View, Text, StyleSheet, Image, FlatList, ImageBackground, Modal, TouchableOpacity, Alert} from 'react-native'
 import Swiper from 'react-native-swiper'
 import Header from '../components/header'
 import Question from '../components/question'
@@ -14,6 +14,7 @@ import * as testActions from '../actions/test'
 class Subject extends Component {
 	constructor(props) {
 		super(props)
+		const length = this.props.nav.routes.length - 1;
 		this.state = {
 			total: 2,
 			index: 0,
@@ -23,20 +24,19 @@ class Subject extends Component {
 				visible: false,
 			},
 			testResult: {score: 0, right: 0},
-			testIng: 0
+			testIng: 0,
 		}
-		console.log(this.props.nav.routes[1].params.type)
+		console.log(this.props.test)
 		this.loadTestList()
 	}
 
 	initTest() {
 		const {dispatch} = this.props
-		let id = this.props.nav.routes[1].params.type
 		return dispatch => {
 			dispatch(appStateActions.fetch({fetching: true}))
 			myFetch.post(
 				'/examqueBank/startexam',
-				`id=${id}`,
+				`id=${this.props.test.type}`,
 				resj => {
 					const {code, message} = resj
 					if (code == 0) {
@@ -60,16 +60,21 @@ class Subject extends Component {
 								result: ''
 							})
 						}
-						storage.save({key: this.props.userinfo.account, id: id, data: resultObj, expires:null})
+						storage.save({
+							key: this.props.userinfo.account,
+							id: this.props.test.type,
+							data: resultObj,
+							expires: null
+						})
 					} else {
-						Alert.alert('提示',message);
+						Alert.alert('提示', message);
 						dispatch(NavigationActions.back())
 					}
 					dispatch(appStateActions.fetchEnd({fetching: false}))
 				},
 				err => {
 					console.log(err)
-					Alert.alert('提示',err)
+					Alert.alert('提示', err)
 					dispatch(appStateActions.fetchEnd({fetching: false}))
 				}
 			)
@@ -85,7 +90,7 @@ class Subject extends Component {
 		this.setModalVisible(false)
 		storage.remove({
 			key: this.props.userinfo.account,
-			id: this.props.nav.routes[1].params.type
+			id: this.props.test.type
 		})
 		dispatch(this.initTest())
 		this.initTest()
@@ -94,8 +99,7 @@ class Subject extends Component {
 
 	loadTestList() {
 		const {dispatch} = this.props
-		let id = this.props.nav.routes[1].params.type
-		storage.load({key: this.props.userinfo.account, id: id}).then(ret => {
+		storage.load({key: this.props.userinfo.account, id: this.props.test.type}).then(ret => {
 			this.setModalVisible(true, 'start');
 			this.setState({index: ret.testIng, testList: ret.testList, total: ret.testList.length});
 		}).catch(err => {
@@ -113,19 +117,19 @@ class Subject extends Component {
 
 	}
 
-	initMaxScore(){//获取最高分
+	initMaxScore() {//获取最高分
 		const {dispatch} = this.props
 		let maxScore = new Array()
-		return dispatch=>{
-			dispatch({type:'GETTING_MAX_SCORE'})
+		return dispatch => {
+			dispatch({type: 'GETTING_MAX_SCORE'})
 			myFetch.get(
 				'/examqueBank/list',
 				{},
 				res => {
-					res.rows.map((item)=>{
+					res.rows.map((item) => {
 						maxScore.push(item.maxscore);
 					})
-					console.log(res,maxScore)
+					console.log(res, maxScore)
 					dispatch(testActions.getMaxScore({maxScore}))
 				},
 				err => {
@@ -174,7 +178,7 @@ class Subject extends Component {
 	}
 
 	submitTest() {
-		storage.load({key: this.props.userinfo.account, id: this.props.nav.routes[1].params.type}).then(
+		storage.load({key: this.props.userinfo.account, id: this.props.test.type}).then(
 			ret => {
 				fetch(`http://115.236.94.196:30005/app/examqueBank/uploadresult/${ret.id}`, {
 					method: 'POST',
@@ -191,10 +195,10 @@ class Subject extends Component {
 						this.setModalVisible(true, 'end')
 						storage.remove({
 							key: this.props.userinfo.account,
-							id: this.props.nav.routes[1].params.type
+							id: this.props.test.type
 						})
 					}).then(() => {
-					storage.remove({key: this.props.userinfo.account, id: this.props.nav.routes[1].params.type})
+					storage.remove({key: this.props.userinfo.account, id: this.props.test.type})
 				})
 			}
 		).catch(err => {
@@ -211,19 +215,19 @@ class Subject extends Component {
 		})
 	}
 
-	initMaxScore(){//获取最高分
+	initMaxScore() {//获取最高分
 		const {dispatch} = this.props
 		let maxScore = new Array()
-		return dispatch=>{
-			dispatch({type:'GETTING_MAX_SCORE'})
+		return dispatch => {
+			dispatch({type: 'GETTING_MAX_SCORE'})
 			myFetch.get(
 				'/examqueBank/list',
 				{},
 				res => {
-					res.rows.map((item)=>{
+					res.rows.map((item) => {
 						maxScore.push(item.maxscore);
 					})
-					console.log(res,maxScore)
+					console.log(res, maxScore)
 					dispatch(testActions.getMaxScore({maxScore}))
 				},
 				err => {
@@ -342,13 +346,15 @@ class Subject extends Component {
 
 	render() {
 		const icons = ['pause']
+		const titleList = ['秩序/客服', '保洁/绿化', '消控室人员', '管理层人员', '社会消防科普']
+		const title = titleList[this.props.test.type - 1]
 		let {testList, index, total} = this.state;
 		testList.map((item, index) => {
 			item.key = index
 		})
 		return (
 			<View style={styles.rootView}>
-				<Header type='title' title='物业培训' icons={icons} iconPress={() => this.setModalVisible(true, 'pause')}/>
+				<Header type='title' title={title} icons={icons} iconPress={() => this.setModalVisible(true, 'pause')}/>
 				{(testList.length) ?
 					<Swiper loop={false} showsPagination={false} showsButtons={false} index={this.state.index}
 							ref={(swiper) => {
@@ -552,7 +558,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = store => {
 	return {
 		nav: store.nav,
-		userinfo: store.userinfo
+		userinfo: store.userinfo,
+		test: store.test
 	}
 }
 
