@@ -9,6 +9,7 @@ import Login from './views/login'
 import Register from './views/register'
 import MySetting from './views/mySetting'
 import Message from './views/message'
+import MessageDetail from './views/messageDetail'
 import AboutUs from './views/aboutUs'
 import AddAsk from './views/addAsk'
 import AddOnAsk from './views/addOnAsk'
@@ -21,6 +22,8 @@ import Test from './views/test'
 import Rescue from './views/rescue'
 import Tech from './views/tech'
 import Report from './views/report'
+import News from './views/news'
+import Directory from './views/directory'
 
 
 const appRootStackNav = StackNavigator({
@@ -57,6 +60,9 @@ const appRootStackNav = StackNavigator({
     Message:{//消息中心
         screen:Message
     },
+    MessageDetail:{//消息中心详情页
+        screen:MessageDetail
+    },
     MySetting:{//个人设置
         screen:MySetting
     },
@@ -86,6 +92,12 @@ const appRootStackNav = StackNavigator({
     },
     Report:{//监督举报
         screen:Report
+    },
+    News:{//新闻详情
+        screen:News
+    },
+    Directory:{//企业名录
+        screen:Directory
     }
 }, {
     headerMode: 'none'

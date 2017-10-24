@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {View, TouchableOpacity, Text, TextInput, StyleSheet} from 'react-native'
+import {View, Text, TextInput, StyleSheet} from 'react-native'
 import {NavigationActions} from 'react-navigation'
 import Icon from '../components/icon'
 import * as newsActions from '../actions/news'
@@ -42,7 +42,7 @@ class SearchInput extends Component {
     render() {
         const {dispatch} = this.props
         return (
-            <TouchableOpacity style={styles.rootView} activeOpacity={.6}>
+            <View style={styles.rootView}>
                 <View style={styles.rowView}>
                     <Icon name='search' size={20} color='#fff'/>
                     <TextInput
@@ -56,7 +56,7 @@ class SearchInput extends Component {
                         onChangeText={searchText=>this._onChangeText(searchText)}
                         onSubmitEditing={()=>dispatch(this.submitFun())}/>
                 </View>
-            </TouchableOpacity>
+            </View>
         )
     }
 }
