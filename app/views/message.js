@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
-import {View,TouchableOpacity,ListView,StyleSheet,Text} from 'react-native'
+import {View,TouchableOpacity,ListView,StyleSheet,Text,Alert} from 'react-native'
 import {SwipeListView} from 'react-native-swipe-list-view'
 import {NavigationActions} from 'react-navigation'
 import Header from '../components/header'
@@ -57,7 +57,7 @@ class Message extends Component {
             '/message/remove',
             {id:data.id},
             res=>{
-                alert('删除成功')
+                Alert.alert('提示','删除成功')
                 rowMap[`${secId}${rowId}`].closeRow()
                 dispatch(this.getMessageList())
             },
