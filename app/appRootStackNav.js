@@ -24,6 +24,7 @@ import Tech from './views/tech'
 import Report from './views/report'
 import News from './views/news'
 import Directory from './views/directory'
+import DirectoryDetail from './views/directoryDetail'
 
 
 const appRootStackNav = StackNavigator({
@@ -98,6 +99,9 @@ const appRootStackNav = StackNavigator({
     },
     Directory:{//企业名录
         screen:Directory
+    },
+    DirectoryDetail:{//企业信息
+        screen:DirectoryDetail
     }
 }, {
     headerMode: 'none'
