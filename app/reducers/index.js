@@ -8,6 +8,7 @@ import ask from './ask'
 import appState from './appState'
 import tech from './tech'
 import message from './message'
+import directory from './directory'
 
 const rootReducer = combineReducers({
     nav,
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
     ask,
     appState,
     tech,
-    message
+    message,
+    directory
 })
 
 export default rootReducer

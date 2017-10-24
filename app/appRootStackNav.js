@@ -25,6 +25,7 @@ import Report from './views/report'
 import News from './views/news'
 import Directory from './views/directory'
 import TestVideo from './views/testVideo'
+import DirectoryDetail from './views/directoryDetail'
 
 const appRootStackNav = StackNavigator({
     TabNav: {
@@ -99,8 +100,11 @@ const appRootStackNav = StackNavigator({
     Directory:{//企业名录
         screen:Directory
     },
-    TestVideo: {
-        screen:TestVideo
+    TestVideo:{//培训视频
+        screen:TestVide
+    },
+    DirectoryDetail:{//企业信息
+        screen:DirectoryDetai
     }
 }, {
     headerMode: 'none'

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import * as newsActions from '../actions/news'
 import * as appStateActions from '../actions/appState'
 import HomeBanner from '../containers/homeBanner'
-import NavBar from '../containers/navBar'
+import NavBar from '../components/navBar'
 import KnowAllList from '../containers/knowAllList'
 
 class Home extends Component {
