@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
 	},
 	question: {
 		marginTop: 18,
-		fontSize: 18,
+		fontSize: 16,
 		lineHeight: 24,
 		width: '90%',
 		color: '#3d3d3d'
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
 		borderColor: '#bababa'
 	},
 	optionText: {
-		fontSize: 18
+		fontSize: 14
 	},
 	// btn:{
 	//     marginTop:40,
