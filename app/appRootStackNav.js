@@ -101,10 +101,10 @@ const appRootStackNav = StackNavigator({
         screen:Directory
     },
     TestVideo:{//培训视频
-        screen:TestVide
+        screen:TestVideo
     },
     DirectoryDetail:{//企业信息
-        screen:DirectoryDetai
+        screen:DirectoryDetail
     }
 }, {
     headerMode: 'none'
