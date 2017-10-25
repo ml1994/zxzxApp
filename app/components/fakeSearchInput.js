@@ -11,7 +11,7 @@ class FakeSearchInput extends Component {
         return (
             <TouchableOpacity
                 style={styles.rootView}
-                onPress={() => dispatch(NavigationActions.navigate({routeName:'Search'}))}
+                onPress={() => dispatch(NavigationActions.navigate({routeName:'AddAsk'}))}
                 activeOpacity={.6}>
                 <View style={styles.rowView}>
                     <Text style={styles.textStyle}>{this.props.placeholder}</Text>
