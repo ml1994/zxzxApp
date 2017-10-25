@@ -50,6 +50,14 @@ class TestVideo extends Component {
 		}
 	}
 
+	timeFormatting(time) {
+		let sec = time % 60
+		let min = (time - sec) / 60
+		sec = (sec<10)?'0'+sec:sec;
+		min = (min<10)?'0'+min:min;
+		return (min+':'+sec)
+	}
+
 	renderVideo() {
 		let activeVideo = this.state.videoList[this.state.active]
 		if (activeVideo) {
@@ -86,7 +94,7 @@ class TestVideo extends Component {
 								style={[styles.itemText, (index == this.state.active) ? styles.active : null]}>第{index + 1}节</Text>
 							<Text
 								style={[styles.itemText, (index == this.state.active) ? styles.active : null]}>{item.title}</Text>
-							<Text style={styles.duration}>{item.duration}</Text>
+							<Text style={styles.duration}>{this.timeFormatting(item.duration)}</Text>
 						</TouchableOpacity>)
 				})}
 			</ScrollView>
