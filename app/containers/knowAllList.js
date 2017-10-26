@@ -20,7 +20,7 @@ class KnowAllList extends Component {
                         let value = list[i]
                         list.splice(i,1)
                         list.unshift(value)
-                    } 
+                    }
                     break
                 }
             }
