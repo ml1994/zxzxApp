@@ -28,13 +28,13 @@ export default class HomeBanner extends Component {
                 swiper=(
                     <Swiper autoplay={true}>
                         <View style={styles.slide1}>
-                            <Image style={styles.bannerImg} source={require('../asset/banner_bg.jpg')} resizeMode='cover'/>
+                            <Image style={styles.bannerImg} source={require('../asset/banner1.jpg')} resizeMode='stretch'/>
                         </View>
                         <View style={styles.slide1}>
-                            <Image style={styles.bannerImg} source={require('../asset/banner_bg.jpg')} resizeMode='cover'/>
+                            <Image style={styles.bannerImg} source={require('../asset/banner2.jpg')} resizeMode='stretch'/>
                         </View>
                         <View style={styles.slide1}>
-                            <Image style={styles.bannerImg} source={require('../asset/banner_bg.jpg')} resizeMode='cover'/>
+                            <Image style={styles.bannerImg} source={require('../asset/banner3.jpg')} resizeMode='stretch'/>
                         </View>
                     </Swiper>
                     )
