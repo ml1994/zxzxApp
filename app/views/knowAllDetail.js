@@ -10,7 +10,7 @@ export default class KnowAllDetail extends Component {
     constructor(props){
         super(props)
         this.state = {
-            link:`http://www.zxzx119.com${this.props.navigation.state.params.link}`
+            link:`http://www.zxzx119.com${this.props.navigation.state.params.link}?src=app`
         }
         const {dispatch} = this.props.navigation
        // dispatch(this.getNewsDetail())
@@ -44,8 +44,8 @@ export default class KnowAllDetail extends Component {
             <View style={styles.rootView}>
                 <Header type='title' title={this.props.navigation.state.params.title}/>
                 <WebView style={styles.webView}
-                    startInLoadingState={true}  
-                    domStorageEnabled={true}  
+                    startInLoadingState={true}
+                    domStorageEnabled={true}
                     scalesPageToFit={true}
                     source={{uri:this.state.link}}/>
             </View>

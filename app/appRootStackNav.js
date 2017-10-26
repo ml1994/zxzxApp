@@ -26,21 +26,21 @@ import News from './views/news'
 import Directory from './views/directory'
 import TestVideo from './views/testVideo'
 import DirectoryDetail from './views/directoryDetail'
-
+import TestTip from './views/testTip'
 const appRootStackNav = StackNavigator({
     TabNav: {
         screen: AppTabNav
     },
-    Login:{
+    Login:{//登录
         screen: Login
     },
-    Register:{
+    Register:{//注册
         screen: Register
     },
-	ChangePassword:{
+	ChangePassword:{//修改密码
 		screen: ChangePassword
 	},
-	ForgetPassword:{
+	ForgetPassword:{//忘记密码
 		screen: ForgetPassword
 	},
     Search: {//搜索页
@@ -105,6 +105,9 @@ const appRootStackNav = StackNavigator({
     },
     DirectoryDetail:{//企业信息
         screen:DirectoryDetail
+    },
+    TestTip:{//消防小贴士
+        screen:TestTip
     }
 }, {
     headerMode: 'none'

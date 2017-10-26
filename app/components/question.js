@@ -129,11 +129,11 @@ class Question extends Component {
 					style={styles.optionList}
 					data={jsonOption}
 					renderItem={({item, index}) => (
-						<TouchableOpacity key={index + item.name} activeOpacity={.8} style={styles.optionView}
-										  onPress={() => this.optionCheck(item.name)}>
+						((item.value)?<TouchableOpacity key={index + item.name} activeOpacity={.8} style={styles.optionView}
+												onPress={() => this.optionCheck(item.name)}>
 							{this.checkView(item.name)}
 							<Text style={styles.optionText}>{item.value}</Text>
-						</TouchableOpacity>
+						</TouchableOpacity>:null)
 					)}/>
 				{/* <TouchableOpacity>
                     <ImageBackground source={require('../asset/btn_bg.png')} resizeMode='contain' style={styles.btn}>
