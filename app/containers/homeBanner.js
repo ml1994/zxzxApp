@@ -25,7 +25,7 @@ class HomeBanner extends Component {
 
 	goWebView(link) {
 		const {dispatch} = this.props;
-		dispatch(NavigationActions.navigate({routeName: 'KnowAllDetail', params: {link: link}}))
+		dispatch(NavigationActions.navigate({routeName: 'KnowAllDetail', params: {link: link,title:'热点新闻'}}))
 	}
 
 	render() {
