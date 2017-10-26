@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     tabView:{
         marginTop:4,
         marginHorizontal:10,
-        width:72,
+        width:80,
         alignItems:'center',
         height:'100%'
     },

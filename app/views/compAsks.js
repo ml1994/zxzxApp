@@ -39,7 +39,6 @@ const SCREEN_HEIGHT = Dimensions.get('window').height
 class CompAsks extends Component {
 	constructor(props) {
 		super(props)
-		UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true)
 		const {dispatch} = this.props
 		this.state = {
 			refreshing: false,
@@ -51,7 +50,8 @@ class CompAsks extends Component {
 			regionListSelected: -1,
 			projetListSelected: -1
 		}
-
+		UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true)
+		
 		myFetch.get(
 			'/account/islogin',
 			{},
@@ -378,12 +378,16 @@ const styles = StyleSheet.create({
 	subTabTextActive: {
 		color: '#c32827'
 	},
+	scrollview:{
+		backgroundColor:'#fff'
+	},
 	filterView: {
 		position: 'absolute',
 		top: 121,
 		left: 0,
 		width: '100%',
 		backgroundColor: '#fff',
+		overflow:'hidden'
 	},
 	filterScrollView: {
 		paddingHorizontal: 15,
@@ -410,6 +414,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		height: 30,
+		backgroundColor:'#fff',
 		borderWidth: 1,
 		borderColor: '#c32726'
 	},
