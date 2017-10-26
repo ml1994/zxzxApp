@@ -26,7 +26,7 @@ export default class HomeBanner extends Component {
         let swiper = null
         if(this.state.visibleSwiper){
                 swiper=(
-                    <Swiper autoplay={true}>
+                    <Swiper autoplay={true} autoplayTimeout={5} activeDotColor='#fff'>
                         <View style={styles.slide1}>
                             <Image style={styles.bannerImg} source={require('../asset/banner1.jpg')} resizeMode='stretch'/>
                         </View>
