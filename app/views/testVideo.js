@@ -87,7 +87,7 @@ class TestVideo extends Component {
 			<ScrollView showsVerticalScrollIndicator={false} style={styles.list}>
 				{this.state.videoList.map((item, index) => {
 					return (
-						<TouchableOpacity style={styles.item} onPress={() => {
+						<TouchableOpacity style={styles.item} key={index} onPress={() => {
 							this.pressVideo(index)
 						}}>
 							<Text
@@ -153,6 +153,7 @@ class TestVideo extends Component {
 				animationType="fade"
 				transparent={true}
 				visible={this.state.modalVisible}
+				onRequestClose={()=>{}}
 			>
 				<TouchableOpacity style={styles.modalView} activeOpacity={1}>
 					<View>

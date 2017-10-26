@@ -14,13 +14,13 @@ class News extends Component {
 
     render() {
         const {dispatch} = this.props
-        
+
         return (
             <View style={styles.rootView}>
                 <Header type='title' title='热点新闻'/>
                 <WebView style={styles.webView}
-                    startInLoadingState={true}  
-                    domStorageEnabled={true}  
+                    startInLoadingState={true}
+                    domStorageEnabled={true}
                     scalesPageToFit={true}
                     source={{uri:this.state.link}}/>
             </View>

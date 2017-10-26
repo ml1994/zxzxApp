@@ -60,14 +60,17 @@ class Me extends Component {
 
     render() {
         const menuArr = [{
+            key:1,
             iconName:'envelope-o',
             text:'消息中心',
             nav:'Message'
         },{
+            key:2,
             iconName:'file-text-o',
             text:'个人设置',
             nav:'MySetting'
         },{
+            key:3,
             iconName:'pencil',
             text:'关于我们',
             nav:'AboutUs'

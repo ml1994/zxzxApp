@@ -103,40 +103,6 @@ class Test extends Component {
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.familyAnotherView} onPress={() => this.goSubject(6)}></TouchableOpacity>
 				</ImageBackground>
-				 <Modal
-					animationType="fade"
-					transparent={true}
-					visible={this.state.modalVisible}
-				>
-					<TouchableOpacity style={styles.modalView} activeOpacity={1}>
-						<View>
-							<View style={styles.modalClose}>
-								<TouchableOpacity style={styles.modalCloseView} onPress={() => {
-									this.setState({modalVisible: false})
-								}}>
-									<Icon name='close' size={28} color='#fff'/>
-								</TouchableOpacity>
-								<View style={styles.modalLine}></View>
-							</View>
-							<View style={styles.propertyTypeView}>
-								<Text style={styles.propertyTypeTitle}>物业从业人员选择</Text>
-								{propertyType.map((item) => {
-									return (
-										<TouchableOpacity
-											style={[styles.propertyTypeButton, {backgroundColor: item.bgColor}]}
-											onPress={() => {
-												this.goSubject(item.testType);
-												this.setState({modalVisible: false})
-											}} key={item.key}>
-											<Image style={styles.propertyTypeIcon} resizeMode='contain'
-												   source={item.avatar}></Image>
-											<Text style={styles.propertyTypeText}>{item.name}</Text>
-										</TouchableOpacity>)
-								})}
-							</View>
-						</View>
-					</TouchableOpacity>
-				</Modal>
 			</View>
 		)
 	}

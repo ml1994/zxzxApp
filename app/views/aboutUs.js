@@ -8,16 +8,19 @@ export default class AboutUs extends Component {
 
     render() {
         const menuArr = [{
+            key:1,
             iconName:'bars',
             text:'简介',
             nav:'AboutDetail',
             type:'Info'
         },{
+            key:2,
             iconName:'volume-control-phone',
             text:'客服热线',
             nav:'AboutDetail',
             type:'Phone'
         },{
+            key:3,
             iconName:'registered',
             text:'版权所有',
             nav:'AboutDetail',
