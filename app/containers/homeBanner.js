@@ -26,15 +26,15 @@ export default class HomeBanner extends Component {
         let swiper = null
         if(this.state.visibleSwiper){
                 swiper=(
-                    <Swiper autoplay={true}>
+                    <Swiper autoplay={true} autoplayTimeout={5} activeDotColor='#fff'>
                         <View style={styles.slide1}>
-                            <Image style={styles.bannerImg} source={require('../asset/banner_bg.jpg')} resizeMode='cover'/>
+                            <Image style={styles.bannerImg} source={require('../asset/banner1.jpg')} resizeMode='cover'/>
                         </View>
                         <View style={styles.slide1}>
-                            <Image style={styles.bannerImg} source={require('../asset/banner_bg.jpg')} resizeMode='cover'/>
+                            <Image style={styles.bannerImg} source={require('../asset/banner2.jpg')} resizeMode='cover'/>
                         </View>
                         <View style={styles.slide1}>
-                            <Image style={styles.bannerImg} source={require('../asset/banner_bg.jpg')} resizeMode='cover'/>
+                            <Image style={styles.bannerImg} source={require('../asset/banner3.jpg')} resizeMode='cover'/>
                         </View>
                     </Swiper>
                     )
