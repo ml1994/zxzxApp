@@ -103,7 +103,7 @@ export default class rescue extends Component {
 				<ScrollView style={styles.rootView} showsVerticalScrollIndicator={false}>
 					<Image source={require('../asset/rescue_banner.png')} style={styles.img}/>
 					<View style={styles.list}>
-						{rescueList.map(item => {
+						{rescueList.map((item,index) => {
 							let titleStyle = {
 								width: item.title.length * 20,
 
@@ -113,7 +113,7 @@ export default class rescue extends Component {
 								marginBottom: (item.img) ? null : 20
 							}
 							return (
-								<View>
+								<View key={index}>
 									<View style={[styles.titleContainer,titleContainerStyle]}><Text style={[styles.itemTitle,titleStyle]}>{item.title}</Text></View>
 									{(item.img) ?
 										<Image source={item.img} resizeMode='contain' style={styles.img}/> : null}

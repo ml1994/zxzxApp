@@ -7,10 +7,12 @@ export default class MySetting extends Component {
 
     render() {
         const menuArr = [{
+            key:1,
             iconName:'key',
             text:'修改密码',
             nav:'ChangePassword'
         },{
+            key:2,
             iconName:'sign-out',
             text:'退出账号',
             loginOut:true

@@ -11,10 +11,10 @@ import SearchInput from '../components/searchInput'
  * 2.有title和右侧按钮
  * 3.search框
  * 4.有title和右侧暂停按钮（物业培训答题时）
- * 
- * 
- * 
- * @returns 
+ *
+ *
+ *
+ * @returns
  * @memberof Header
  */
 class Header extends Component {
@@ -62,7 +62,7 @@ class Header extends Component {
         })
         dispatch(NavigationActions.navigate({routeName}))
     }
-    
+
     render() {
         const {dispatch,type,icons,titles} = this.props
 
@@ -78,7 +78,7 @@ class Header extends Component {
                     {icons.map((item,index)=>{
                         return (
                             <TouchableOpacity style={styles.rightIconView} onPress={()=>{this.iconsFun(item)}} key={index}>
-                                <Icon name={item} size={20} color='#fff'/>               
+                                <Icon name={item} size={20} color='#fff'/>
                             </TouchableOpacity>
                         )
                     })}
@@ -95,14 +95,14 @@ class Header extends Component {
                 break
             case 'search':
                 container =  (<SearchInput placeholder="请输入关键字查找"/>)
-                break     
+                break
             case 'tabs':
                 container =  (
                     <View style={styles.tabsView}>
-                        {         
+                        {
                             titles.map((value,index)=>{
                                 return (
-                                    <TouchableOpacity style={[styles.tabView,routeIndex==index?styles.tabViewActive:'']} onPress={()=>{this.changeTab(value.nav)}}>
+                                    <TouchableOpacity key={index} style={[styles.tabView,routeIndex==index?styles.tabViewActive:'']} onPress={()=>{this.changeTab(value.nav)}}>
                                         <Text style={styles.tabText}>{value.title}</Text>
                                     </TouchableOpacity>
                                 )
@@ -110,7 +110,7 @@ class Header extends Component {
                         }
                     </View>
                 )
-                break     
+                break
             default:
                 break
         }
@@ -118,7 +118,7 @@ class Header extends Component {
         return (
             <View style={styles.rootView}>
                 <View style={type=='search'?styles.leftIconSearchView:styles.leftIconTitleView}>
-                    <Icon name="angle-left" size={30} color='#fff' onPress={()=>this.returnBtnFun()}/>               
+                    <Icon name="angle-left" size={30} color='#fff' onPress={()=>this.returnBtnFun()}/>
                 </View>
                 {container}
                 {rightIcons}
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     rightIconView:{
         flex:1,
         flexDirection:'row',
-        marginTop:2,        
+        marginTop:2,
         marginRight:4,
         height:30,
         justifyContent:'center',
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
         color:'#fff',
         height:'100%'
     },
-    tabViewActive:{  
+    tabViewActive:{
         borderBottomWidth:5,
         borderBottomColor:'#f1f1f1'
     },

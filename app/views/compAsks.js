@@ -51,7 +51,7 @@ class CompAsks extends Component {
 			projetListSelected: -1
 		}
 		UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true)
-		
+
 		myFetch.get(
 			'/account/islogin',
 			{},
@@ -71,7 +71,7 @@ class CompAsks extends Component {
 	}
 
 
-	getList(type,region='',project='') {
+	getList(type, region = '', project = '') {
 		const {dispatch} = this.props
 		const params = {
 			page: 1,
@@ -126,10 +126,10 @@ class CompAsks extends Component {
 
 	filterList() {
 		const {dispatch} = this.props
-		let region = (this.state.regionListSelected != -1) ? this.state.regionList[this.state.regionListSelected] : '';
-		let project = (this.state.projectListSelected != -1) ? this.state.projectList[this.state.projectListSelected] : '';
-		this.setState({filterViewShow:false})
-		dispatch(this.getList(this.state.subTabIndex,region,project))
+		let region = (this.state.regionListSelected != -1) ? this.state.regionList[this.state.regionListSelected] : ''
+		let project = (this.state.projectListSelected != -1) ? this.state.projectList[this.state.projectListSelected] : ''
+		this.setState({filterViewShow: false})
+		dispatch(this.getList(this.state.subTabIndex, region, project))
 	}
 
 	refreshFun() {
@@ -182,7 +182,9 @@ class CompAsks extends Component {
 		this.setState({
 			subTabIndex: index
 		})
-		dispatch(this.getList(index + 1))
+		let region = (this.state.regionListSelected != -1) ? this.state.regionList[this.state.regionListSelected] : ''
+		let project = (this.state.projectListSelected != -1) ? this.state.projectList[this.state.projectListSelected] : ''
+		dispatch(this.getList(index + 1, region, project))
 	}
 
 	asksFilter() {
@@ -246,7 +248,10 @@ class CompAsks extends Component {
 		const icons = ['pencil-square-o']
 		const subTabsArr = ['综合', '时间', '热度', '筛选']
 		const subTabsArrlength = subTabsArr.length
-
+		let compAskList = this.props.ask.compAskList
+		compAskList.map((item, index) => {
+			item.key = index
+		})
 		let filterHeight = this.state.filterViewShow ? SCREEN_HEIGHT - 170 : 1
 		return (
 			<View style={styles.rootView}>
@@ -255,7 +260,7 @@ class CompAsks extends Component {
 					{
 						subTabsArr.map((value, index) => {
 							return (
-								<TouchableOpacity style={styles.subTabView} onPress={() => {
+								<TouchableOpacity style={styles.subTabView} key={index} onPress={() => {
 									index != subTabsArrlength - 1 ? this.subTabPress(index) : this.asksFilter()
 								}}>
 									<Text
@@ -298,7 +303,7 @@ class CompAsks extends Component {
 						<View style={styles.regionList}>
 							{this.state.regionList.map((item, index) => {
 								return (
-									<TouchableOpacity style={styles.regionItem} onPress={() => {
+									<TouchableOpacity style={styles.regionItem} key={index} onPress={() => {
 										this.setState({regionListSelected: index})
 									}}>
 										<Text
@@ -314,7 +319,7 @@ class CompAsks extends Component {
 						<View style={styles.projectList}>
 							{this.state.projectList.map((item, index) => {
 								return (
-									<TouchableOpacity style={styles.projectItem} onPress={() => {
+									<TouchableOpacity style={styles.projectItem} key={index} onPress={() => {
 										this.setState({projectListSelected: index})
 									}}>
 										<Text
@@ -378,8 +383,8 @@ const styles = StyleSheet.create({
 	subTabTextActive: {
 		color: '#c32827'
 	},
-	scrollview:{
-		backgroundColor:'#fff'
+	scrollview: {
+		backgroundColor: '#fff'
 	},
 	filterView: {
 		position: 'absolute',
@@ -387,7 +392,7 @@ const styles = StyleSheet.create({
 		left: 0,
 		width: '100%',
 		backgroundColor: '#fff',
-		overflow:'hidden'
+		overflow: 'hidden'
 	},
 	filterScrollView: {
 		paddingHorizontal: 15,
@@ -414,7 +419,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		height: 30,
-		backgroundColor:'#fff',
+		backgroundColor: '#fff',
 		borderWidth: 1,
 		borderColor: '#c32726'
 	},
