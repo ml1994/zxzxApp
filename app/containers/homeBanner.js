@@ -14,7 +14,7 @@ export default class HomeBanner extends Component {
      }
      
      componentDidMount() {
-        setTimeout(() => {
+        setTimeout(() => {//控制swiper组件延迟加载，避免和TabsNavigator冲突导致无法正常使用
            this.setState({
              visibleSwiper: true
            })
@@ -26,15 +26,15 @@ export default class HomeBanner extends Component {
         let swiper = null
         if(this.state.visibleSwiper){
                 swiper=(
-                    <Swiper>
+                    <Swiper autoplay={true}>
                         <View style={styles.slide1}>
-                        <Image style={styles.bannerImg} source={require('../asset/banner_bg.jpg')} resizeMode='cover'/>
+                            <Image style={styles.bannerImg} source={require('../asset/banner_bg.jpg')} resizeMode='cover'/>
                         </View>
                         <View style={styles.slide1}>
-                        <Image style={styles.bannerImg} source={require('../asset/banner_bg.jpg')} resizeMode='cover'/>
+                            <Image style={styles.bannerImg} source={require('../asset/banner_bg.jpg')} resizeMode='cover'/>
                         </View>
                         <View style={styles.slide1}>
-                        <Image style={styles.bannerImg} source={require('../asset/banner_bg.jpg')} resizeMode='cover'/>
+                            <Image style={styles.bannerImg} source={require('../asset/banner_bg.jpg')} resizeMode='cover'/>
                         </View>
                     </Swiper>
                     )
