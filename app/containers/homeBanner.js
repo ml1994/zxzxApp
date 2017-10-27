@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, TextInput, ImageBackground, StyleSheet, Image, TouchableOpacity} from 'react-native'
+import {View, Text, TextInput, ImageBackground, StyleSheet, Image, TouchableOpacity,Dimensions} from 'react-native'
 import Icon from '../components/icon'
 import FakeSearchInput from '../components/fakeSearchInput'
 import Swiper from 'react-native-swiper'
@@ -49,7 +49,7 @@ class HomeBanner extends Component {
 		]
 		if (this.state.visibleSwiper) {
 			swiper = (
-				<Swiper autoplay={true} autoplayTimeout={5} activeDotColor='#fff'>
+				<Swiper style={styles.swiper} autoplay={true} autoplayTimeout={5} activeDotColor='rgba(255,255,255,.6)'>
 					{advList.map((item, index) => {
 						return (
 							<TouchableOpacity style={styles.slide1} key={index} onPress={() => {
@@ -63,7 +63,7 @@ class HomeBanner extends Component {
 			)
 		} else {
 			swiper = (
-				<View style={{flex: 1}}></View>
+				<View></View>
 			)
 		}
 		return (
@@ -93,9 +93,10 @@ class HomeBanner extends Component {
 }
 
 const STATUSBAR_HEIGHT = 20
+const bannerHeight = (Dimensions.get('window').height-50)/2
 const styles = StyleSheet.create({
 	rootView: {
-		height: '50%'
+		height: bannerHeight
 	},
 	bgStyle: {
 		paddingTop: STATUSBAR_HEIGHT, //避开顶部状态栏高度
@@ -118,15 +119,19 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center'
 	},
+	swiper:{
+		height:bannerHeight
+	},
 	slide1: {
-		flex: 1,
+		//flex:1,
+		height:bannerHeight,
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: '#9DD6EB',
 	},
 	bannerImg: {
 		width: '100%',
-		height: '100%'
+		height:'100%'
 	},
 	text: {
 		color: '#fff',

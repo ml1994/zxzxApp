@@ -42,7 +42,7 @@ class DirectoryDetail extends Component {
             <View style={styles.rootView}>
                 <Header type='title' title='企业信息'/>
                 {
-                    isVip==''?(
+                    isVip?(
                         <ScrollView showsVerticalScrollIndicator={false}>
                             <Image style={styles.bannerImg} source={require('../asset/comp_info_banner.jpg')} resizeMode='cover'/>
                             <CompInfo iconName='home' iconSize={24} title='企业信息'>
