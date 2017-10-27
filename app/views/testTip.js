@@ -12,7 +12,7 @@ class TestTip extends Component {
 		this.state = {
 			content: ''
 		}
-		this.getTip()
+		if(this.props.test.type!=6){this.getTip()}
 	}
 
 	getTip() {
