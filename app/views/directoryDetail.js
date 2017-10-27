@@ -16,19 +16,37 @@ class DirectoryDetail extends Component {
                     iconName:'fire-extinguisher',
                     iconSize:22,
                     title:'企业产品',
-                    list:[1,2,3]
+                    list:[{
+                        name:'产品名称'
+                    },{
+                        name:'产品名称'
+                    },{
+                        name:'产品名称'
+                    }]
                 },
                 {
                     iconName:'building',
                     iconSize:20,
                     title:'工程案例',
-                    list:[1,2,3]
+                    list:[{
+                        name:'案例名称'
+                    },{
+                        name:'案例名称'
+                    },{
+                        name:'案例名称'
+                    }]
                 },
                 {
                     iconName:'trophy',
                     iconSize:22,
                     title:'企业荣誉',
-                    list:[1,2,3]
+                    list:[{
+                        name:'荣誉名称'
+                    },{
+                        name:'荣誉名称'
+                    },{
+                        name:'荣誉名称'
+                    }]
                 }
             ]
         }
@@ -46,8 +64,11 @@ class DirectoryDetail extends Component {
                         <ScrollView showsVerticalScrollIndicator={false}>
                             <Image style={styles.bannerImg} source={require('../asset/comp_info_banner.jpg')} resizeMode='cover'/>
                             <CompInfo iconName='home' iconSize={24} title='企业信息'>
-                                <Text style={styles.infoText}>21</Text>
-                                <Text style={styles.infoText}>wqe</Text>
+                                <Text style={styles.infoText}>企业名称：xxx</Text>
+                                <Text style={styles.infoText}>公司地址：xxx</Text>
+                                <Text style={styles.infoText}>公司规模：xxx</Text>
+                                <Text style={styles.infoText}>公司资质：xxx</Text>
+                                <Text style={styles.infoText}>所属区域：xxx</Text>
                             </CompInfo>
                             <CompInfo iconName='tasks' iconSize={20} title='企业简介'>
                                 <Text style={[styles.introduction,styles.infoText]}>        中消在线隶属于中消集团，于2016年11月9日上线，是中国首家以互联网+的思维模式打造的消防服务平台——中国消防在线.com（简称：中消在线）正式启动。中消在线是中消集团与公安部消防局合力开发运营的在线网络平台，历经2年对消防服务行业的深入调研，1年的前期筹划、资源整合及测试运营，“千呼万唤始出来”。</Text>
@@ -62,7 +83,7 @@ class DirectoryDetail extends Component {
                                                 {item.list.map(item=>(
                                                     <View style={styles.listView}>
                                                         <Image style={styles.listImg} source={{uri:'http://pic35.nipic.com/20131121/2531170_145358633000_2.jpg'}} resizeMode='contain'/>
-                                                        <Text style={styles.listText} numberOfLines={1}>哈哈哈</Text>
+                                                        <Text style={styles.listText} numberOfLines={1}>{item.name}</Text>
                                                     </View>
                                                 ))}
                                         </Swiper>

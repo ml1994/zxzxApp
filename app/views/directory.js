@@ -102,11 +102,11 @@ class Directory extends Component {
                                             <View style={styles.textView}>
                                                 <View style={styles.titleView}>
                                                     <Image style={styles.titleIcon} resizeMode='contain' source={require('../asset/diamond.png')}/>
-                                                    <Text style={styles.title} numberOfLines={1}>哈哈哈哈哈哈哈哈</Text>
+                                                    <Text style={styles.title} numberOfLines={1}>xx公司</Text>
                                                 </View>
-                                                <Text style={styles.text} numberOfLines={1}>所在区域：哈哈哈哈哈哈哈哈</Text>
-                                                <Text style={styles.text} numberOfLines={1}>企业网址：哈哈哈哈哈哈哈哈</Text>
-                                                <Text style={styles.text} numberOfLines={1}>联系电话：哈哈哈哈哈哈哈哈</Text>
+                                                <Text style={styles.text} numberOfLines={1}>所在区域：xxx</Text>
+                                                <Text style={styles.text} numberOfLines={1}>企业网址：xxx</Text>
+                                                <Text style={styles.text} numberOfLines={1}>联系电话：xxx</Text>
                                             </View>
                                         </View>
                                     </TouchableOpacity>
