@@ -17,22 +17,23 @@ class TestTip extends Component {
 
 	getTip() {
 		const {dispatch} = this.props
+		dispatch(appStateActions.fetch({fetching: true}))
 		myFetch.get('/examqueBank/banktips/' + this.props.test.type,
 			{},
 			res => {
-				dispatch(appStateActions.fetch({fetching: true}))
 				if (res.code == 0) {
 					this.setState({
 						content: res.data
 					})
-					dispatch(appStateActions.fetchEnd({fetching: false}))
 				} else {
 					Alert.alert('提示', res.message)
 					dispatch(NavigationActions.back())
 				}
+				dispatch(appStateActions.fetchEnd({fetching: false}))
 			},
 			err => {
 				console.log(err)
+				dispatch(appStateActions.fetchEnd({fetching: false}))
 			})
 	}
 
@@ -49,9 +50,13 @@ class TestTip extends Component {
 					<View style={styles.contentContainer}>
 						<Image style={styles.imgTop} source={require('../asset/tips_top.png')} resizeMode='contain'/>
 						<View style={styles.content}>
-							<Text style={styles.contentTitle}>{this.state.content.title}</Text>
-							<Text style={styles.contentText}>{this.state.content.context}</Text>
+							<ScrollView  showsVerticalScrollIndicator={false}>
+								<Text style={styles.contentTitle}>{this.state.content.title}</Text>
+								<Text
+									style={styles.contentText}>{this.state.content.context}大家卡手机打开啦家里是看得见啊离开的借口啦就算了科技大厦来看</Text>
+							</ScrollView>
 						</View>
+
 					</View>
 					<Image style={styles.imgBottom} source={require('../asset/tips_bottom.png')} resizeMode='stretch'/>
 				</View>
@@ -88,7 +93,19 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: '#ce2626',
 		width: '100%',
-		padding: 10
+		padding: 10,
+		maxHeight: 300,
+	},
+	contentTitle: {
+		color: '#202020',
+		fontSize: 20,
+		marginBottom: 20
+	},
+	contentText: {
+		color: '#202020',
+		fontSize: 12,
+		letterSpacing: 100,
+		lineHeight:25
 	},
 	imgBottom: {
 		position: 'absolute',

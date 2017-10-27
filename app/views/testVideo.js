@@ -30,14 +30,15 @@ class TestVideo extends Component {
 					this.setState({
 						videoList: res.data
 					})
-					dispatch(appStateActions.fetchEnd({fetching: false}))
 				} else {
 					Alert.alert('提示', res.message)
 					dispatch(NavigationActions.back())
 				}
+				dispatch(appStateActions.fetchEnd({fetching: false}))
 			},
 			err => {
 				console.log(err)
+				dispatch(appStateActions.fetchEnd({fetching: false}))
 			})
 	}
 
@@ -309,7 +310,7 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		fontSize: 16,
 		textAlign: 'center',
-		color: '#000'
+		color: '#202020'
 	},
 	propertyTypeButton: {
 		marginTop: 15,

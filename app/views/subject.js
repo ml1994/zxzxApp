@@ -215,32 +215,20 @@ class Subject extends Component {
 		})
 	}
 
-	initMaxScore() {//获取最高分
-		const {dispatch} = this.props
-		let maxScore = new Array()
-		return dispatch => {
-			dispatch({type: 'GETTING_MAX_SCORE'})
-			myFetch.get(
-				'/examqueBank/list',
-				{},
-				res => {
-					res.rows.map((item) => {
-						maxScore.push(item.maxscore);
-					})
-					console.log(res, maxScore)
-					dispatch(testActions.getMaxScore({maxScore}))
-				},
-				err => {
-					console.log(err)
-				}
-			)
-		}
-	}
-
 	goTip() {
 		const {dispatch} = this.props;
 		this.setModalVisible(false)
-		dispatch(NavigationActions.navigate({routeName: 'TestTip'}))
+		const resetAction = NavigationActions.reset({//未登录状态返回，返回到home页
+			index: 3,
+			actions: [
+				NavigationActions.navigate({routeName: 'TabNav'}),
+				NavigationActions.navigate({routeName: 'Test'}),
+				NavigationActions.navigate({routeName: 'TestVideo'}),
+				NavigationActions.navigate({routeName: 'TestTip'}),
+			]
+		})
+		dispatch(resetAction)
+
 	}
 
 	renderModal(type) {
@@ -329,13 +317,17 @@ class Subject extends Component {
 									style={styles.modalEndBottomText}>对{this.state.testResult.right}题，错{this.state.total - this.state.testResult.right}题！</Text>
 								<View style={styles.modalBtnContainer}>
 									<TouchableOpacity onPress={() => this.restartTest()}>
-										<ImageBackground source={require('../asset/btn_bg_yellow.png')} resizeMode='contain'
+										<ImageBackground source={require('../asset/btn_bg_yellow.png')}
+														 resizeMode='contain'
 														 style={styles.btn}>
 											<Text style={styles.btnText}>重新开始</Text>
 										</ImageBackground>
 									</TouchableOpacity>
-									<TouchableOpacity onPress={() => {this.goTip()}}>
-										<ImageBackground source={require('../asset/btn_bg_red.png')} resizeMode='contain'
+									<TouchableOpacity onPress={() => {
+										this.goTip()
+									}}>
+										<ImageBackground source={require('../asset/btn_bg_red.png')}
+														 resizeMode='contain'
 														 style={styles.btn}>
 											<Text style={styles.btnText}>查看贴士</Text>
 										</ImageBackground>
@@ -427,9 +419,9 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 	//上下题按钮
-	modalBtnContainer:{
-		flexDirection:'row',
-		justifyContent:'space-between'
+	modalBtnContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-between'
 	},
 	btn: {
 		width: 110,
