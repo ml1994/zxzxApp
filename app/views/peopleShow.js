@@ -44,7 +44,7 @@ class PeopleShow extends Component {
 
 		return (
 			<ScrollView style={styles.rootView}>
-				<Header type='title' title='真人秀'/>
+				<Header type='title' title='紧急呼叫'/>
 				<MyVideo {...this.state.video} />
 				<ImageBackground source={require('../asset/ppshow_adbg.jpg')} style={styles.adbg} resizeMode='contain'>
 					<Text style={styles.adText}>更多精彩 敬请期待</Text>

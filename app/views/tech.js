@@ -1,6 +1,16 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {View, Text, FlatList, TouchableOpacity, StyleSheet, Image, Linking, ScrollView,RefreshControl} from 'react-native'
+import {
+	View,
+	Text,
+	FlatList,
+	TouchableOpacity,
+	StyleSheet,
+	Image,
+	Linking,
+	ScrollView,
+	RefreshControl
+} from 'react-native'
 import Header from '../components/header'
 import myFetch from '../utils/myFetch'
 import * as techActions from '../actions/tech'
@@ -11,8 +21,8 @@ class Tech extends Component {
 
 	constructor(props) {
 		super(props)
-		this.state={
-			refreshing:false,
+		this.state = {
+			refreshing: false,
 		}
 		const {dispatch} = this.props
 		console.log(this.props)
@@ -33,26 +43,6 @@ class Tech extends Component {
 		)
 	}
 
-	/*getTechList() {
-		myFetch.get(
-			'/api/techlist',
-			{page: 1, pagesize: 1000},
-			res => {
-				console.log(res)
-				if (res.code==0) {
-					this.setState({
-						ifRegister: true,
-						list: res.data.rows,
-						baseUrl: res.baseurl
-					})
-				}
-
-			},
-			err => {
-
-			}
-		)
-	}*/
 	getTechList() {
 		const {dispatch} = this.props
 		return dispatch => {
@@ -86,12 +76,13 @@ class Tech extends Component {
 
 		}
 	}
-	refreshFun(){
+
+	refreshFun() {
 		const {dispatch} = this.props
 		this.setState({refreshing: true})//开始刷新
 		myFetch.get(
 			'/api/techlist',
-			{page:1,pagesize:1000},
+			{page: 1, pagesize: 1000},
 			res => {
 				if (res.code == 0) {
 					const techList = res.data.rows
@@ -109,13 +100,14 @@ class Tech extends Component {
 				}
 				this.setState({refreshing: false})//停止刷新
 			},
-			err=>{
+			err => {
 				console.log(err)
-				Alert.alert('提示','获取列表失败')
+				Alert.alert('提示', '获取列表失败')
 				this.setState({refreshing: false})//停止刷新
 			}
 		)
 	}
+
 	delayTime(time) {
 		let now = new Date()
 		let delaytime = new Date(time.replace(/-/g, "/"))

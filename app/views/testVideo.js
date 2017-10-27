@@ -7,7 +7,7 @@ import myFetch from '../utils/myFetch'
 import {NavigationActions} from 'react-navigation'
 import Icon from '../components/icon'
 import * as testActions from '../actions/test'
-
+import * as appStateActions from '../actions/appState'
 class TestVideo extends Component {
 	constructor(props) {
 		super(props)
@@ -21,6 +21,7 @@ class TestVideo extends Component {
 
 	getVideoList() {
 		const {dispatch} = this.props
+		dispatch(appStateActions.fetch({fetching: true}))
 		myFetch.get(
 			'/examqueBank/bankvideo/' + this.props.test.type,
 			{},
@@ -30,12 +31,14 @@ class TestVideo extends Component {
 						videoList: res.data
 					})
 				} else {
-					Alert('提示', res.message)
+					Alert.alert('提示', res.message)
 					dispatch(NavigationActions.back())
 				}
+				dispatch(appStateActions.fetchEnd({fetching: false}))
 			},
 			err => {
 				console.log(err)
+				dispatch(appStateActions.fetchEnd({fetching: false}))
 			})
 	}
 
@@ -107,7 +110,7 @@ class TestVideo extends Component {
 		if (this.props.test.type == 6) {
 			text = '消防小贴士'
 			press = () => {
-
+				dispatch(NavigationActions.navigate({routeName:'TestTip'}))
 			}
 		} else {
 			text = '开始答题'
@@ -203,7 +206,6 @@ class TestVideo extends Component {
 	}
 
 	render() {
-
 		return (
 			<View style={styles.rootView}>
 				<Header type='title' title={this.headerTitle()}></Header>
@@ -308,7 +310,7 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		fontSize: 16,
 		textAlign: 'center',
-		color: '#000'
+		color: '#202020'
 	},
 	propertyTypeButton: {
 		marginTop: 15,
