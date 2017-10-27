@@ -147,11 +147,11 @@ const styles = StyleSheet.create({
 			//backgroundColor: 'rgba(0,0,0,.5)'
 		},
 		familyView: {
-			marginTop: '10%',
+			marginTop: '15%',
 			height: '30%',
 			paddingVertical: 10,
 			paddingHorizontal: 10,
-			width: '60%',
+			width: '62%',
 			//backgroundColor: 'rgba(0,0,0,.5)'
 		},
 		familyAnotherView:{

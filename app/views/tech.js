@@ -5,6 +5,7 @@ import Header from '../components/header'
 import myFetch from '../utils/myFetch'
 import * as techActions from '../actions/tech'
 import * as appStateActions from '../actions/appState'
+import { NavigationActions } from 'react-navigation'
 
 class Tech extends Component {
 

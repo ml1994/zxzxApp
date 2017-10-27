@@ -51,23 +51,24 @@ class CompAsks extends Component {
 			projetListSelected: -1
 		}
 		UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true)
-
-		myFetch.get(
-			'/account/islogin',
-			{},
-			res => {
-				console.log(res)
-				if (res.code == '0') {
-					dispatch(askActions.initCompAskList())
-					dispatch(this.getList(1))
-				} else {
-					dispatch(NavigationActions.navigate({routeName: 'Login'}))
-				}
-			},
-			err => {
-				console.log(err)
-			}
-		)
+		dispatch(askActions.initCompAskList())
+		dispatch(this.getList(1))
+		// myFetch.get(
+		// 	'/account/islogin',
+		// 	{},
+		// 	res => {
+		// 		console.log(res)
+		// 		if (res.code == '0') {
+		// 			dispatch(askActions.initCompAskList())
+		// 			dispatch(this.getList(1))
+		// 		} else {
+		// 			dispatch(NavigationActions.navigate({routeName: 'Login'}))
+		// 		}
+		// 	},
+		// 	err => {
+		// 		console.log(err)
+		// 	}
+		// )
 	}
 
 

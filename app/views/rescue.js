@@ -104,10 +104,6 @@ export default class rescue extends Component {
 					<Image source={require('../asset/rescue_banner.png')} style={styles.img}/>
 					<View style={styles.list}>
 						{rescueList.map((item,index) => {
-							let titleStyle = {
-								width: item.title.length * 21,
-
-							}
 							let titleContainerStyle={
 								width: (item.title.length+2) * 20,
 								marginBottom: (item.img) ? null : 20
@@ -115,7 +111,7 @@ export default class rescue extends Component {
 							return (
 								<View key={index}>
 									<View style={[styles.titleContainer,titleContainerStyle]}>
-										<View style={[styles.titleSubContainer,titleStyle]}>
+										<View style={styles.titleSubContainer}>
 											<Text style={styles.itemTitle}>{item.title}</Text>
 										</View>
 									</View>
@@ -145,6 +141,7 @@ const styles = StyleSheet.create({
 		padding: 20
 	},
 	titleContainer:{
+		flexDirection:'row',
 		borderBottomColor:'#ccc',
 		borderBottomWidth:1
 	},
