@@ -43,3 +43,7 @@ android/app/libs
 
 android/gradle/wrapper/gradle-wrapper.properties
 *.apk
+android/gradle/wrapper/gradle-wrapper.properties
+package-lock.json
+yarn.lock
+yarn.lock

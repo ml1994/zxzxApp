@@ -105,7 +105,7 @@ export default class rescue extends Component {
 					<View style={styles.list}>
 						{rescueList.map((item,index) => {
 							let titleStyle = {
-								width: item.title.length * 20,
+								width: item.title.length * 21,
 
 							}
 							let titleContainerStyle={
@@ -114,7 +114,11 @@ export default class rescue extends Component {
 							}
 							return (
 								<View key={index}>
-									<View style={[styles.titleContainer,titleContainerStyle]}><Text style={[styles.itemTitle,titleStyle]}>{item.title}</Text></View>
+									<View style={[styles.titleContainer,titleContainerStyle]}>
+										<View style={[styles.titleSubContainer,titleStyle]}>
+											<Text style={styles.itemTitle}>{item.title}</Text>
+										</View>
+									</View>
 									{(item.img) ?
 										<Image source={item.img} resizeMode='contain' style={styles.img}/> : null}
 									<Text style={styles.itemText}>{item.text}</Text>
@@ -144,13 +148,15 @@ const styles = StyleSheet.create({
 		borderBottomColor:'#ccc',
 		borderBottomWidth:1
 	},
-	itemTitle: {
-		color: '#e71e18',
-		fontSize: 20,
+	titleSubContainer:{
 		borderBottomWidth: 1,
 		borderBottomColor: '#e71e18',
 		paddingBottom: 10,
 		marginBottom:-1
+	},
+	itemTitle: {
+		color: '#e71e18',
+		fontSize: 20,	
 	},
 	itemText: {
 		fontWeight: 'bold',
