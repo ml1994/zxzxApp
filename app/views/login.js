@@ -115,7 +115,51 @@ class Login extends Component {
 			)
 		}
 	}
-
+	getCompAskList() {
+		const {dispatch} = this.props
+		const params = {
+			page: 1,
+			pageSize: 1000,
+			type:1
+		}
+		return dispatch => {
+			myFetch.get(
+				'/consult/list/questionCompany',
+				params,
+				res => {
+					console.log(123)
+					if (res.code == 0) {
+						if (res.data.question.rows.length != 0) {
+							let vip = ''
+							let partner = ''
+							let account = res.data.partner.phone
+							if (res.data.partner) {
+								partner = res.data.partner.tails.partner_name
+								vip = true
+							} else {
+								vip = false
+							}
+							const compAskList = res.data.question.rows
+							dispatch(userinfoActions.getInfo({
+								account: account,
+								vip,
+								partner
+							}))
+							dispatch(askActions.loadCompAskList({compAskList}))
+							dispatch({type: 'LOADED_COMPASKLIST'})
+						} else {
+							dispatch(askActions.initCompAskList())
+							dispatch({type: 'NO_COMPASKLIST'})
+						}
+					}
+				},
+				err => {
+					console.log(err)
+					Alert.alert('提示', '获取列表失败')
+				}
+			)
+		}
+	}
 	asyGetUserinfo() {
 		//获取用户信息
 		const {dispatch} = this.props
@@ -131,6 +175,7 @@ class Login extends Component {
 					if (resj.data.tails.vip == true) {
 						vip = resj.data.tails.vip
 						partner = resj.data.tails.staff.tails.partner_name
+						dispatch(this.getCompAskList())
 					}
 					const info = Object.assign({}, {account, vip, partner})
 					dispatch(userinfoActions.getInfo(info))
