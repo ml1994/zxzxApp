@@ -144,8 +144,8 @@ const styles = StyleSheet.create({
     },
     titleView:{
         flexDirection:'row',
-        marginTop:30,
-        height:50,
+        marginTop:10,
+        height:60,
         justifyContent:'space-between',
         alignItems:'center',
         borderBottomWidth:1,
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     },
     titleInput:{
         flex:1,
-        fontSize:20,
+        fontSize:16,
         marginLeft:10
     },
     tip:{

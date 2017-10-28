@@ -51,9 +51,10 @@ class CompAsks extends Component {
 			projetListSelected: -1
 		}
 		UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true)
-		dispatch(askActions.initCompAskList())
-		dispatch(this.getList(1))
-		// myFetch.get(
+		if(this.props.userinfo.vip){
+			dispatch(askActions.initCompAskList())
+			dispatch(this.getList(1))
+		}// myFetch.get(
 		// 	'/account/islogin',
 		// 	{},
 		// 	res => {
@@ -70,7 +71,6 @@ class CompAsks extends Component {
 		// 	}
 		// )
 	}
-
 
 	getList(type, region = '', project = '') {
 		const {dispatch} = this.props
@@ -95,6 +95,7 @@ class CompAsks extends Component {
 						if (res.data.question.rows.length != 0) {
 							let vip = ''
 							let partner = ''
+							let account = res.data.partner.phone
 							if (res.data.partner) {
 								partner = res.data.partner.tails.partner_name
 								vip = true
@@ -103,7 +104,7 @@ class CompAsks extends Component {
 							}
 							const compAskList = res.data.question.rows
 							dispatch(userinfoActions.getInfo({
-								account: compAskList[0].tails.account,
+								account: account,
 								vip,
 								partner
 							}))
@@ -179,9 +180,11 @@ class CompAsks extends Component {
 	}
 
 	subTabPress(index) {
+		LayoutAnimation.configureNext(myLayoutAnimation)
 		const {dispatch} = this.props
 		this.setState({
-			subTabIndex: index
+			subTabIndex: index,
+			filterViewShow:false
 		})
 		let region = (this.state.regionListSelected != -1) ? this.state.regionList[this.state.regionListSelected] : ''
 		let project = (this.state.projectListSelected != -1) ? this.state.projectList[this.state.projectListSelected] : ''
@@ -474,7 +477,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = store => ({
 	nav: store.nav,
-	ask: store.ask
+	ask: store.ask,
+	userinfo:store.userinfo
 })
 
 export default connect(mapStateToProps)(CompAsks)

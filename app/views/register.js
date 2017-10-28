@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, StyleSheet, Image, TouchableOpacity,Alert} from 'react-native'
+import {View, Text, StyleSheet, Image, TouchableOpacity,Alert,KeyboardAvoidingView} from 'react-native'
 import Header from '../components/header'
 import Input from '../components/input'
 import {connect} from 'react-redux'
@@ -68,7 +68,7 @@ class Register extends Component {
     render() {
         const {dispatch} = this.props
         return (
-            <View style={styles.rootView}>
+            <KeyboardAvoidingView style={styles.rootView} behavior='padding'>
                 <Header type='title' title='注册'/>
                 <Image
                     resizeMode='contain'
@@ -84,11 +84,11 @@ class Register extends Component {
                 </TouchableOpacity>
                 <View style={styles.managerView}>
                     <TouchableOpacity
-                        onPress={() => dispatch(NavigationActions.navigate({routeName: 'Login'}))}>
+                        onPress={() => dispatch(NavigationActions.back())}>
                         <Text style={styles.managerText}>有账号?去登录</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+            </KeyboardAvoidingView>
         )
     }
 }
@@ -97,7 +97,8 @@ const styles = StyleSheet.create({
         flex: 1,
         height: '100%',
         backgroundColor: '#fff',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent:'center'
     },
     logo: {
         width: 130
