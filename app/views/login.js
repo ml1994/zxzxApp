@@ -191,6 +191,7 @@ class Login extends Component {
 
 	postJPushRegistrationId() {
 		JPushModule.getRegistrationID((registrationId) => { //JPush传送registrationId给后台
+			//console.log(registrationId)
 			myFetch.post(
 				'/push/reg',
 				`id=${registrationId}`,

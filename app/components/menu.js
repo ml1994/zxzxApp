@@ -20,11 +20,22 @@ class Menu extends Component {
                 {},
                 res=>{
                     if(res.code==0){
+                        //this.props.nav.routes[0].routes[2].index=0
                         dispatch(userinfoActions.loginOut())
                         dispatch(askActions.initAskList())
                         dispatch(askActions.initQaList())
                         dispatch(testActions.initMaxScore())
-                        dispatch(NavigationActions.navigate({routeName:'Login'}))
+
+                        const resetAction = NavigationActions.reset({//重置路由防止切换用户时非vip能看到企业咨询
+                            index: 1, //显示login页
+                            actions: [
+                              NavigationActions.navigate({index:3,routeName: 'TabNav'}),
+                              //NavigationActions.navigate({routeName: 'MySetting'}),
+                              NavigationActions.navigate({routeName: 'Login'})
+                            ]
+                        })
+                        dispatch(resetAction)
+                        //dispatch(NavigationActions.navigate({routeName:'Login'}))
                     }else{
                         Alert.alert('提示','退出失败')
                     }

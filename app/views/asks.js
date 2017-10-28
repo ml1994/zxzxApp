@@ -200,7 +200,7 @@ const mapStateToProps = store => ({
 
 const connectedAsks = connect(mapStateToProps)(Asks)
 
-const askTabs = TabNavigator({
+const AskTabs = TabNavigator({
 	Asks: {
 		screen: connectedAsks,
 		navigationOptions: {
@@ -227,4 +227,4 @@ const askTabs = TabNavigator({
 
 })
 
-export default askTabs
+export default AskTabs
