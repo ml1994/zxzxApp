@@ -16,7 +16,28 @@ class TestVideo extends Component {
 			active: 0,
 			modalVisible: false
 		}
-		this.getVideoList()
+
+		const {dispatch} = this.props
+
+		myFetch.get(
+			'/account/islogin',
+			{},
+			res => {
+				console.log(res)
+				if (res.code == '0') {
+					this.getVideoList()
+				} else {
+					dispatch(NavigationActions.back())
+					dispatch(NavigationActions.navigate({routeName: 'Login'}))
+				}
+			},
+			err => {
+				console.log(err)
+			}
+		)
+
+		
+		
 	}
 
 	getVideoList() {
