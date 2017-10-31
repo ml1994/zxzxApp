@@ -8,6 +8,7 @@ import {NavigationActions} from 'react-navigation'
 import Icon from '../components/icon'
 import * as testActions from '../actions/test'
 import * as appStateActions from '../actions/appState'
+
 class TestVideo extends Component {
 	constructor(props) {
 		super(props)
@@ -56,9 +57,9 @@ class TestVideo extends Component {
 	timeFormatting(time) {
 		let sec = time % 60
 		let min = (time - sec) / 60
-		sec = (sec<10)?'0'+sec:sec;
-		min = (min<10)?'0'+min:min;
-		return (min+':'+sec)
+		sec = (sec < 10) ? '0' + sec : sec;
+		min = (min < 10) ? '0' + min : min;
+		return (min + ':' + sec)
 	}
 
 	renderVideo() {
@@ -75,7 +76,9 @@ class TestVideo extends Component {
 							this.player = ref
 						}}
 						onEnd={() => {
-							this.setState({active: this.state.active + 1})
+							if (this.state.active < this.state.videoList.length-1) {
+								this.setState({active: this.state.active + 1})
+							}
 						}}
 						style={styles.backgroundVideo}
 					/>
@@ -110,7 +113,7 @@ class TestVideo extends Component {
 		if (this.props.test.type == 6) {
 			text = '消防小贴士'
 			press = () => {
-				dispatch(NavigationActions.navigate({routeName:'TestTip'}))
+				dispatch(NavigationActions.navigate({routeName: 'TestTip'}))
 			}
 		} else {
 			text = '开始答题'
@@ -156,7 +159,8 @@ class TestVideo extends Component {
 				animationType="fade"
 				transparent={true}
 				visible={this.state.modalVisible}
-				onRequestClose={()=>{}}
+				onRequestClose={() => {
+				}}
 			>
 				<TouchableOpacity style={styles.modalView} activeOpacity={1}>
 					<View>
@@ -169,7 +173,7 @@ class TestVideo extends Component {
 							<View style={styles.modalLine}></View>
 						</View>
 						<View style={styles.propertyTypeView}>
-							<Text style={styles.propertyTypeTitle}>物业从业人员选择</Text>
+							<Text style={styles.propertyTypeTitle}>您的岗位是保洁，建议优先选择保洁进</Text>
 							{propertyType.map((item) => {
 								return (
 									<TouchableOpacity

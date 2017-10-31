@@ -20,7 +20,7 @@ class HomeBanner extends Component {
 			this.setState({
 				visibleSwiper: true
 			})
-		}, 100)
+		}, 500)
 	}
 
 	goWebView(link) {
