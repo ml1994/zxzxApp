@@ -27,90 +27,95 @@ import Directory from './views/directory'
 import TestVideo from './views/testVideo'
 import DirectoryDetail from './views/directoryDetail'
 import TestTip from './views/testTip'
+import WrongSubject from './views/wrongSubject'
+
 const appRootStackNav = StackNavigator({
-    TabNav: {
-        screen: AppTabNav
-    },
-    Login:{//登录
-        screen: Login
-    },
-    Register:{//注册
-        screen: Register
-    },
-	ChangePassword:{//修改密码
+	TabNav: {
+		screen: AppTabNav
+	},
+	Login: {//登录
+		screen: Login
+	},
+	Register: {//注册
+		screen: Register
+	},
+	ChangePassword: {//修改密码
 		screen: ChangePassword
 	},
-	ForgetPassword:{//忘记密码
+	ForgetPassword: {//忘记密码
 		screen: ForgetPassword
 	},
-    Search: {//搜索页
-        screen: Search
-    },
-    Test:{//教育培训
-        screen:Test
-    },
-    KnowAll:{//消防百事通
-        screen: KnowAll
-    },
-    KnowAllDetail:{//消防百事通详情页
-        screen: KnowAllDetail
-    },
-    PeopleShow:{//真人秀
-        screen: PeopleShow
-    },
-    Message:{//消息中心
-        screen:Message
-    },
-    MessageDetail:{//消息中心详情页
-        screen:MessageDetail
-    },
-    MySetting:{//个人设置
-        screen:MySetting
-    },
-    AboutUs:{//关于我们
-        screen:AboutUs
-    },
-    AddAsk:{//添加问题
-        screen:AddAsk
-    },
-    AddOnAsk:{//追加问题
-        screen:AddOnAsk
-    },
-    AskDetail:{//咨询详情页
-        screen:AskDetail
-    },
-    Subject:{//答题
-        screen:Subject
-    },
-    AboutDetail:{//关于详情页
-        screen:AboutDetail
-    },
-    Rescue:{//救援
-        screen:Rescue
-    },
-    Tech:{//审图
-        screen:Tech
-    },
-    Report:{//监督举报
-        screen:Report
-    },
-    News:{//新闻详情
-        screen:News
-    },
-    Directory:{//企业名录
-        screen:Directory
-    },
-    TestVideo:{//培训视频
-        screen:TestVideo
-    },
-    DirectoryDetail:{//企业信息
-        screen:DirectoryDetail
-    },
-    TestTip:{//消防小贴士
-        screen:TestTip
-    }
+	Search: {//搜索页
+		screen: Search
+	},
+	Test: {//教育培训
+		screen: Test
+	},
+	KnowAll: {//消防百事通
+		screen: KnowAll
+	},
+	KnowAllDetail: {//消防百事通详情页
+		screen: KnowAllDetail
+	},
+	PeopleShow: {//真人秀
+		screen: PeopleShow
+	},
+	Message: {//消息中心
+		screen: Message
+	},
+	MessageDetail: {//消息中心详情页
+		screen: MessageDetail
+	},
+	MySetting: {//个人设置
+		screen: MySetting
+	},
+	AboutUs: {//关于我们
+		screen: AboutUs
+	},
+	AddAsk: {//添加问题
+		screen: AddAsk
+	},
+	AddOnAsk: {//追加问题
+		screen: AddOnAsk
+	},
+	AskDetail: {//咨询详情页
+		screen: AskDetail
+	},
+	Subject: {//答题
+		screen: Subject
+	},
+	AboutDetail: {//关于详情页
+		screen: AboutDetail
+	},
+	Rescue: {//救援
+		screen: Rescue
+	},
+	Tech: {//审图
+		screen: Tech
+	},
+	Report: {//监督举报
+		screen: Report
+	},
+	News: {//新闻详情
+		screen: News
+	},
+	Directory: {//企业名录
+		screen: Directory
+	},
+	TestVideo: {//培训视频
+		screen: TestVideo
+	},
+	DirectoryDetail: {//企业信息
+		screen: DirectoryDetail
+	},
+	TestTip: {//消防小贴士
+		screen: TestTip
+	},
+	WrongSubject: {//查看错题
+		screen: WrongSubject
+	}
 }, {
-    headerMode: 'none'
+	headerMode: 'none'
 })
 
 export default appRootStackNav

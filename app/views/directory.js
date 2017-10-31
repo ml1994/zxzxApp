@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View,Text,StyleSheet,ScrollView,TouchableOpacity,TextInput,RefreshControl,Image,FlatList } from 'react-native'
+import { View,Text,StyleSheet,ScrollView,TouchableOpacity,TextInput,RefreshControl,Image,FlatList,Alert} from 'react-native'
 import Header from '../components/header'
 import Icon from '../components/icon'
 import myFetch from '../utils/myFetch'
@@ -33,10 +33,17 @@ class Directory extends Component {
                 '/api/pindexlist',
                 {page:1,pagesize:1000,type,keywords},
                 res=>{
-                    this.setState({
-                        baseUrl:res.baseurl
-                    })
-                    dispatch(directoryActions.loadDirectoryList({directoryList:res.rows}))
+					console.log(res)
+                    if(!res.message){
+						this.setState({
+							baseUrl:res.baseurl
+						})
+						console.log(res)
+						dispatch(directoryActions.loadDirectoryList({directoryList:res.rows}))
+                    }else{
+						console.log(res)
+                        Alert.alert('提示',res.message)
+                    }
                     dispatch(appStateActions.fetchEnd({fetching:false}))
                 },
                 err=>{
@@ -57,7 +64,6 @@ class Directory extends Component {
         const {dispatch} = this.props
         dispatch(this.getList(this.state.activeIndex,this.state.searchText))
     }
-    
 
     changeTab(index){
         const {dispatch} = this.props
