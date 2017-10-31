@@ -26,15 +26,15 @@ export default class AboutDetail extends Component {
                                 <View style={styles.square}></View>
                                 <Text style={styles.infoTitle}>基本介绍</Text>
                             </View>
-                            <Text style={styles.infoText}>中消在线隶属于中消集团，于2016年11月9日上线，是中国首家以互联网+的思维模式打造的消防服务平台——中国消防在线.com（简称：中消在线）正式启动。中消在线是中消集团与公安部消防局合力开发运营的在线网络平台，历经2年对消防服务行业的深入调研，1年的前期筹划。</Text>
+                            <Text style={styles.infoText}>中消在线隶属于中消集团，于2016年11月9日上线，是中国首家以互联网+的思维模式打造的消防服务平台——中国消防在线.com（简称：中消在线）正式启动。</Text>
                         </View>
-                        <View style={styles.infoContainer}>
+                        {/* <View style={styles.infoContainer}>
                             <View style={styles.infoTitleView}>
                                 <View style={styles.square}></View>
                                 <Text style={styles.infoTitle}>中消使命</Text>
                             </View>
-                            <Text style={styles.infoText}>中消在线隶属于中消集团，于2016年11月9日上线，是中国首家以互联网+的思维模式打造的消防服务平台——中国消防在线.com（简称：中消在线）正式启动。中消在线是中消集团与公安部消防局合力开发运营的在线网络平台，历经2年对消防服务行业的深入调研，1年的前期筹划、资源整合及测试运营，“千呼万唤始出来”。</Text>
-                        </View>
+                            <Text style={styles.infoText}>中消在线隶属于中消集团，于2016年11月9日上线，是中国首家以互联网+的思维模式打造的消防服务平台——中国消防在线.com（简称：中消在线）正式启动。</Text>
+                        </View> */}
                     </View>
                 )
                 break;
