@@ -56,12 +56,13 @@ class WrongSubject extends Component {
 
 	renderSwiper() {
 		let {wrongList, index, total} = this.state
-		wrongList.forEach((item, index) => {
-			if (item.tails.type != 1) {
-				wrongList.splice(index, 1)
+		for (let i = 0; i < wrongList.length; i++) {
+			if (wrongList[i].tails.type != 1) {
+				wrongList.splice(i, 1)
+				i--
 			}
-		})
-		console.log(wrongList)
+		}
+		//console.log(wrongList)
 		if (wrongList.length) {
 			return (
 				<Swiper loop={false} showsPagination={false} showsButtons={false}
