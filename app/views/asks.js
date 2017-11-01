@@ -144,30 +144,49 @@ class Asks extends Component {
 					userinfo.vip ? <Header type='tabs' titles={titles} icons={icons}/> :
 						<Header type='title' title='我的咨询' icons={icons}/>
 				}
-				<ScrollView
-					style={styles.scrollview}
-					showsVerticalScrollIndicator={false}
-					refreshControl={
-						<RefreshControl
-							refreshing={this.state.refreshing}
-							onRefresh={() => this.refreshFun()}
-							tintColor="#ccc"
-							title="Loading..."
-							titleColor="#ccc"
-						/>
-					}>
-					{this.props.ask.askList.length != 0 ?
-						(<FlatList data={askList}
-								   renderItem={({item}) => <Ask title={item.title} text={item.descr} time={item.created}
-																id={item.id} update={item.answer_updated}/>}/>)
-						: (
+				{
+					this.props.ask.askList.length != 0 ?
+					(
+						<FlatList 
+							data={askList}
+							refreshControl={
+								<RefreshControl
+									refreshing={this.state.refreshing}
+									onRefresh={() => this.refreshFun()}
+									tintColor="#ccc"
+									title="Loading..."
+									titleColor="#ccc"
+								/>
+							}
+							renderItem={({item}) => (
+								<Ask 
+									title={item.title} 
+									text={item.descr} 
+									time={item.created}
+									id={item.id} 
+									update={item.answer_updated}/>
+						)}/>
+					)
+					: (
+						<ScrollView
+							style={styles.scrollview}
+							showsVerticalScrollIndicator={false}
+							refreshControl={
+								<RefreshControl
+									refreshing={this.state.refreshing}
+									onRefresh={() => this.refreshFun()}
+									tintColor="#ccc"
+									title="Loading..."
+									titleColor="#ccc"
+								/>
+							}>
 							<View style={styles.container}>
 								<Image style={styles.img} resizeMode='contain' source={require('../asset/no_ask.png')}/>
 								<Text style={styles.text}>您还没有咨询任何问题</Text>
 							</View>
-						)
-					}
-				</ScrollView>
+						</ScrollView>
+					)
+				}
 			</View>
 		)
 	}
