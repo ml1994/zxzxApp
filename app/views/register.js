@@ -21,6 +21,7 @@ class Register extends Component {
     regFun(){
         const {phone,key,psw} = this.state
         const {dispatch} = this.props
+
         myFetch.post(
             '/account/register',
             `phone=${phone}&code=${key}&password=${psw}`,
@@ -34,7 +35,9 @@ class Register extends Component {
                     dispatch(this.asyGetUserinfo())
                     dispatch(NavigationActions.navigate({routeName:'TabNav'}))
                 }
-                
+                else{
+                    Alert.alert('提示',res.message);
+                }
             },
             err=>{
                 console.log(err)

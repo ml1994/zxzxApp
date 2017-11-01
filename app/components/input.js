@@ -75,23 +75,28 @@ export default class Input extends Component {
 	}
 
 	smsFun(type){
-        this.smsBtnFun()
         const {phone} = this.props
         const url = type=='reg'?'/account/sendsms':'/account/restsms'
-        myFetch.post(
-            url,
-            `phone=${phone}`,
-            res=>{
-                console.log(res)
-                if(res.code==0){
-                    console.log('发送成功')
-                }
-            },
-            err=>{
-                console.log(err)
-                Alert.alert('提示','发送失败')
-            }
-        )
+		let reg = /^1[3|4|5|7|8][0-9]{9}$/
+		if(reg.test(phone)){
+			this.smsBtnFun()
+			myFetch.post(
+				url,
+				`phone=${phone}`,
+				res=>{
+					console.log(res)
+					if(res.code==0){
+						console.log('发送成功')
+					}
+				},
+				err=>{
+					console.log(err)
+					Alert.alert('提示','发送失败')
+				}
+			)
+		}else{
+			Alert.alert('提示','请输入正确的手机号！')
+		}
 	}
 
 	smsBtnFun(){
