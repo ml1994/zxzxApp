@@ -14,7 +14,7 @@ class Directory extends Component {
         super(props)
         this.state={
             refreshing: false,
-            tabsList:['全部','地产企业','消防企业','社会单位'],
+            tabsList:['全部','地产企业','消防企业'],
             searchText:'',
             activeIndex:0,
             baseUrl:'',
@@ -255,9 +255,10 @@ const styles = StyleSheet.create({
         backgroundColor:'#ce2626'
     },
     tabView:{
+        flex:1,
         height:36,
         marginHorizontal:10,
-        width:'20%',
+        //width:'20%',
         alignItems:'center',
         justifyContent:'center',
         borderBottomWidth:3,
