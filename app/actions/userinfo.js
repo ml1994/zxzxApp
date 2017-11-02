@@ -4,8 +4,7 @@ export function initLogin() {
     return {
         type:userinfoActions.INIT_LOGIN,
         payload:{
-            account:'',
-            psw:'',
+            name:'',
             vip:'',
             partner:''
         }
@@ -23,8 +22,7 @@ export function loginOut() {
     return {
         type:userinfoActions.LOGIN_OUT,
         payload:{
-            account:'',
-            psw:'',
+            name:'',
             vip:'',
             partner:''
         }

@@ -50,11 +50,14 @@ class CompAsks extends Component {
 			regionListSelected: -1,
 			projetListSelected: -1
 		}
+		
 		UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true)
+		
 		if(this.props.userinfo.vip){
 			dispatch(askActions.initCompAskList())
 			dispatch(this.getList(1))
-		}// myFetch.get(
+		}
+		// myFetch.get(
 		// 	'/account/islogin',
 		// 	{},
 		// 	res => {
