@@ -5,14 +5,32 @@ import FakeSearchInput from '../components/fakeSearchInput'
 import Swiper from 'react-native-swiper'
 import {NavigationActions} from 'react-navigation'
 import {connect} from 'react-redux'
+import myFetch from '../utils/myFetch'
 
 class HomeBanner extends Component {
 
 	constructor(props) {
 		super(props)
 		this.state = {
-			visibleSwiper: false
+			visibleSwiper: false,
+			advList:[]
 		}
+		this.getAdvList()
+	}
+
+	getAdvList(){
+		myFetch.get(
+			'/advertisement/banner',
+			{},
+			res=>{
+				if(res.code==0){
+					this.setState({
+						advList:res.data
+					})
+				}
+			},
+			err=>{}
+		)
 	}
 
 	componentDidMount() {
@@ -30,32 +48,16 @@ class HomeBanner extends Component {
 
 	render() {
 		let swiper = null
-		const advList = [
-			{
-				key: 1,
-				bg: require('../asset/banner1.jpg'),
-				link: '/20170927/985.html'
-			},
-			{
-				key: 2,
-				bg: require('../asset/banner2.jpg'),
-				link: '/20170629/954.html'
-			},
-			{
-				key: 3,
-				bg: require('../asset/banner3.jpg'),
-				link: '/article-onlineEdu-1.html'
-			},
-		]
+
 		if (this.state.visibleSwiper) {
 			swiper = (
 				<Swiper style={styles.swiper} autoplay={true} autoplayTimeout={5} activeDotColor='rgba(255,255,255,.6)'>
-					{advList.map((item, index) => {
+					{this.state.advList.map((item, index) => {
 						return (
 							<TouchableOpacity style={styles.slide1} key={index} onPress={() => {
-								this.goWebView(item.link)
+								this.goWebView(item.ad_url)
 							}} activeOpacity={1}>
-								<Image style={styles.bannerImg} source={item.bg} resizeMode='stretch'/>
+								<Image style={styles.bannerImg} source={{uri:item.ad_file}} resizeMode='stretch'/>
 							</TouchableOpacity>
 						)
 					})}

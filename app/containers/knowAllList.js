@@ -7,7 +7,7 @@ class KnowAllList extends Component {
 
 	_toDetailPage(link) {
 		const {dispatch} = this.props
-		dispatch(NavigationActions.navigate({routeName: 'KnowAllDetail', params: {link, title: this.props.title}}))
+		dispatch(NavigationActions.navigate({routeName: 'KnowAllDetail', params: {link:`http://www.zxzx119.com${link}`, title: this.props.title}}))
 	}
 
 	render() {
