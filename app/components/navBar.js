@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-around',
 	},
 	listItem: {
-		width: 90,
+		width: '25%',
 		alignItems: 'center',
 	},
 	img: {

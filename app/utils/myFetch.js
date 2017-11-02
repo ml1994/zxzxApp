@@ -1,7 +1,8 @@
 
 export default class myFetch{
 
-    static rootUrl = 'http://115.236.94.196:30005/app'
+    //static rootUrl = 'http://115.236.94.196:30005/app'
+    static rootUrl = 'http://app.zxzx119.com'
     /*
      *  get请求
      *  url:请求地址

@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
     tabView:{
         height:36,
         marginHorizontal:10,
-        width:72,
+        width:'20%',
         alignItems:'center',
         justifyContent:'center',
         borderBottomWidth:3,
