@@ -1,7 +1,7 @@
 import * as actionTypes from '../constants/test'
 
 const initailState = {
-	maxScore: [0, 0, 0, 0],
+	maxScore: [0, 0, 0, 0, 0],
 	type: 0
 }
 

@@ -46,10 +46,11 @@ export default class App extends Component {
     componentWillMount() {
         if(Platform.OS === 'android') {
             BackHandler.addEventListener('hardwareBackPress', this.onBackHandler)
+            myUpdate.firstTime()//暂时只有安卓使用热更新
         }
 
         //新版本第一次运行
-        myUpdate.firstTime()
+        //myUpdate.firstTime()
     }
     componentWillUnmount() {
         if (Platform.OS === 'android') {
@@ -59,8 +60,9 @@ export default class App extends Component {
 
     componentDidMount() {
         const {dispatch} = this.refs.provider.store
-
-        SplashScreen.hide()
+        setTimeout(()=>{
+            SplashScreen.hide()
+        },1000)
 
         Orientation.lockToPortrait()//锁竖屏
 
@@ -113,7 +115,9 @@ export default class App extends Component {
 
         })
         //检查应用更新
-        myUpdate.checkUpdate()
+        if(Platform.OS=='android'){//暂时只有安卓使用热更新
+            myUpdate.checkUpdate()
+        }
     }
 
     //点击通知导航到相应页面

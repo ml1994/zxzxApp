@@ -39,14 +39,15 @@ class Me extends Component {
                 '/account/getinfo',
                 {},
                 resj=>{
-                    const {account} = resj.data
+                    console.log(resj)
+                    const {name} = resj.data
                     let vip = ''
                     let partner = ''
                     if(resj.data.tails.vip==true){
                         vip = resj.data.tails.vip
                         partner = resj.data.tails.staff.tails.partner_name
                     }
-                    const info = Object.assign({},{account,vip,partner})
+                    const info = Object.assign({},{name,vip,partner})
                     dispatch(userinfoActions.getInfo(info))
                     dispatch({type:'GETING_END'})
                 },
@@ -85,7 +86,7 @@ class Me extends Component {
                                 <Text style={styles.vip}>VIP</Text>
                             </View>:null
                         }
-                        <Text style={styles.phoneNum}>{this.props.userinfo.account}</Text>
+                        <Text style={styles.phoneNum}>{this.props.userinfo.name}</Text>
                     </View>
                     {this.props.userinfo.vip==true?
                         <Text style={styles.intro}>该手机用户为{this.props.userinfo.partner}合作单位的VIP账户</Text>:

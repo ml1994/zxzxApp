@@ -23,7 +23,7 @@ class Subject extends Component {
 				type: 'pause',
 				visible: false,
 			},
-			testResult: {score: 0, right: 0},
+			testResult: {score: 0, right: 0, id: 0},
 			testIng: 0,
 		}
 		console.log(this.props.test)
@@ -177,10 +177,34 @@ class Subject extends Component {
 		);
 	}
 
+	renderBtnModalEnd() {
+		if (this.state.testResult.score < 100) {
+			return (
+				<TouchableOpacity onPress={() => this.goWrongSubject()}>
+					<ImageBackground source={require('../asset/btn_bg_yellow.png')}
+									 resizeMode='contain'
+									 style={styles.btn}>
+						<Text style={styles.btnText}>查看错题</Text>
+					</ImageBackground>
+				</TouchableOpacity>)
+		}
+		else {
+			return (
+				<TouchableOpacity onPress={() => this.restartTest()}>
+					<ImageBackground source={require('../asset/btn_bg_yellow.png')}
+									 resizeMode='contain'
+									 style={styles.btn}>
+						<Text style={styles.btnText}>重新开始</Text>
+					</ImageBackground>
+				</TouchableOpacity>
+			)
+		}
+	}
+
 	submitTest() {
 		storage.load({key: this.props.userinfo.account, id: this.props.test.type}).then(
 			ret => {
-				fetch(`http://115.236.94.196:30005/app/examqueBank/uploadresult/${ret.id}`, {
+				fetch(`${myFetch.rootUrl}/examqueBank/uploadresult/${ret.id}`, {
 					method: 'POST',
 					body: JSON.stringify(ret.resultList),
 					headers: {
@@ -190,7 +214,11 @@ class Subject extends Component {
 					.then((response) => response.json())
 					.then((responseJSON) => {
 						this.setState({
-							testResult: {score: responseJSON.data.score, right: responseJSON.data.tails.right},
+							testResult: {
+								score: responseJSON.data.score,
+								right: responseJSON.data.tails.right,
+								id: ret.id
+							},
 						})
 						this.setModalVisible(true, 'end')
 						storage.remove({
@@ -229,6 +257,23 @@ class Subject extends Component {
 		})
 		dispatch(resetAction)
 
+	}
+
+	goWrongSubject() {
+		const {dispatch} = this.props;
+		const {id, right} = this.state.testResult
+		const wrong = this.state.total - right
+		this.setModalVisible(false)
+		const resetAction = NavigationActions.reset({//未登录状态返回，返回到home页
+			index: 3,
+			actions: [
+				NavigationActions.navigate({routeName: 'TabNav'}),
+				NavigationActions.navigate({routeName: 'Test'}),
+				NavigationActions.navigate({routeName: 'TestVideo'}),
+				NavigationActions.navigate({routeName: 'WrongSubject', params: {result_id: id, wrong: wrong}}),
+			]
+		})
+		dispatch(resetAction)
 	}
 
 	renderModal(type) {
@@ -316,13 +361,6 @@ class Subject extends Component {
 								<Text
 									style={styles.modalEndBottomText}>对{this.state.testResult.right}题，错{this.state.total - this.state.testResult.right}题！</Text>
 								<View style={styles.modalBtnContainer}>
-									<TouchableOpacity onPress={() => this.restartTest()}>
-										<ImageBackground source={require('../asset/btn_bg_yellow.png')}
-														 resizeMode='contain'
-														 style={styles.btn}>
-											<Text style={styles.btnText}>重新开始</Text>
-										</ImageBackground>
-									</TouchableOpacity>
 									<TouchableOpacity onPress={() => {
 										this.goTip()
 									}}>
@@ -332,6 +370,7 @@ class Subject extends Component {
 											<Text style={styles.btnText}>查看贴士</Text>
 										</ImageBackground>
 									</TouchableOpacity>
+									{this.renderBtnModalEnd()}
 								</View>
 							</View>
 						</View>

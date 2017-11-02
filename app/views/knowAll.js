@@ -66,18 +66,19 @@ class KnowAll extends Component {
                 }
                 const newList = resj.data.list
                 if(resj.errorCode==0){
-                    if(sign==5){
-                        dispatch(newsActions.loadNewList({newsList:[...oldList,...newList]}))
-                    }else{
-                        dispatch(newsActions.loadEncyList({encyList:[...oldList,...newList]})) 
+                    if(newList.length!=0){
+                        if(sign==5){
+                            dispatch(newsActions.loadNewList({newsList:[...oldList,...newList]}))
+                        }else{
+                            dispatch(newsActions.loadEncyList({encyList:[...oldList,...newList]})) 
+                        }
+                        this.setState(prevState=>({
+                            refreshing: false,
+                            page:prevState.page+1
+                        }))
                     }
-                    this.setState(prevState=>({
-                        refreshing: false,
-                        page:prevState.page+1
-                    }))
-                    dispatch(appStateActions.fetchEnd({fetching:false}))
-                    console.log('add')
                 }
+                dispatch(appStateActions.fetchEnd({fetching:false}))
             })
             .catch(err=>{
                 console.log(err)

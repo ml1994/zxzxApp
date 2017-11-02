@@ -18,17 +18,7 @@ class Test extends Component {
 		this.state = {
 			modalVisible: false
 		}
-		myFetch.get(
-			'/account/islogin',
-			{},
-			res => {
-				console.log(res)
-				res.code == '0' ? dispatch(this.initMaxScore()) : dispatch(NavigationActions.navigate({routeName: 'Login'}))
-			},
-			err => {
-				console.log(err)
-			}
-		)
+		dispatch(this.initMaxScore())
 
 	}
 

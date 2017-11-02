@@ -1,7 +1,7 @@
 import * as actionTypes from '../constants/userinfo'
 
 const initialState = {
-    account:'',
+    name:'',
     vip:'',
     partner:''
 };

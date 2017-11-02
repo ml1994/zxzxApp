@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View,Text,StyleSheet,ScrollView,TouchableOpacity,TextInput,RefreshControl,Image,FlatList } from 'react-native'
+import { View,Text,StyleSheet,ScrollView,TouchableOpacity,TextInput,RefreshControl,Image,FlatList,Alert} from 'react-native'
 import Header from '../components/header'
 import Icon from '../components/icon'
 import myFetch from '../utils/myFetch'
@@ -18,25 +18,34 @@ class Directory extends Component {
             searchText:'',
             activeIndex:0,
             baseUrl:'',
-            detailId:-1
+            detailId:-1,
+            page:1
         }
         const {dispatch} = this.props
         dispatch(directoryActions.initDirectoryList())
-        dispatch(this.getList())
+        dispatch(this.getList())   //有上拉加载功能的列表页面首次加载时会执行一次上拉加载方法，无需自己get
     }
 
     getList(type,keywords=''){
         const {dispatch} = this.props
+        this.setState({
+            page:1
+        })
         return dispatch=>{
             dispatch(appStateActions.fetch({fetching:true}))
             myFetch.get(
                 '/api/pindexlist',
-                {page:1,pagesize:1000,type,keywords},
+                {page:1,pagesize:10,type,keywords},
                 res=>{
-                    this.setState({
-                        baseUrl:res.baseurl
-                    })
-                    dispatch(directoryActions.loadDirectoryList({directoryList:res.rows}))
+					console.log(res)
+                    if(!res.message){
+						this.setState({
+							baseUrl:res.baseurl
+						})
+						dispatch(directoryActions.loadDirectoryList({directoryList:res.rows}))
+                    }else{
+                        Alert.alert('提示',res.message)
+                    }
                     dispatch(appStateActions.fetchEnd({fetching:false}))
                 },
                 err=>{
@@ -57,20 +66,24 @@ class Directory extends Component {
         const {dispatch} = this.props
         dispatch(this.getList(this.state.activeIndex,this.state.searchText))
     }
-    
 
     changeTab(index){
         const {dispatch} = this.props
+        const oldActiveIndex = this.state.activeIndex
         this.setState({
             activeIndex:index
         })
-        dispatch(this.getList(index))
+        dispatch(this.getList(index,this.state.searchText))
+        if(oldActiveIndex!=3&&this.state.activeIndex!=3){//上一个activeIndex或者要去的tab页是非空tab页
+            this.refs.list.scrollToIndex({viewPosition: 0, index: 0})//回到flatlist顶部
+        }
+        //console.log(this.refs.list)
     }
 
-    refreshFun(){
+    refreshFun(){//下拉刷新
         const {dispatch} = this.props
 		//this.setState({refreshing: true})//开始刷新
-        dispatch(this.getList(this.state.activeIndex))
+        dispatch(this.getList(this.state.activeIndex,this.state.searchText))
         //this.setState({refreshing: false})//停止刷新
     }
 
@@ -79,7 +92,43 @@ class Directory extends Component {
         dispatch(NavigationActions.navigate({routeName:'DirectoryDetail',params:{id}}))
     }
 
+    pullAddFun(){//上拉加载
+        const {dispatch,directory} = this.props
+        return dispatch=>{
+            this.setState({refreshing: true})
+            myFetch.get(
+                '/api/pindexlist',
+                {page:this.state.page+1,pagesize:10,type:this.state.activeIndex,keywords:this.state.searchText},
+                res=>{
+					console.log(res)
+                    if(!res.message){
+                        let newList = res.rows
+                        if(newList.length!=0){
+                            this.setState(prevState=>({
+                                page:prevState.page+1
+                            }))
+                            let oldList = directory.directoryList
+                            dispatch(directoryActions.loadDirectoryList({directoryList:[...oldList,...newList]}))
+                        }
+                    }else{
+                        Alert.alert('提示',res.message)
+                    }
+                    this.setState({refreshing: false})
+                },
+                err=>{
+                    console.log(err)
+                    this.setState(prevState=>({
+                        page:prevState.page
+                    }))
+                    this.setState({refreshing: false})
+                }
+            )
+        }
+    }
+
     render() {
+
+        const {dispatch} = this.props
 
         return (
             <View style={styles.rootView}>
@@ -95,7 +144,9 @@ class Directory extends Component {
                             autoCorrect={false}
                             onChangeText={searchText=>this.onChangeText(searchText)}
                             onSubmitEditing={()=>this.submitFun()}/>
-                        <Icon name='search' size={20} color='#fff'/>
+                        <TouchableOpacity onPress={()=>this.submitFun()}>
+                            <Icon name='search' size={20} color='#fff'/>
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <View style={styles.tabsView}>
@@ -107,22 +158,22 @@ class Directory extends Component {
                     ))
                 }
                 </View>
-                <ScrollView
-                    style={styles.scrollview}
-                    showsVerticalScrollIndicator={false}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={this.state.refreshing}
-                            onRefresh={()=>this.refreshFun()}
-                            tintColor="#ccc"
-                            title="Loading..."
-                            titleColor="#ccc"
-                        />
-                    }>
+                
                     {this.props.directory.directoryList.length!=0?
                         (
-                            this.props.directory.directoryList.map((item,index)=>
-                                (
+                            <FlatList
+                                ref='list'
+                                refreshControl={
+                                    <RefreshControl
+                                        refreshing={this.state.refreshing}
+                                        onRefresh={()=>this.refreshFun()}
+                                        tintColor="#ccc"
+                                        title="Loading..."
+                                        titleColor="#ccc"
+                                    />
+                                }
+                                data={this.props.directory.directoryList}
+                                renderItem={({item})=>(
                                     <TouchableOpacity style={styles.touchView} onPress={()=>this.toDetailPage(item.pk_ent)}>
                                         <View style={styles.listView}>
                                             <Image source={{uri:this.state.baseUrl+item.ent_logo}} resizeMode="stretch" style={styles.listImg}/>
@@ -137,17 +188,34 @@ class Directory extends Component {
                                             </View>
                                         </View>
                                     </TouchableOpacity>
-                                )
-                            )
+                                )}
+                                showsVerticalScrollIndicator={false}
+                                onEndReachedThreshold={.1}
+                                onEndReached={info=>dispatch(this.pullAddFun())}
+                            />
+                            
                         )
                         : (
-                            <View style={styles.container}>
-                                <Image style={styles.img} resizeMode='contain' source={require('../asset/no_ask.png')}/>
-                                <Text style={styles.nullText}>还没有该类型企业入驻</Text>
-                            </View>
+                            <ScrollView
+                                style={styles.scrollview}
+                                showsVerticalScrollIndicator={false}
+                                refreshControl={
+                                    <RefreshControl
+                                        refreshing={this.state.refreshing}
+                                        onRefresh={()=>this.refreshFun()}
+                                        tintColor="#ccc"
+                                        title="Loading..."
+                                        titleColor="#ccc"
+                                    />
+                                }>
+                                <View style={styles.container}>
+                                    <Image style={styles.img} resizeMode='contain' source={require('../asset/no_ask.png')}/>
+                                    <Text style={styles.nullText}>还没有该类型企业入驻</Text>
+                                </View>
+                            </ScrollView>
                         )
                     }
-                </ScrollView>
+                
             </View>
         )
     }
