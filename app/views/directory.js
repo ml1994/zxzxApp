@@ -204,7 +204,7 @@ class Directory extends Component {
                                 }
                                 data={this.props.directory.directoryList}
                                 renderItem={({item})=>(
-                                    <TouchableOpacity style={styles.touchView}>
+                                    <TouchableOpacity style={styles.touchView} activeOpacity={1}>
                                         <Image source={{uri:item.ad_file}} resizeMode="contain" style={styles.listImg}/>
                                         <View style={styles.textView}>
                                             <Text style={styles.title} numberOfLines={2}>{item.ad_name}</Text>
@@ -341,10 +341,11 @@ const styles = StyleSheet.create({
     //     color: '#2f2f2f',
     // }
     rowsView:{
+        marginHorizontal:6,
         marginVertical:6,
-        justifyContent:'space-around'
     },
     touchView:{
+        marginHorizontal:6,
         width:'30%',
         height:width*.3,
         borderWidth:1,
@@ -362,7 +363,8 @@ const styles = StyleSheet.create({
     },
     title:{
         fontSize:10,
-        textAlign:'center'
+        textAlign:'center',
+        color:'#000'
     }
 })
 
