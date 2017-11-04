@@ -24,14 +24,14 @@ class Ask extends Component {
                     
                     <View style={styles.bottomView}>
                         <View style={styles.bottomLeftView}>
-                            {this.props.userinfo.vip==true?
+                            {/*this.props.userinfo.vip==true?
                                 <View style={styles.vipSee}>
                                     <View style={styles.vipView}>
                                         <Text style={styles.vip}>VIP</Text>    
                                     </View>
                                     <Text style={styles.vipText}>{this.props.userinfo.partner}</Text>
                                 </View>:null
-                            }
+                            */}
                         </View>
                         <Text style={styles.time}>{time}</Text>
                     </View>

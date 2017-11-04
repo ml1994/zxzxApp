@@ -81,16 +81,16 @@ class Me extends Component {
                 <View style={styles.header}>
                     <Icon name='user-circle-o' size={60} color='#fff'/>
                     <View style={styles.phoneView}>
-                        {this.props.userinfo.vip==true?
+                        {/* this.props.userinfo.vip==true?
                             <View style={styles.vipView}>
                                 <Text style={styles.vip}>VIP</Text>
                             </View>:null
-                        }
+                        */} 
                         <Text style={styles.phoneNum}>{this.props.userinfo.name}</Text>
                     </View>
-                    {this.props.userinfo.vip==true?
+                    {/*this.props.userinfo.vip==true?
                         <Text style={styles.intro}>该手机用户为{this.props.userinfo.partner}合作单位的VIP账户</Text>:
-                        <Text style={styles.notVipText}>您掌上的消防专家</Text>
+                        <Text style={styles.notVipText}>您掌上的消防专家</Text>*/
                     }
                 </View>
                 <Menu menuArr={menuArr}/>

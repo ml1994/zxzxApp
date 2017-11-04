@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View,Text,StyleSheet,ScrollView,TouchableOpacity,TextInput,RefreshControl,Image,FlatList,Alert} from 'react-native'
+import { View,Text,StyleSheet,ScrollView,TouchableOpacity,TextInput,RefreshControl,Image,FlatList,Alert,Dimensions} from 'react-native'
 import Header from '../components/header'
 import Icon from '../components/icon'
 import myFetch from '../utils/myFetch'
@@ -17,16 +17,15 @@ class Directory extends Component {
             tabsList:['全部','地产企业','消防企业'],
             searchText:'',
             activeIndex:0,
-            baseUrl:'',
             detailId:-1,
             page:1
         }
         const {dispatch} = this.props
-        dispatch(directoryActions.initDirectoryList())
-        dispatch(this.getList())   //有上拉加载功能的列表页面首次加载时会执行一次上拉加载方法，无需自己get
+        //dispatch(directoryActions.initDirectoryList())
+        dispatch(this.getList(0))
     }
 
-    getList(type,keywords=''){
+    getList(code,name=''){
         const {dispatch} = this.props
         this.setState({
             page:1
@@ -34,14 +33,11 @@ class Directory extends Component {
         return dispatch=>{
             dispatch(appStateActions.fetch({fetching:true}))
             myFetch.get(
-                '/api/pindexlist',
-                {page:1,pagesize:10,type,keywords},
+                '/advertisement/pindex',
+                {page:1,pagesize:18,code,name},
                 res=>{
 					console.log(res)
                     if(!res.message){
-						this.setState({
-							baseUrl:res.baseurl
-						})
 						dispatch(directoryActions.loadDirectoryList({directoryList:res.rows}))
                     }else{
                         Alert.alert('提示',res.message)
@@ -74,7 +70,7 @@ class Directory extends Component {
         })
         dispatch(this.getList(index,this.state.searchText))
         if(this.refs.list){//上一个tab页是非空tab页
-            this.refs.list.scrollToIndex({viewPosition: 0, index: 0})//回到flatlist顶部
+            this.refs.list.scrollToIndex({animated:false ,viewPosition: 0, index: 0})//回到flatlist顶部
         }
         //console.log(this.refs.list)
     }
@@ -94,10 +90,10 @@ class Directory extends Component {
     pullAddFun(){//上拉加载
         const {dispatch,directory} = this.props
         return dispatch=>{
-            this.setState({refreshing: true})
+            dispatch(appStateActions.fetch({fetching:true}))
             myFetch.get(
-                '/api/pindexlist',
-                {page:this.state.page+1,pagesize:10,type:this.state.activeIndex,keywords:this.state.searchText},
+                '/advertisement/pindex',
+                {page:this.state.page+1,pagesize:18,code:this.state.activeIndex,name:this.state.searchText},
                 res=>{
 					console.log(res)
                     if(!res.message){
@@ -112,14 +108,14 @@ class Directory extends Component {
                     }else{
                         Alert.alert('提示',res.message)
                     }
-                    this.setState({refreshing: false})
+                    dispatch(appStateActions.fetchEnd({fetching:false}))
                 },
                 err=>{
                     console.log(err)
                     this.setState(prevState=>({
                         page:prevState.page
                     }))
-                    this.setState({refreshing: false})
+                    dispatch(appStateActions.fetchEnd({fetching:false}))
                 }
             )
         }
@@ -160,8 +156,43 @@ class Directory extends Component {
                 
                     {this.props.directory.directoryList.length!=0?
                         (
+                            // <FlatList
+                            //     ref='list'
+                            //     refreshControl={
+                            //         <RefreshControl
+                            //             refreshing={this.state.refreshing}
+                            //             onRefresh={()=>this.refreshFun()}
+                            //             tintColor="#ccc"
+                            //             title="Loading..."
+                            //             titleColor="#ccc"
+                            //         />
+                            //     }
+                            //     data={this.props.directory.directoryList}
+                            //     renderItem={({item})=>(
+                            //         <TouchableOpacity style={styles.touchView} onPress={()=>this.toDetailPage(item.pk_ent)}>
+                            //             <View style={styles.listView}>
+                            //                 <Image source={{uri:this.state.baseUrl+item.ent_logo}} resizeMode="stretch" style={styles.listImg}/>
+                            //                 <View style={styles.textView}>
+                            //                     <View style={styles.titleView}>
+                            //                         <Image style={styles.titleIcon} resizeMode='contain' source={require('../asset/diamond.png')}/>
+                            //                         <Text style={styles.title} numberOfLines={1}>{item.ent_name}</Text>
+                            //                     </View>
+                            //                     <Text style={styles.text} numberOfLines={1}>所在区域：{item.ent_region?item.ent_region:'暂无信息'}</Text>
+                            //                     <Text style={styles.text} numberOfLines={1}>企业网址：{item.ent_website?item.ent_website:'暂无信息'}</Text>
+                            //                     <Text style={styles.text} numberOfLines={1}>联系电话：{item.ent_phone?item.ent_phone:'暂无信息'}</Text>
+                            //                 </View>
+                            //             </View>
+                            //         </TouchableOpacity>
+                            //     )}
+                            //     showsVerticalScrollIndicator={false}
+                            //     onEndReachedThreshold={.1}
+                            //     onEndReached={info=>dispatch(this.pullAddFun())}
+                            // />
+
                             <FlatList
                                 ref='list'
+                                numColumns={3}
+                                columnWrapperStyle={styles.rowsView}
                                 refreshControl={
                                     <RefreshControl
                                         refreshing={this.state.refreshing}
@@ -173,18 +204,10 @@ class Directory extends Component {
                                 }
                                 data={this.props.directory.directoryList}
                                 renderItem={({item})=>(
-                                    <TouchableOpacity style={styles.touchView} onPress={()=>this.toDetailPage(item.pk_ent)}>
-                                        <View style={styles.listView}>
-                                            <Image source={{uri:this.state.baseUrl+item.ent_logo}} resizeMode="stretch" style={styles.listImg}/>
-                                            <View style={styles.textView}>
-                                                <View style={styles.titleView}>
-                                                    <Image style={styles.titleIcon} resizeMode='contain' source={require('../asset/diamond.png')}/>
-                                                    <Text style={styles.title} numberOfLines={1}>{item.ent_name}</Text>
-                                                </View>
-                                                <Text style={styles.text} numberOfLines={1}>所在区域：{item.ent_region?item.ent_region:'暂无信息'}</Text>
-                                                <Text style={styles.text} numberOfLines={1}>企业网址：{item.ent_website?item.ent_website:'暂无信息'}</Text>
-                                                <Text style={styles.text} numberOfLines={1}>联系电话：{item.ent_phone?item.ent_phone:'暂无信息'}</Text>
-                                            </View>
+                                    <TouchableOpacity style={styles.touchView}>
+                                        <Image source={{uri:item.ad_file}} resizeMode="contain" style={styles.listImg}/>
+                                        <View style={styles.textView}>
+                                            <Text style={styles.title} numberOfLines={2}>{item.ad_name}</Text>
                                         </View>
                                     </TouchableOpacity>
                                 )}
@@ -192,7 +215,6 @@ class Directory extends Component {
                                 onEndReachedThreshold={.1}
                                 onEndReached={info=>dispatch(this.pullAddFun())}
                             />
-                            
                         )
                         : (
                             <ScrollView
@@ -220,7 +242,7 @@ class Directory extends Component {
     }
 }
 
-
+const {width} = Dimensions.get('window')
 const styles = StyleSheet.create({
     rootView:{
         flex:1,
@@ -257,7 +279,6 @@ const styles = StyleSheet.create({
         flex:1,
         height:36,
         marginHorizontal:10,
-        //width:'20%',
         alignItems:'center',
         justifyContent:'center',
         borderBottomWidth:3,
@@ -282,42 +303,66 @@ const styles = StyleSheet.create({
         color:'#c9c9c9'
     },
     //listItemStyle
-    touchView:{
-        paddingHorizontal:10,
+    // touchView:{
+    //     paddingHorizontal:10,
+    // },
+    // listView:{
+    //     flexDirection:'row',
+    //     justifyContent:'space-between',
+    //     marginTop:10,
+    //     paddingVertical:10,
+    //     paddingHorizontal:10,
+    //     backgroundColor:'#f1f1f1'
+    // },
+    // listImg:{
+    //     flex:1,
+    //     height:80
+    // },
+    // textView:{
+    //     flex:2,
+    //     marginLeft:10
+    // },
+    // titleView:{
+    //     flexDirection:'row',
+    //     alignItems:'center',
+    //     marginBottom:10
+    // },
+    // titleIcon:{
+    //     width:30,
+    //     height:20
+    // },
+    // title:{
+    //     fontSize:16,
+    //     color: '#2f2f2f'
+    // },
+    // text:{
+    //     marginTop:3,
+    //     fontSize: 12,
+    //     color: '#2f2f2f',
+    // }
+    rowsView:{
+        marginVertical:6,
+        justifyContent:'space-around'
     },
-    listView:{
-        flexDirection:'row',
-        justifyContent:'space-between',
-        marginTop:10,
-        paddingVertical:10,
-        paddingHorizontal:10,
-        backgroundColor:'#f1f1f1'
+    touchView:{
+        width:'30%',
+        height:width*.3,
+        borderWidth:1,
+        borderColor:'#000',
+        justifyContent:'center',
+        alignItems:'center'
     },
     listImg:{
-        flex:1,
-        height:80
+        width:70,
+        height:70
     },
     textView:{
-        flex:2,
-        marginLeft:10
-    },
-    titleView:{
-        flexDirection:'row',
-        alignItems:'center',
-        marginBottom:10
-    },
-    titleIcon:{
-        width:30,
-        height:20
+        marginTop:5,
+        paddingHorizontal:5
     },
     title:{
-        fontSize:16,
-        color: '#2f2f2f'
-    },
-    text:{
-        marginTop:3,
-        fontSize: 12,
-        color: '#2f2f2f',
+        fontSize:10,
+        textAlign:'center'
     }
 })
 

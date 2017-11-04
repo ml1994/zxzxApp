@@ -53,10 +53,8 @@ class CompAsks extends Component {
 		
 		UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true)
 		
-		if(this.props.userinfo.vip){
-			dispatch(askActions.initCompAskList())
-			dispatch(this.getList(1))
-		}
+		dispatch(askActions.initCompAskList())
+		dispatch(this.getList(1))
 		// myFetch.get(
 		// 	'/account/islogin',
 		// 	{},

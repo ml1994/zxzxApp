@@ -13,14 +13,14 @@ class Qa extends Component {
                     <Text style={styles.text}>{text}</Text>
                     <View style={styles.bottomView}>
                         <View style={styles.bottomLeftView}>
-                            {this.props.userinfo.vip==true&&type=='question'?
+                            {/*this.props.userinfo.vip==true&&type=='question'?
                                 <View style={styles.vipSee}>
                                     <View style={styles.vipView}>
                                         <Text style={styles.vip}>VIP</Text>    
                                     </View>
                                     <Text style={styles.vipText}>{this.props.userinfo.partner}</Text>
                                 </View>:null
-                            }
+                            */}
                             {this.props.userinfo.vip==true&&type=='answer'?
                                 <View style={styles.proSee}>
                                     <Icon name='star' size={16} color='#FC0D1B'/>
