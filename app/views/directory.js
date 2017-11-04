@@ -69,12 +69,11 @@ class Directory extends Component {
 
     changeTab(index){
         const {dispatch} = this.props
-        const oldActiveIndex = this.state.activeIndex
         this.setState({
             activeIndex:index
         })
         dispatch(this.getList(index,this.state.searchText))
-        if(oldActiveIndex!=3&&this.state.activeIndex!=3){//上一个activeIndex或者要去的tab页是非空tab页
+        if(this.refs.list){//上一个tab页是非空tab页
             this.refs.list.scrollToIndex({viewPosition: 0, index: 0})//回到flatlist顶部
         }
         //console.log(this.refs.list)
@@ -182,9 +181,9 @@ class Directory extends Component {
                                                     <Image style={styles.titleIcon} resizeMode='contain' source={require('../asset/diamond.png')}/>
                                                     <Text style={styles.title} numberOfLines={1}>{item.ent_name}</Text>
                                                 </View>
-                                                <Text style={styles.text} numberOfLines={1}>所在区域：{item.ent_region}</Text>
-                                                <Text style={styles.text} numberOfLines={1}>企业网址：{item.ent_website}</Text>
-                                                <Text style={styles.text} numberOfLines={1}>联系电话：{item.ent_phone}</Text>
+                                                <Text style={styles.text} numberOfLines={1}>所在区域：{item.ent_region?item.ent_region:'暂无信息'}</Text>
+                                                <Text style={styles.text} numberOfLines={1}>企业网址：{item.ent_website?item.ent_website:'暂无信息'}</Text>
+                                                <Text style={styles.text} numberOfLines={1}>联系电话：{item.ent_phone?item.ent_phone:'暂无信息'}</Text>
                                             </View>
                                         </View>
                                     </TouchableOpacity>

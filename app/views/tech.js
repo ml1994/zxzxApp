@@ -170,9 +170,8 @@ class Tech extends Component {
 			return (
 				<View style={styles.container}>
 					<Image style={styles.img} resizeMode='contain' source={require('../asset/no_register.png')}/>
-					<Text style={styles.text}>您目前还没有进行注册,不能查</Text>
-					<Text style={styles.text}>看相应信息。请前往以下网址进行注册：</Text>
-					<Text style={[styles.text, styles.marginTop10]}>e.zxzx119.com</Text>
+					<Text style={styles.text}>请登录公司官网http://e.zxzx119.com/创建项目资料。</Text>
+					<Text style={styles.text}>手机端可同步查看图纸审查进度。</Text>
 				</View>
 			)
 		}
@@ -213,13 +212,14 @@ const styles = StyleSheet.create({
 		width: 100,
 		height: 100,
 		marginBottom: 10
-	},
+	}, 
 	text: {
-		color: '#c9c9c9'
+		color: '#c9c9c9',
+		lineHeight:30
 	},
-	marginTop10: {
-		marginTop: 10
-	},
+	// underline: {
+	// 	textDecorationLine:'underline'
+	// },
 	list: {
 		padding: 15,
 		paddingBottom: 0

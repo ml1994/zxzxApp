@@ -38,7 +38,7 @@ class KnowAllList extends Component {
 					switch (index) {
 						case 0:  //第一张带图新闻只显示大图
 							return <TouchableOpacity onPress={() => this._toDetailPage(item.link_to)}>
-								<Image source={{uri: item.thumbnail}} resizeMode="stretch" style={styles.topImg}/>
+								<Image source={{uri: item.thumbnail}} resizeMode="cover" style={styles.topImg}/>
 							</TouchableOpacity>
 						case 1:  //title
 							return <View style={styles.titleView}>
