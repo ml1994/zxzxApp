@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Image,View,StyleSheet,Text } from 'react-native'
+import { Image,View,StyleSheet,Text,TouchableOpacity } from 'react-native'
 import Header from '../components/header'
 
 export default class Star extends Component {

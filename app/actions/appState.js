@@ -13,3 +13,10 @@ export function fetchEnd(payload) {
         payload
     }
 }
+
+export function netConnect(payload){
+    return {
+        type:appStateActions.CONNECTED,
+        payload
+    }
+}

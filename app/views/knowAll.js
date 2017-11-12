@@ -15,7 +15,12 @@ class KnowAll extends Component {
             page:1,
             sign:this.props.nav.routes[1].params.sign
         }
-
+        const {dispatch,appState} = this.props
+        if(appState.isConnected){
+            dispatch(this.pullAddFun(this.state.sign))
+        }else{
+            //
+        }
     }
 
     refreshFun(sign){
@@ -50,7 +55,7 @@ class KnowAll extends Component {
         })
     }
 
-    pullAddFun(sign){//打开页面时会先执行一次
+    pullAddFun(sign){//如果没有render加载判断，则onEndReached里的方法会打开页面时先执行一次
         const {dispatch} = this.props
         return dispatch=>{
             dispatch(appStateActions.fetch({fetching:true}))
@@ -96,23 +101,41 @@ class KnowAll extends Component {
         // const icons=['bell-o','search']
         const icons=['search']
         const {dispatch} = this.props
+        let newsList = this.state.sign==5?this.props.news.newsList:this.props.news.encyList
         return (
             <View style={{flex:1}}>
                 <Header type='title' title={this.state.sign==5?'热点新闻':'消防百科'}/>
-                <KnowAllList 
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={this.state.refreshing}
-                            onRefresh={()=>this.refreshFun(this.state.sign)}
-                            tintColor="#ccc"
-                            title="Loading..."
-                            titleColor="#ccc"
-                        />}
-                    showsVerticalScrollIndicator={false}
-                    onEndReachedThreshold={.1}
-                    onEndReached={info=>dispatch(this.pullAddFun(this.state.sign))}
-                    newsList={this.state.sign==5?this.props.news.newsList:this.props.news.encyList}
-                    title={this.state.sign==5?'热点新闻':'消防百科'}/>
+                {
+                    this.props.appState.isConnected&&newsList.length!=0?(
+                        <KnowAllList 
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={this.state.refreshing}
+                                onRefresh={()=>this.refreshFun(this.state.sign)}
+                                tintColor="#ccc"
+                                title="Loading..."
+                                titleColor="#ccc"
+                            />}
+                        showsVerticalScrollIndicator={false}
+                        onEndReachedThreshold={.1}
+                        onEndReached={info=>dispatch(this.pullAddFun(this.state.sign))}
+                        newsList={newsList}
+                        title={this.state.sign==5?'热点新闻':'消防百科'}/>
+                    ):(
+                        <ScrollView
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={this.state.refreshing}
+                                onRefresh={()=>this.props.appState.isConnected?this.refreshFun(this.state.sign):null}
+                                tintColor="#ccc"
+                                title="Loading..."
+                                titleColor="#ccc"
+                            />}
+                        showsVerticalScrollIndicator={false}>
+                            <Text>请确认网络可以使用</Text>
+                        </ScrollView>
+                    )
+                }
             </View>
         )
     }
@@ -120,7 +143,8 @@ class KnowAll extends Component {
 
 const mapStateToProps = store=>({
     news:store.news,
-    nav:store.nav
+    nav:store.nav,
+    appState:store.appState
 })
 
 export default connect(mapStateToProps)(KnowAll)

@@ -1,4 +1,4 @@
-
+import { NetInfo } from 'react-native'
 export default class myFetch{
 
     //static rootUrl = 'http://115.236.94.196:30005/app'
@@ -51,4 +51,5 @@ export default class myFetch{
         })
         .catch(err=>ecallback(err))
     }
+
 }
