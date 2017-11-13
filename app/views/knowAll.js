@@ -29,7 +29,7 @@ class KnowAll extends Component {
             refreshing: true,
             page:1
         })
-        fetch(`http://zxzx119.com/api?method=querywaterfall&page=1&pagesize=10&taxonomyid=${sign}`)
+        fetch(`http://zxzx119.com/api?method=querywaterfall&page=1&pagesize=15&taxonomyid=${sign}`)
         .then(res=>res.json())
         .then(resj=>{
             const list = resj.data.list
@@ -59,7 +59,7 @@ class KnowAll extends Component {
         const {dispatch} = this.props
         return dispatch=>{
             dispatch(appStateActions.fetch({fetching:true}))
-            fetch(`http://zxzx119.com/api?method=querywaterfall&page=${this.state.page}&pagesize=10&taxonomyid=${sign}`)
+            fetch(`http://zxzx119.com/api?method=querywaterfall&page=${this.state.page}&pagesize=15&taxonomyid=${sign}`)
             .then(res=>res.json())
             .then(resj=>{
                 //const oldList = this.props.news.newsList
@@ -103,7 +103,7 @@ class KnowAll extends Component {
         const {dispatch} = this.props
         let newsList = this.state.sign==5?this.props.news.newsList:this.props.news.encyList
         return (
-            <View style={{flex:1}}>
+            <View>
                 <Header type='title' title={this.state.sign==5?'热点新闻':'消防百科'}/>
                 {
                     this.props.appState.isConnected&&newsList.length!=0?(

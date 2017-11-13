@@ -24,23 +24,26 @@ class Tech extends Component {
 		this.state = {
 			refreshing: false,
 		}
-		const {dispatch} = this.props
-		console.log(this.props)
-		myFetch.get(
-			'/account/islogin',
-			{},
-			res => {
-				console.log(res)
-				if (res.code == '0') {
-					dispatch(this.getTechList())
-				} else {
-					dispatch(NavigationActions.navigate({routeName: 'Login'}))
+		const {dispatch,appState} = this.props
+		if(appState.isConnected){
+			myFetch.get(
+				'/account/islogin',
+				{},
+				res => {
+					console.log(res)
+					if (res.code == '0') {
+						dispatch(this.getTechList())
+					} else {
+						dispatch(NavigationActions.navigate({routeName: 'Login'}))
+					}
+				},
+				err => {
+					console.log(err)
 				}
-			},
-			err => {
-				console.log(err)
-			}
-		)
+			)
+		}else{
+
+		}
 	}
 
 	getTechList() {
@@ -264,7 +267,8 @@ const styles = StyleSheet.create({
 })
 const mapStateToProps = store => ({
 	nav: store.nav,
-	tech: store.tech
+	tech: store.tech,
+	appState: store.appState
 })
 
 export default connect(mapStateToProps)(Tech)

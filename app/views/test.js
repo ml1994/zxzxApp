@@ -14,11 +14,15 @@ class Test extends Component {
 
 	constructor(props) {
 		super(props)
-		const {dispatch} = this.props
+		const {dispatch,appState} = this.props
 		this.state = {
 			modalVisible: false
 		}
-		dispatch(this.initMaxScore())
+		if(appState.isConnected){
+			dispatch(this.initMaxScore())
+		}else{
+			//无网
+		}
 
 	}
 
@@ -178,7 +182,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = store => ({
 	nav: store.nav,
 	test: store.test,
-	userinfo: store.userinfo
+	userinfo: store.userinfo,
+	appState: store.appState
 })
 
 export default connect(mapStateToProps)(Test)

@@ -16,7 +16,12 @@ class WrongSubject extends Component {
 			index: 0,
 			total: this.props.nav.routes[3].params.wrong
 		}
-		this.initWrongList()
+		const {dispatch,appState} = this.props
+		if(appState.isConnected){
+			this.initWrongList()
+		}else{
+			//
+		}
 	}
 
 	renderBtnPrev() {
@@ -162,7 +167,8 @@ const styles = StyleSheet.create({
 })
 const mapStateToProps = store => {
 	return {
-		nav: store.nav
+		nav: store.nav,
+		appState: store.appState
 	}
 }
 export default connect(mapStateToProps)(WrongSubject)

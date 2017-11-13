@@ -160,7 +160,7 @@ export default class App extends Component {
         dispatch(appStateActions.netConnect({isConnected}))
         if(!isConnected){
             Alert.alert('提示','您的网络状态不正常，请检查您的网络',[
-                {text:'前往设置',onPress:()=>{this.openSettings()}},
+                {text:'设置',onPress:()=>{this.openSettings()}},
                 {text:'好',onPress:()=>{}}
             ])
         }

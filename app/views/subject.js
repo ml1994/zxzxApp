@@ -26,8 +26,12 @@ class Subject extends Component {
 			testResult: {score: 0, right: 0, id: 0},
 			testIng: 0,
 		}
-		console.log(this.props.test)
-		this.loadTestList()
+		const {dispatch,appState} = this.props
+		if(appState.isConnected){
+			this.loadTestList()
+		}else{
+			//
+		}
 	}
 
 	initTest() {
@@ -607,7 +611,8 @@ const mapStateToProps = store => {
 	return {
 		nav: store.nav,
 		userinfo: store.userinfo,
-		test: store.test
+		test: store.test,
+		appState: store.appState
 	}
 }
 

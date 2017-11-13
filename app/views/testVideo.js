@@ -18,27 +18,27 @@ class TestVideo extends Component {
 			modalVisible: false
 		}
 
-		const {dispatch} = this.props
-
-		myFetch.get(
-			'/account/islogin',
-			{},
-			res => {
-				console.log(res)
-				if (res.code == '0') {
-					this.getVideoList()
-				} else {
-					dispatch(NavigationActions.back())
-					dispatch(NavigationActions.navigate({routeName: 'Login'}))
+		const {dispatch,appState} = this.props
+		if(appState.isConnected){
+			myFetch.get(
+				'/account/islogin',
+				{},
+				res => {
+					console.log(res)
+					if (res.code == '0') {
+						this.getVideoList()
+					} else {
+						dispatch(NavigationActions.back())
+						dispatch(NavigationActions.navigate({routeName: 'Login'}))
+					}
+				},
+				err => {
+					console.log(err)
 				}
-			},
-			err => {
-				console.log(err)
-			}
-		)
-
-		
-		
+			)
+		}else{
+			//无网
+		}
 	}
 
 	getVideoList() {
@@ -358,7 +358,8 @@ const styles = StyleSheet.create({
 })
 const mapStateToProps = store => {
 	return {
-		test: store.test
+		test: store.test,
+		appState: store.appState
 	}
 }
 export default connect(mapStateToProps)(TestVideo)

@@ -12,7 +12,12 @@ class TestTip extends Component {
 		this.state = {
 			content: ''
 		}
-		if(this.props.test.type!=6){this.getTip()}
+		const {dispatch,appState} = this.props
+		if(appState.isConnected){
+			if(this.props.test.type!=6){this.getTip()}
+		}else{
+			//无网
+		}
 	}
 
 	getTip() {
@@ -53,7 +58,7 @@ class TestTip extends Component {
 							<ScrollView  showsVerticalScrollIndicator={false}>
 								<Text style={styles.contentTitle}>{this.state.content.title}</Text>
 								<Text
-									style={styles.contentText}>{this.state.content.context}大家卡手机打开啦家里是看得见啊离开的借口啦就算了科技大厦来看</Text>
+									style={styles.contentText}>{this.state.content.context}</Text>
 							</ScrollView>
 						</View>
 
@@ -104,7 +109,6 @@ const styles = StyleSheet.create({
 	contentText: {
 		color: '#202020',
 		fontSize: 12,
-		letterSpacing: 100,
 		lineHeight:25
 	},
 	imgBottom: {
@@ -121,7 +125,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = store => {
 	return {
 		nav: store.nav,
-		test: store.test
+		test: store.test,
+		appState: store.appState
 	}
 }
 export default connect(mapStateToProps)(TestTip)
