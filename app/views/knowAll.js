@@ -106,7 +106,20 @@ class KnowAll extends Component {
             <View>
                 <Header type='title' title={this.state.sign==5?'热点新闻':'消防百科'}/>
                 {
-                    this.props.appState.isConnected&&newsList.length!=0?(
+                    !this.props.appState.isConnected&&newsList.length==0?(
+                        <ScrollView
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={this.state.refreshing}
+                                onRefresh={()=>this.props.appState.isConnected?this.refreshFun(this.state.sign):null}
+                                tintColor="#ccc"
+                                title="Loading..."
+                                titleColor="#ccc"
+                            />}
+                        showsVerticalScrollIndicator={false}>
+                            <Text>请确认网络可以使用</Text>
+                        </ScrollView>
+                    ):(
                         <KnowAllList 
                         refreshControl={
                             <RefreshControl
@@ -121,19 +134,7 @@ class KnowAll extends Component {
                         onEndReached={info=>dispatch(this.pullAddFun(this.state.sign))}
                         newsList={newsList}
                         title={this.state.sign==5?'热点新闻':'消防百科'}/>
-                    ):(
-                        <ScrollView
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={this.state.refreshing}
-                                onRefresh={()=>this.props.appState.isConnected?this.refreshFun(this.state.sign):null}
-                                tintColor="#ccc"
-                                title="Loading..."
-                                titleColor="#ccc"
-                            />}
-                        showsVerticalScrollIndicator={false}>
-                            <Text>请确认网络可以使用</Text>
-                        </ScrollView>
+                        
                     )
                 }
             </View>

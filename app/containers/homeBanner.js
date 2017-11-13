@@ -34,16 +34,39 @@ class HomeBanner extends Component {
 	}
 
 	componentWillMount() {
-		setTimeout(() => {//控制swiper组件延迟加载，避免和TabsNavigator冲突导致无法正常使用
-			this.setState({
-				visibleSwiper: true
-			})
-		}, 500)
+		// setTimeout(() => {//控制swiper组件延迟加载，避免和TabsNavigator冲突导致无法正常使用
+		// 	this.setState({
+		// 		visibleSwiper: true
+		// 	})
+		// }, 500)
+		
 	}
+
 
 	goWebView(link) {
 		const {dispatch} = this.props;
 		dispatch(NavigationActions.navigate({routeName: 'KnowAllDetail', params: {link: link,title:'热点新闻'}}))
+	}
+
+	renderSwiper(){
+		const {appState} = this.props
+		if(!appState.isConnected&&this.state.advList.length==0){
+			return  <View></View>
+		}else{
+			return  (
+				<Swiper style={styles.swiper} autoplay={true} autoplayTimeout={5} activeDotColor='rgba(255,255,255,.6)'>
+					{this.state.advList.map((item, index) => {
+						return (
+							<TouchableOpacity style={styles.slide1} key={index} onPress={() => {
+								this.goWebView(item.ad_url)
+							}} activeOpacity={1}>
+								<Image style={styles.bannerImg} source={{uri:item.ad_file}} resizeMode='stretch'/>
+							</TouchableOpacity>
+						)
+					})}
+				</Swiper>
+			)
+		}
 	}
 
 	render() {
@@ -82,17 +105,9 @@ class HomeBanner extends Component {
 			// </ImageBackground>
 			<View style={styles.rootView}>
 				{/* {swiper} */}
-				<Swiper style={styles.swiper} autoplay={true} autoplayTimeout={5} activeDotColor='rgba(255,255,255,.6)'>
-					{this.state.advList.map((item, index) => {
-						return (
-							<TouchableOpacity style={styles.slide1} key={index} onPress={() => {
-								this.goWebView(item.ad_url)
-							}} activeOpacity={1}>
-								<Image style={styles.bannerImg} source={{uri:item.ad_file}} resizeMode='stretch'/>
-							</TouchableOpacity>
-						)
-					})}
-				</Swiper>
+				
+				{this.renderSwiper()}
+				
 				<View style={styles.topBar}>
 					{/* <View style={styles.bellIcon}>
                         {<Icon name="bell-o" size={20} color="#fff"/>}
@@ -154,7 +169,8 @@ const styles = StyleSheet.create({
 })
 const mapStateToProps = store => {
 	return {
-		nav: store.nav
+		nav: store.nav,
+		appState: store.appState
 	}
 }
 export default connect(mapStateToProps)(HomeBanner)
