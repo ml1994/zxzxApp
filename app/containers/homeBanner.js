@@ -34,11 +34,11 @@ class HomeBanner extends Component {
 	}
 
 	componentWillMount() {
-		// setTimeout(() => {//控制swiper组件延迟加载，避免和TabsNavigator冲突导致无法正常使用
-		// 	this.setState({
-		// 		visibleSwiper: true
-		// 	})
-		// }, 500)
+		setTimeout(() => {//控制swiper组件延迟加载，避免和TabsNavigator冲突导致无法正常使用
+			this.setState({
+				visibleSwiper: true
+			})
+		}, 500)
 		
 	}
 
@@ -53,44 +53,33 @@ class HomeBanner extends Component {
 		if(!appState.isConnected&&this.state.advList.length==0){
 			return  <View></View>
 		}else{
-			return  (
-				<Swiper style={styles.swiper} autoplay={true} autoplayTimeout={5} activeDotColor='rgba(255,255,255,.6)'>
-					{this.state.advList.map((item, index) => {
-						return (
-							<TouchableOpacity style={styles.slide1} key={index} onPress={() => {
-								this.goWebView(item.ad_url)
-							}} activeOpacity={1}>
-								<Image style={styles.bannerImg} source={{uri:item.ad_file}} resizeMode='stretch'/>
-							</TouchableOpacity>
-						)
-					})}
-				</Swiper>
-			)
+			let swiper = null
+			
+			if (this.state.visibleSwiper) {
+				swiper = (
+					<Swiper style={styles.swiper} autoplay={true} autoplayTimeout={5} activeDotColor='rgba(255,255,255,.6)' removeClippedSubviews={false}>
+						{this.state.advList.map((item, index) => {
+							return (
+								<TouchableOpacity style={styles.slide1} key={index} onPress={() => {
+									this.goWebView(item.ad_url)
+								}} activeOpacity={1}>
+									<Image style={styles.bannerImg} source={{uri:item.ad_file}} resizeMode='stretch'/>
+								</TouchableOpacity>
+							)
+						})}
+					</Swiper>
+				)
+			} else {
+				swiper = (
+					<View></View>
+				)
+			}
+			return swiper
 		}
 	}
 
 	render() {
-		// let swiper = null
-
-		// if (this.state.visibleSwiper) {
-		// 	swiper = (
-		// 		<Swiper style={styles.swiper} autoplay={true} autoplayTimeout={5} activeDotColor='rgba(255,255,255,.6)'>
-		// 			{this.state.advList.map((item, index) => {
-		// 				return (
-		// 					<TouchableOpacity style={styles.slide1} key={index} onPress={() => {
-		// 						this.goWebView(item.ad_url)
-		// 					}} activeOpacity={1}>
-		// 						<Image style={styles.bannerImg} source={{uri:item.ad_file}} resizeMode='stretch'/>
-		// 					</TouchableOpacity>
-		// 				)
-		// 			})}
-		// 		</Swiper>
-		// 	)
-		// } else {
-		// 	swiper = (
-		// 		<View></View>
-		// 	)
-		// }
+		
 		return (
 			// <ImageBackground
 			//     source={require('../asset/banner_bg.jpg')}
@@ -104,8 +93,6 @@ class HomeBanner extends Component {
 			//     </View>*/}
 			// </ImageBackground>
 			<View style={styles.rootView}>
-				{/* {swiper} */}
-				
 				{this.renderSwiper()}
 				
 				<View style={styles.topBar}>
