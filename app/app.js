@@ -83,7 +83,8 @@ export default class App extends Component {
         const {dispatch} = this.refs.provider.store
         setTimeout(()=>{
             SplashScreen.hide()
-        },2000)
+        },1000)
+        //SplashScreen.hide()
 
         Orientation.lockToPortrait()//锁竖屏
 

@@ -28,8 +28,12 @@ import TestVideo from './views/testVideo'
 import DirectoryDetail from './views/directoryDetail'
 import TestTip from './views/testTip'
 import WrongSubject from './views/wrongSubject'
+import Ad from './views/ad'
 
 const appRootStackNav = StackNavigator({
+	Ad: {//启动广告页
+		screen: Ad
+	},
 	TabNav: {
 		screen: AppTabNav
 	},
