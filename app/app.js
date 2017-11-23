@@ -81,6 +81,7 @@ export default class App extends Component {
 
     componentDidMount() {
         const {dispatch} = this.refs.provider.store
+        let isConnected = null
         setTimeout(()=>{
             SplashScreen.hide()
         },1000)
@@ -96,6 +97,7 @@ export default class App extends Component {
         //初始化判断网络状态
         NetInfo.isConnected.fetch().done(
             (isConnected) => {
+                isConnected = isConnected
                 dispatch(appStateActions.netConnect({isConnected}))
             }
         )
@@ -150,7 +152,9 @@ export default class App extends Component {
         })
         //检查应用更新
         if(Platform.OS=='android'){//暂时只有安卓使用热更新
-            myUpdate.checkUpdate()
+            if(isConnected){
+                myUpdate.checkUpdate()
+            }
         }
     }
 
