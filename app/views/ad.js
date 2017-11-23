@@ -16,26 +16,31 @@ class Ad extends Component {
     }
 
     componentDidMount() {
-        myFetch.get(
-            '/advertisement/screen',
-            {},
-            res=>{
-                if(res.code==0){
-                    this.setState({
-                        adList:res.data
-                    })
-                    
-                    if(!this.state.adList.length){
-                        this.goHome()
-                    }else{
-                        this.timeoutFun()
+        const {appState} = this.props
+		if(appState.isConnected){
+            myFetch.get(
+                '/advertisement/screen',
+                {},
+                res=>{
+                    if(res.code==0){
+                        this.setState({
+                            adList:res.data
+                        })
+                        
+                        if(!this.state.adList.length){
+                            this.goHome()
+                        }else{
+                            this.timeoutFun()
+                        }
                     }
+                },
+                err=>{
+                    console.log(err)
                 }
-            },
-            err=>{
-                console.log(err)
-            }
-        )
+            )
+        }else{
+            this.goHome()
+        }
     }
 
     componentWillUnmount() {
@@ -79,7 +84,8 @@ class Ad extends Component {
                             <View style={styles.views} key={index}>
                                 <Image
                                     style={styles.views}
-                                    source={{uri:item.ad_file}} resizeMode='stretch'/>
+                                    source={{uri:item.ad_file}} 
+                                    resizeMode='stretch'/>
                             </View>
                         )
                     })}
