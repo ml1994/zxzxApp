@@ -13,7 +13,9 @@ class Ad extends Component {
             time:5+2,
             adList:[]
         }
-    
+    }
+
+    componentDidMount() {
         myFetch.get(
             '/advertisement/screen',
             {},
@@ -22,7 +24,12 @@ class Ad extends Component {
                     this.setState({
                         adList:res.data
                     })
-                    this.timeoutFun()
+                    
+                    if(!this.state.adList.length){
+                        this.goHome()
+                    }else{
+                        this.timeoutFun()
+                    }
                 }
             },
             err=>{
@@ -31,16 +38,19 @@ class Ad extends Component {
         )
     }
 
+    componentWillUnmount() {
+        this.timer && clearTimeout(this.timer)
+    }
+
     timeoutFun(){
-        
+        this.setState({
+            time:this.state.time-1
+        })
         if(this.state.time){
-            setTimeout(()=>{
+            this.timer = setTimeout(()=>{
                 this.timeoutFun()
-                console.log(this.state.time,new Date(),this)
-            }, 1000)
-            this.setState({
-                time:this.state.time-1
-            })
+                //console.log(this.state.time,new Date())
+            },1000)
         }else{
             this.goHome()
         }
