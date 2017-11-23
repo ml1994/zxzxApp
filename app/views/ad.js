@@ -16,31 +16,28 @@ class Ad extends Component {
     }
 
     componentDidMount() {
-        const {appState} = this.props
-		if(appState.isConnected){
-            myFetch.get(
-                '/advertisement/screen',
-                {},
-                res=>{
-                    if(res.code==0){
-                        this.setState({
-                            adList:res.data
-                        })
-                        
-                        if(!this.state.adList.length){
-                            this.goHome()
-                        }else{
-                            this.timeoutFun()
-                        }
+
+        myFetch.get(
+            '/advertisement/screen',
+            {},
+            res=>{
+                if(res.code==0){
+                    this.setState({
+                        adList:res.data
+                    })
+                    
+                    if(!this.state.adList.length){
+                        this.goHome()
+                    }else{
+                        this.timeoutFun()
                     }
-                },
-                err=>{
-                    console.log(err)
                 }
-            )
-        }else{
-            this.goHome()
-        }
+            },
+            err=>{
+                console.log(err)
+                this.goHome()
+            }
+        )
     }
 
     componentWillUnmount() {
