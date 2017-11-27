@@ -10,7 +10,7 @@ class Ad extends Component {
     constructor(props){
         super(props)
         this.state={
-            time:5+2,
+            time:5+6,
             adList:[]
         }
     }
