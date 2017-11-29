@@ -169,7 +169,7 @@ class Login extends Component {
 				'/account/getinfo',
 				{},
 				resj => {
-					const {account} = resj.data
+					const {name} = resj.data
 					let vip = ''
 					let partner = ''
 					if (resj.data.tails.vip == true) {
@@ -177,7 +177,7 @@ class Login extends Component {
 						partner = resj.data.tails.staff.tails.partner_name
 						dispatch(this.getCompAskList())
 					}
-					const info = Object.assign({}, {account, vip, partner})
+					const info = Object.assign({}, {name, vip, partner})
 					dispatch(userinfoActions.getInfo(info))
 					dispatch({type: 'GETING_END'})
 				},

@@ -358,8 +358,8 @@ const styles = StyleSheet.create({
         height:70
     },
     textView:{
-        marginTop:5,
-        paddingHorizontal:5
+        paddingHorizontal:5,
+        backgroundColor:'transparent'
     },
     title:{
         fontSize:10,
