@@ -5,6 +5,7 @@ import Search from './views/search'
 import KnowAll from './views/knowAll'
 import KnowAllDetail from './views/knowAllDetail'
 import PeopleShow from './views/peopleShow'
+import Apply from './views/apply'
 import Login from './views/login'
 import Register from './views/register'
 import MySetting from './views/mySetting'
@@ -63,6 +64,9 @@ const appRootStackNav = StackNavigator({
 	},
 	PeopleShow: {//真人秀
 		screen: PeopleShow
+	},
+	Apply: {//报名页
+		screen: Apply
 	},
 	Message: {//消息中心
 		screen: Message
