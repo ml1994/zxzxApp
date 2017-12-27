@@ -25,7 +25,6 @@ class Apply extends Component {
                 this.setState({
                     name: value
                 })
-                key = 'name'
                 break
             case '职业':
                 this.setState({
@@ -109,6 +108,17 @@ class Apply extends Component {
         }
     }
 
+    /**
+     * 
+     * 
+     * @param {string} [label=''] label标签名
+     * @param {string} [type=''] input类型，参数是字符串为text，数组为单选
+     * @param {boolean} [isMultiline=false] 是否是多行textinput
+     * @param {any} [style={}] 修改input容器样式
+     * @returns 
+     * @memberof Apply
+     */
+    
     renderInput(label='', type='', isMultiline=false, style={}){
         let myInput = <View style={[styles.inputView,style]}></View>
         if(typeof type === 'string'){
@@ -164,7 +174,7 @@ class Apply extends Component {
                 {this.renderInput('电话','请输入电话号码')}
                 {this.renderInput('城市','请输入所在城市')}
                 {this.renderInput('性别',['男','女'])}     
-                {this.renderInput('备注','例如：周末双休，可以参与拍摄',true,{paddingVertical:10, height: 110, alignItems: 'flex-start'})} 
+                {this.renderInput('备注','例如：周末双休，可以参与拍摄', true, styles.remarkView)} 
                 <View style={styles.btnView}>
                     <TouchableOpacity style={styles.btn} onPress={()=>{this.applyFun()}}>
                         <Text style={styles.btnText}>我要报名</Text>
@@ -190,6 +200,11 @@ var styles = StyleSheet.create({
         alignItems: 'center',
         borderBottomWidth: 2,
         borderBottomColor: '#e5e5e5'
+    },
+    remarkView:{
+        paddingVertical:10,
+        height: 110, 
+        alignItems: 'flex-start'
     },
     inputLabel:{
         flex:1,
