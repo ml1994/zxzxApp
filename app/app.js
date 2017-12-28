@@ -84,7 +84,7 @@ export default class App extends Component {
         let isConnected = null
         setTimeout(()=>{
             SplashScreen.hide()
-        },5000)
+        },2000)
         //SplashScreen.hide()
 
         Orientation.lockToPortrait()//锁竖屏
