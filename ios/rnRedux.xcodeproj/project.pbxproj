@@ -724,6 +724,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				C7ACBC238DFF4C1B8BD979C2 /* Resources */,
 				5B680C67B5324C40A9FC5E84 /* Frameworks */,
+				BCD22FF61FBD2F4A00EE763F /* Recovered References */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -738,6 +739,20 @@
 				2D02E4901E0B4A5D006451C7 /* rnRedux-tvOSTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		BCD22FF61FBD2F4A00EE763F /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				9CEE2A6D0BC94D0EBA99BB13 /* libRNVectorIcons.a */,
+				0767DC5FF6604FF0A5CAD21C /* libRCTVideo.a */,
+				FDE9509A574F4DB4A918CBE2 /* libSplashScreen.a */,
+				7B2C716B25A443AC8180C398 /* libRCTOrientation.a */,
+				429A8D546E4B4AFFB0F53057 /* libRCTJCoreModule.a */,
+				B62234E850C940C18BAF1763 /* libRCTJPushModule.a */,
+				C660B2D7737E48779DA301BF /* libRCTHotUpdate.a */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		C7ACBC238DFF4C1B8BD979C2 /* Resources */ = {
@@ -1472,6 +1487,7 @@
 				PRODUCT_NAME = rnRedux;
 				PROVISIONING_PROFILE = "f78bf6db-0cdc-4eae-af69-7e2e99ae254e";
 				PROVISIONING_PROFILE_SPECIFIER = zxzx119;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1509,6 +1525,7 @@
 				PRODUCT_NAME = rnRedux;
 				PROVISIONING_PROFILE = "f78bf6db-0cdc-4eae-af69-7e2e99ae254e";
 				PROVISIONING_PROFILE_SPECIFIER = zxzx119;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

@@ -43,28 +43,30 @@ class PeopleShow extends Component {
 	render() {
 		const {dispatch} = this.props
 		return (
-			<ScrollView style={styles.rootView}>
+			<View style={styles.rootView}>
 				<Header type='title' title='紧急呼叫'/>
-				<MyVideo {...this.state.video} />
-				{/* <ImageBackground source={require('../asset/ppshow_adbg.jpg')} style={styles.adbg} resizeMode='contain'>
-					<Text style={styles.adText}>更多精彩 敬请期待</Text>
-				</ImageBackground> */}
-				<View style={styles.containerbg}>
-					<Image style={styles.topbg} source={require('../asset/header-bg-119.jpg')} resizeMode="cover"/>
-					<View style={styles.container}>
-						<Image style={styles.logo} source={require('../asset/logo-119.png')} resizeMode="cover"/>
-						<Image style={styles.title} source={require('../asset/title-119.png')} resizeMode="cover"/>
-						<Image style={styles.subtitle} source={require('../asset/subtitle-119.png')} resizeMode="cover"/>
-						<ImageBackground style={styles.apply} source={require('../asset/apply-119.png')} resizeMode="cover">
-							<TouchableOpacity style={styles.applyBtn} onPress={()=>dispatch(NavigationActions.navigate({routeName:'Apply'}))}>
-								<Text style={styles.btnText}>我要报名</Text>
-							</TouchableOpacity>
-						</ImageBackground>
-						<Image style={styles.circle} source={require('../asset/circle-119.png')} resizeMode="cover"/>
+				<ScrollView>
+					<MyVideo {...this.state.video} />
+					{/* <ImageBackground source={require('../asset/ppshow_adbg.jpg')} style={styles.adbg} resizeMode='contain'>
+						<Text style={styles.adText}>更多精彩 敬请期待</Text>
+					</ImageBackground> */}
+					<View style={styles.containerbg}>
+						<Image style={styles.topbg} source={require('../asset/header-bg-119.jpg')} resizeMode="cover"/>
+						<View style={styles.container}>
+							<Image style={styles.logo} source={require('../asset/logo-119.png')} resizeMode="cover"/>
+							<Image style={styles.title} source={require('../asset/title-119.png')} resizeMode="cover"/>
+							<Image style={styles.subtitle} source={require('../asset/subtitle-119.png')} resizeMode="cover"/>
+							<ImageBackground style={styles.apply} source={require('../asset/apply-119.png')} resizeMode="cover">
+								<TouchableOpacity style={styles.applyBtn} onPress={()=>dispatch(NavigationActions.navigate({routeName:'Apply'}))}>
+									<Text style={styles.btnText}>我要报名</Text>
+								</TouchableOpacity>
+							</ImageBackground>
+							<Image style={styles.circle} source={require('../asset/circle-119.png')} resizeMode="cover"/>
+						</View>
+						<Image style={styles.bottombg} source={require('../asset/fire-119.png')} resizeMode="cover"/>
 					</View>
-					<Image style={styles.bottombg} source={require('../asset/fire-119.png')} resizeMode="cover"/>
-				</View>
-			</ScrollView>
+				</ScrollView>
+			</View>
 		)
 	}
 }
